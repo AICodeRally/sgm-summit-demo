@@ -1,0 +1,251 @@
+// This is your Prisma schema file
+// STRICT: Use ONLY Prisma Migrate - NO db push --accept-data-loss
+// Schema: sgm_summit_demo (isolated from other schemas)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Policy Model
+model Policy {
+  id        String   @id @default(cuid())
+  tenantId  String   @map("tenant_id")
+
+  // Metadata
+  name        String   @db.VarChar(200)
+  description String?  @db.Text
+  category    String?  @db.VarChar(100)
+
+  // Versioning
+  version     String   @db.VarChar(20)
+  status      String   @db.VarChar(20) // draft, published, superseded, retired
+
+  // Effective Dating
+  effectiveDate   DateTime  @map("effective_date")
+  expirationDate  DateTime? @map("expiration_date")
+
+  // Content
+  content String @db.Text
+
+  // Relationships
+  parentPolicyId      String?  @map("parent_policy_id")
+  supersededByPolicyId String? @map("superseded_by_policy_id")
+
+  // Approval
+  approvalRequired    Boolean   @default(true) @map("approval_required")
+  approvalWorkflowId  String?   @map("approval_workflow_id")
+  approvedBy          String?   @map("approved_by")
+  approvedAt          DateTime? @map("approved_at")
+
+  // Audit
+  createdBy String    @map("created_by")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedBy String?   @map("updated_by")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  // Metadata JSON
+  metadata Json? @db.JsonB
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([effectiveDate])
+  @@map("policies")
+}
+
+// Territory Model
+model Territory {
+  id        String   @id @default(cuid())
+  tenantId  String   @map("tenant_id")
+
+  // Metadata
+  code        String  @db.VarChar(50)
+  name        String  @db.VarChar(200)
+  description String? @db.Text
+  type        String  @db.VarChar(20) // geographic, account, industry, named
+  status      String  @db.VarChar(20) // active, inactive, archived
+
+  // Hierarchy
+  parentTerritoryId String? @map("parent_territory_id")
+  level             Int     @default(0)
+  path              String? @db.VarChar(500)
+
+  // Assignment
+  assignedToUserId String?   @map("assigned_to_user_id")
+  assignedAt       DateTime? @map("assigned_at")
+
+  // Coverage Rules
+  coverageRules Json? @map("coverage_rules") @db.JsonB
+
+  // Effective Dating
+  effectiveDate   DateTime  @map("effective_date")
+  expirationDate  DateTime? @map("expiration_date")
+
+  // Audit
+  createdBy String    @map("created_by")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedBy String?   @map("updated_by")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  // Metadata
+  metadata Json? @db.JsonB
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([type])
+  @@index([parentTerritoryId])
+  @@map("territories")
+}
+
+// Document Model
+model Document {
+  id           String   @id @default(cuid())
+  tenantId     String   @map("tenant_id")
+  documentCode String   @map("document_code") @db.VarChar(50)
+
+  // Metadata
+  title         String   @db.VarChar(200)
+  description   String?  @db.Text
+  documentType  String   @map("document_type") @db.VarChar(20)
+  category      String?  @db.VarChar(100)
+  tags          String[] @db.VarChar(50)
+
+  // Versioning
+  version String @db.VarChar(20)
+  status  String @db.VarChar(20)
+
+  // Lifecycle Dates
+  createdAt       DateTime  @default(now()) @map("created_at")
+  lastUpdated     DateTime  @updatedAt @map("last_updated")
+  effectiveDate   DateTime? @map("effective_date")
+  expirationDate  DateTime? @map("expiration_date")
+  nextReview      DateTime? @map("next_review")
+
+  // File Storage
+  fileType String @map("file_type") @db.VarChar(10)
+  filePath String @map("file_path") @db.VarChar(500)
+  fileSize Int    @map("file_size")
+  checksum String? @db.VarChar(64)
+
+  // Ownership & Approval
+  owner               String  @db.VarChar(200)
+  createdBy           String  @map("created_by") @db.VarChar(200)
+  updatedBy           String? @map("updated_by") @db.VarChar(200)
+  approvers           Json?   @db.JsonB
+  approvalWorkflowId  String? @map("approval_workflow_id")
+  legalReviewStatus   String  @default("NOT_REQUIRED") @map("legal_review_status") @db.VarChar(20)
+
+  // Relationships
+  relatedDocs   String[] @map("related_docs") @db.VarChar(50)
+  referencedBy  String[] @map("referenced_by") @db.VarChar(50)
+  supersedes    String?  @db.VarChar(50)
+  supersededBy  String?  @map("superseded_by") @db.VarChar(50)
+
+  // Compliance
+  retentionPeriod  Int      @default(7) @map("retention_period")
+  complianceFlags  String[] @map("compliance_flags") @db.VarChar(50)
+
+  // Metadata
+  metadata Json? @db.JsonB
+
+  @@unique([tenantId, documentCode])
+  @@index([tenantId])
+  @@index([documentType])
+  @@index([status])
+  @@map("documents")
+}
+
+// Approval Model
+model Approval {
+  id        String   @id @default(cuid())
+  tenantId  String   @map("tenant_id")
+
+  // Metadata
+  title       String  @db.VarChar(200)
+  description String? @db.Text
+  priority    String  @default("medium") @db.VarChar(20)
+  status      String  @default("pending") @db.VarChar(20)
+
+  // Request Details
+  entityType  String @map("entity_type") @db.VarChar(50)
+  entityId    String @map("entity_id")
+  requestType String @map("request_type") @db.VarChar(50)
+  requestData Json   @map("request_data") @db.JsonB
+
+  // Workflow
+  workflowId  String? @map("workflow_id")
+  currentStep Int     @default(0) @map("current_step")
+  totalSteps  Int     @default(1) @map("total_steps")
+
+  // Submitter
+  submittedBy String   @map("submitted_by")
+  submittedAt DateTime @default(now()) @map("submitted_at")
+
+  // SLA
+  slaDeadline DateTime? @map("sla_deadline")
+  escalatedAt DateTime? @map("escalated_at")
+
+  // Resolution
+  decidedBy    String?   @map("decided_by")
+  decidedAt    DateTime? @map("decided_at")
+  decision     String?   @db.VarChar(20)
+  decisionNotes String?  @map("decision_notes") @db.Text
+
+  // Audit
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  // Metadata
+  metadata Json? @db.JsonB
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([entityType, entityId])
+  @@map("approvals")
+}
+
+// Audit Log Model
+model AuditLog {
+  id       String @id @default(cuid())
+  tenantId String @map("tenant_id")
+
+  // Event Details
+  eventType String @map("event_type") @db.VarChar(50)
+  severity  String @default("info") @db.VarChar(20)
+  message   String @db.VarChar(500)
+
+  // Entity Context
+  entityType String  @map("entity_type") @db.VarChar(50)
+  entityId   String  @map("entity_id")
+  entityName String? @map("entity_name") @db.VarChar(200)
+
+  // Actor
+  actorId   String  @map("actor_id")
+  actorName String? @map("actor_name") @db.VarChar(200)
+  actorRole String? @map("actor_role") @db.VarChar(100)
+
+  // Changes
+  changesBefore Json? @map("changes_before") @db.JsonB
+  changesAfter  Json? @map("changes_after") @db.JsonB
+
+  // Request Context
+  requestId String? @map("request_id")
+  ipAddress String? @map("ip_address") @db.VarChar(45)
+  userAgent String? @map("user_agent") @db.VarChar(500)
+
+  // Timestamp (immutable)
+  occurredAt DateTime @default(now()) @map("occurred_at")
+
+  // Metadata
+  metadata Json? @db.JsonB
+
+  @@index([tenantId])
+  @@index([eventType])
+  @@index([entityType, entityId])
+  @@index([actorId])
+  @@index([occurredAt])
+  @@map("audit_logs")
+}

@@ -8,7 +8,16 @@
     "build": "next build",
     "start": "next start -p 3003",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "tsx lib/tests/binding-mode.test.ts",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:migrate:status": "prisma migrate status",
+    "db:seed": "node prisma/seed.js",
+    "db:studio": "prisma studio",
+    "diagnostics": "tsx lib/scripts/diagnostics.ts",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",
@@ -19,13 +28,16 @@
     "zod": "^4.1.13"
   },
   "devDependencies": {
+    "@prisma/client": "^7.1.0",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^25.0.2",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.23",
     "postcss": "^8.5.6",
+    "prisma": "^7.1.0",
     "tailwindcss": "^4.1.18",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "engines": {

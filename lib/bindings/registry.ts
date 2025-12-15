@@ -40,7 +40,8 @@ export class ProviderRegistry {
         throw new Error('Mapped policy provider not implemented yet');
 
       case 'live':
-        throw new Error('Live policy provider not implemented yet');
+        const { LivePolicyProvider } = require('@/lib/bindings/live/policy.live');
+        return new LivePolicyProvider();
 
       default:
         throw new Error(`Unknown binding mode for policy: ${mode}`);
@@ -222,6 +223,12 @@ export class ProviderRegistry {
    * Get diagnostic information about active bindings
    */
   getDiagnostics() {
+    const databaseUrl = process.env.DATABASE_URL || '';
+    const hasSchemaParam = databaseUrl.includes('schema=sgm_summit_demo');
+    const hasLiveProvider = Object.values(this.config.providers).some(
+      (mode) => mode === 'live'
+    );
+
     return {
       providers: this.config.providers,
       modes: {
@@ -237,6 +244,12 @@ export class ProviderRegistry {
       hasExternalDependencies: Object.values(this.config.providers).some(
         (mode) => mode !== 'synthetic'
       ),
+      database: {
+        hasUrl: !!databaseUrl,
+        hasSchemaParam,
+        schemaTarget: hasSchemaParam ? 'sgm_summit_demo' : 'MISSING/INVALID',
+        isLiveMode: hasLiveProvider,
+      },
     };
   }
 }
