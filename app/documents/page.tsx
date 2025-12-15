@@ -99,7 +99,7 @@ export default function DocumentsPage() {
               <h1 className="text-3xl font-bold text-gray-900">Documents</h1>
               <p className="text-gray-600 mt-1">Manage governance documents and policies</p>
             </div>
-            <Link href="/sgm/documents/new" className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            <Link href="/documents/new" className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
               + New Document
             </Link>
           </div>
@@ -233,14 +233,14 @@ export default function DocumentsPage() {
             ) : documents.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-gray-500 mb-4">No documents found</p>
-                <Link href="/sgm/documents/new" className="text-blue-600 hover:text-blue-700">
+                <Link href="/documents/new" className="text-blue-600 hover:text-blue-700">
                   Create your first document
                 </Link>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-4">
                 {documents.map(doc => (
-                  <Link key={doc.id} href={`/sgm/documents/${doc.id}`}>
+                  <Link key={doc.id} href={`/documents/${doc.id}`}>
                     <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md hover:border-gray-300 transition-all cursor-pointer">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">

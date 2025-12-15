@@ -70,7 +70,7 @@ export default function ApprovalDetailPage() {
       console.log('Submitting decision:', { decision, comments });
       // Redirect after submission
       setTimeout(() => {
-        router.push('/sgm/approvals');
+        router.push('/approvals');
       }, 1000);
     } catch (error) {
       console.error('Error submitting decision:', error);
@@ -84,7 +84,7 @@ export default function ApprovalDetailPage() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <Link href="/sgm/approvals" className="text-blue-600 hover:text-blue-700 text-sm mb-4 inline-block">
+          <Link href="/approvals" className="text-blue-600 hover:text-blue-700 text-sm mb-4 inline-block">
             ← Back to Queue
           </Link>
           <h1 className="text-3xl font-bold text-gray-900">{approval.documentTitle}</h1>
@@ -180,7 +180,7 @@ export default function ApprovalDetailPage() {
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Document Preview</h2>
               <div className="p-4 bg-gray-50 rounded-lg">
                 <p className="text-sm text-gray-600">
-                  <Link href={`/sgm/documents/doc-1`} className="text-blue-600 hover:text-blue-700">
+                  <Link href={`/documents/doc-1`} className="text-blue-600 hover:text-blue-700">
                     View full document →
                   </Link>
                 </p>
@@ -252,7 +252,7 @@ export default function ApprovalDetailPage() {
                   >
                     {submitting ? 'Submitting...' : 'Submit Decision'}
                   </button>
-                  <Link href="/sgm/approvals" className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium">
+                  <Link href="/approvals" className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium">
                     Cancel
                   </Link>
                 </div>

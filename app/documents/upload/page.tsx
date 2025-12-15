@@ -43,7 +43,7 @@ export default function UploadPage() {
       }
 
       // Redirect back to documents
-      router.push('/sgm/documents');
+      router.push('/documents');
     } finally {
       setUploading(false);
     }
@@ -54,7 +54,7 @@ export default function UploadPage() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-4xl mx-auto px-6 py-6">
-          <Link href="/sgm/documents" className="text-blue-600 hover:text-blue-700 text-sm mb-4 inline-block">
+          <Link href="/documents" className="text-blue-600 hover:text-blue-700 text-sm mb-4 inline-block">
             ← Back to Documents
           </Link>
           <h1 className="text-3xl font-bold text-gray-900">Upload Documents</h1>
@@ -70,7 +70,7 @@ export default function UploadPage() {
         ) : (
           <DocumentUpload
             onUpload={handleUpload}
-            onClose={() => router.push('/sgm/documents')}
+            onClose={() => router.push('/documents')}
           />
         )}
       </div>

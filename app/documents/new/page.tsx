@@ -48,7 +48,7 @@ export default function NewDocumentPage() {
       }
 
       const data = await response.json();
-      router.push(`/sgm/documents/${data.document.id}`);
+      router.push(`/documents/${data.document.id}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
@@ -61,7 +61,7 @@ export default function NewDocumentPage() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-2xl mx-auto px-6 py-6">
-          <Link href="/sgm/documents" className="text-blue-600 hover:text-blue-700 text-sm mb-4 inline-block">
+          <Link href="/documents" className="text-blue-600 hover:text-blue-700 text-sm mb-4 inline-block">
             ← Back to Documents
           </Link>
           <h1 className="text-3xl font-bold text-gray-900">Create New Document</h1>
@@ -205,7 +205,7 @@ export default function NewDocumentPage() {
             >
               {loading ? 'Creating...' : 'Create Document'}
             </button>
-            <Link href="/sgm/documents" className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-center">
+            <Link href="/documents" className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-center">
               Cancel
             </Link>
           </div>

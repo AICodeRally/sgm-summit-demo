@@ -75,7 +75,7 @@ export default function VersionHistoryPage() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <Link href={`/sgm/documents/${documentId}`} className="text-blue-600 hover:text-blue-700 text-sm mb-4 inline-block">
+          <Link href={`/documents/${documentId}`} className="text-blue-600 hover:text-blue-700 text-sm mb-4 inline-block">
             ← Back to Document
           </Link>
           <h1 className="text-3xl font-bold text-gray-900">Version History</h1>

@@ -75,7 +75,7 @@ export default function DocumentDetailPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
         <p className="text-red-500 mb-4">{error || 'Document not found'}</p>
-        <Link href="/sgm/documents" className="text-blue-600 hover:text-blue-700">
+        <Link href="/documents" className="text-blue-600 hover:text-blue-700">
           Back to Documents
         </Link>
       </div>
@@ -90,7 +90,7 @@ export default function DocumentDetailPage() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <Link href="/sgm/documents" className="text-blue-600 hover:text-blue-700 text-sm mb-4 inline-block">
+          <Link href="/documents" className="text-blue-600 hover:text-blue-700 text-sm mb-4 inline-block">
             ← Back to Documents
           </Link>
           <div className="flex items-start justify-between">

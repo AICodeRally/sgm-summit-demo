@@ -53,7 +53,7 @@ function SearchContent() {
     e.preventDefault();
     if (searchInput.trim()) {
       const params = new URLSearchParams({ q: searchInput });
-      window.history.pushState({}, '', `/sgm/search?${params}`);
+      window.history.pushState({}, '', `/search?${params}`);
       setSearchInput('');
     }
   };
@@ -138,7 +138,7 @@ function SearchContent() {
 
             <div className="space-y-4">
               {results.map(result => (
-                <Link key={result.id} href={`/sgm/documents/${result.id}`}>
+                <Link key={result.id} href={`/documents/${result.id}`}>
                   <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md hover:border-gray-300 transition-all cursor-pointer">
                     <div className="flex items-start gap-4">
                       <span className="text-3xl">{getDocumentIcon(result.documentType)}</span>

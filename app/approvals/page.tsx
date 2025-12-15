@@ -136,7 +136,7 @@ export default function ApprovalsPage() {
             {filtered.map(approval => {
               const slaStatus = getSLAStatus(approval.slaBreached, approval.slaDueAt);
               return (
-                <Link key={approval.id} href={`/sgm/approvals/${approval.id}`}>
+                <Link key={approval.id} href={`/approvals/${approval.id}`}>
                   <div className={`bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md hover:border-gray-300 transition-all cursor-pointer ${slaStatus.bg}`}>
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
