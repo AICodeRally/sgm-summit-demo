@@ -18,6 +18,8 @@ export interface BindingConfig {
     audit: BindingMode;
     link: BindingMode;
     search: BindingMode;
+    document?: BindingMode;
+    committee?: BindingMode;
   };
 
   /**
@@ -49,6 +51,8 @@ export const defaultBindingConfig: BindingConfig = {
     audit: 'synthetic',
     link: 'synthetic',
     search: 'synthetic',
+    document: 'synthetic',
+    committee: 'synthetic',
   },
 };
 
@@ -66,6 +70,8 @@ export function loadBindingConfig(): BindingConfig {
       audit: (process.env.BINDING_MODE_AUDIT || mode) as BindingMode,
       link: (process.env.BINDING_MODE_LINK || mode) as BindingMode,
       search: (process.env.BINDING_MODE_SEARCH || mode) as BindingMode,
+      document: (process.env.BINDING_MODE_DOCUMENT || mode) as BindingMode,
+      committee: (process.env.BINDING_MODE_COMMITTEE || mode) as BindingMode,
     },
     mapped: process.env.EXTERNAL_API_URL
       ? {

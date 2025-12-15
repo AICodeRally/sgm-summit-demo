@@ -4,6 +4,9 @@ import type { IApprovalPort } from '@/lib/ports/approval.port';
 import type { IAuditPort } from '@/lib/ports/audit.port';
 import type { ILinkPort } from '@/lib/ports/link.port';
 import type { ISearchPort } from '@/lib/ports/search.port';
+import type { IDocumentPort } from '@/lib/ports/document.port';
+import type { IFileStoragePort } from '@/lib/ports/file-storage.port';
+import type { ICommitteePort } from '@/lib/ports/committee.port';
 
 import type { BindingConfig } from '@/lib/config/binding-config';
 import { loadBindingConfig } from '@/lib/config/binding-config';
@@ -155,6 +158,60 @@ export class ProviderRegistry {
   }
 
   /**
+   * Get Document provider
+   */
+  getDocument(): IDocumentPort {
+    const mode = this.config.providers.document || 'synthetic';
+
+    switch (mode) {
+      case 'synthetic':
+        const { SyntheticDocumentProvider } = require('@/lib/bindings/synthetic/document.synthetic');
+        return new SyntheticDocumentProvider();
+
+      case 'mapped':
+        throw new Error('Mapped document provider not implemented yet');
+
+      case 'live':
+        throw new Error('Live document provider not implemented yet');
+
+      default:
+        throw new Error(`Unknown binding mode for document: ${mode}`);
+    }
+  }
+
+  /**
+   * Get Committee provider
+   */
+  getCommittee(): ICommitteePort {
+    const mode = this.config.providers.committee || 'synthetic';
+
+    switch (mode) {
+      case 'synthetic':
+        const { SyntheticCommitteeProvider } = require('@/lib/bindings/synthetic/committee.synthetic');
+        return new SyntheticCommitteeProvider();
+
+      case 'mapped':
+        throw new Error('Mapped committee provider not implemented yet');
+
+      case 'live':
+        throw new Error('Live committee provider not implemented yet');
+
+      default:
+        throw new Error(`Unknown binding mode for committee: ${mode}`);
+    }
+  }
+
+  /**
+   * Get File Storage provider
+   */
+  getFileStorage(): IFileStoragePort {
+    // For now, always use synthetic (in-memory) file storage
+    // In production, this would be configurable for S3/local storage
+    const { SyntheticFileStorageProvider } = require('@/lib/bindings/synthetic/file-storage.synthetic');
+    return new SyntheticFileStorageProvider();
+  }
+
+  /**
    * Get current binding configuration
    */
   getConfig(): BindingConfig {
@@ -174,6 +231,8 @@ export class ProviderRegistry {
         audit: this.config.providers.audit,
         link: this.config.providers.link,
         search: this.config.providers.search,
+        document: this.config.providers.document || 'synthetic',
+        committee: this.config.providers.committee || 'synthetic',
       },
       hasExternalDependencies: Object.values(this.config.providers).some(
         (mode) => mode !== 'synthetic'
