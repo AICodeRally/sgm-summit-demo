@@ -85,7 +85,7 @@ export default function SGMDashboard() {
         </div>
 
         {/* Main Navigation */}
-        <div className="grid grid-cols-2 gap-6 mb-12">
+        <div className="grid grid-cols-3 gap-6 mb-12">
           {/* Documents */}
           <Link href="/documents">
             <div className="bg-white rounded-lg border border-gray-200 p-8 hover:shadow-lg hover:border-gray-300 transition-all cursor-pointer h-full group">
@@ -114,6 +114,20 @@ export default function SGMDashboard() {
             </div>
           </Link>
 
+          {/* Committees */}
+          <Link href="/committees">
+            <div className="bg-white rounded-lg border border-gray-200 p-8 hover:shadow-lg hover:border-gray-300 transition-all cursor-pointer h-full group">
+              <AvatarIcon className="w-10 h-10 text-purple-600 mb-4" />
+              <h2 className="text-2xl font-bold text-gray-900">Committees</h2>
+              <p className="text-gray-600 mt-2">
+                SGCC (7 members) and CRB for windfall deals and exception management
+              </p>
+              <div className="mt-4 flex items-center gap-2 text-blue-600 font-medium group-hover:gap-3 transition-all">
+                View Committees <ArrowRightIcon className="w-4 h-4" />
+              </div>
+            </div>
+          </Link>
+
           {/* Cases */}
           <Link href="/cases">
             <div className="bg-white rounded-lg border border-gray-200 p-8 hover:shadow-lg hover:border-gray-300 transition-all cursor-pointer h-full group">
@@ -128,23 +142,37 @@ export default function SGMDashboard() {
             </div>
           </Link>
 
-          {/* Committees */}
-          <Link href="/committees">
+          {/* Case SLA & Load */}
+          <Link href="/cases/sla">
             <div className="bg-white rounded-lg border border-gray-200 p-8 hover:shadow-lg hover:border-gray-300 transition-all cursor-pointer h-full group">
-              <AvatarIcon className="w-10 h-10 text-purple-600 mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900">Committees</h2>
+              <ClockIcon className="w-10 h-10 text-orange-600 mb-4" />
+              <h2 className="text-2xl font-bold text-gray-900">Case SLA & Load</h2>
               <p className="text-gray-600 mt-2">
-                SGCC (7 members) and CRB for windfall deals and exception management
+                SLA tracking, compliance monitoring, and workload optimization
               </p>
               <div className="mt-4 flex items-center gap-2 text-blue-600 font-medium group-hover:gap-3 transition-all">
-                View Committees <ArrowRightIcon className="w-4 h-4" />
+                View SLA Dashboard <ArrowRightIcon className="w-4 h-4" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Case Analytics */}
+          <Link href="/cases/analytics">
+            <div className="bg-white rounded-lg border border-gray-200 p-8 hover:shadow-lg hover:border-gray-300 transition-all cursor-pointer h-full group">
+              <BarChartIcon className="w-10 h-10 text-indigo-600 mb-4" />
+              <h2 className="text-2xl font-bold text-gray-900">Case Analytics</h2>
+              <p className="text-gray-600 mt-2">
+                AI predictions, trends, bottleneck detection, and capacity planning
+              </p>
+              <div className="mt-4 flex items-center gap-2 text-blue-600 font-medium group-hover:gap-3 transition-all">
+                View Analytics <ArrowRightIcon className="w-4 h-4" />
               </div>
             </div>
           </Link>
         </div>
 
         {/* Secondary Navigation */}
-        <div className="grid grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-3 gap-6 mb-12">
           {/* Governance Matrix */}
           <Link href="/governance-matrix">
             <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg hover:border-gray-300 transition-all cursor-pointer h-full group">
@@ -152,17 +180,6 @@ export default function SGMDashboard() {
               <h2 className="text-lg font-bold text-gray-900">Governance Matrix</h2>
               <p className="text-gray-600 mt-2 text-sm">
                 Policy coverage, approval authorities, and compliance mapping
-              </p>
-            </div>
-          </Link>
-
-          {/* Case SLA Management */}
-          <Link href="/cases/sla">
-            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg hover:border-gray-300 transition-all cursor-pointer h-full group">
-              <ClockIcon className="w-8 h-8 text-orange-600 mb-3" />
-              <h2 className="text-lg font-bold text-gray-900">Case SLA & Load</h2>
-              <p className="text-gray-600 mt-2 text-sm">
-                SLA tracking, compliance monitoring, and workload optimization
               </p>
             </div>
           </Link>
@@ -191,7 +208,7 @@ export default function SGMDashboard() {
         </div>
 
         {/* Additional Features */}
-        <div className="grid grid-cols-6 gap-6 mb-12">
+        <div className="grid grid-cols-5 gap-6 mb-12">
           {/* Document Links */}
           <Link href="/links">
             <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg hover:border-gray-300 transition-all cursor-pointer h-full group">
@@ -243,17 +260,6 @@ export default function SGMDashboard() {
               <h2 className="text-lg font-bold text-gray-900">Compare</h2>
               <p className="text-gray-600 mt-2 text-sm">
                 Version history
-              </p>
-            </div>
-          </Link>
-
-          {/* Case Analytics */}
-          <Link href="/cases/analytics">
-            <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg hover:border-gray-300 transition-all cursor-pointer h-full group">
-              <BarChartIcon className="w-8 h-8 text-indigo-600 mb-3" />
-              <h2 className="text-lg font-bold text-gray-900">Case Analytics</h2>
-              <p className="text-gray-600 mt-2 text-sm">
-                AI predictions & trends
               </p>
             </div>
           </Link>
