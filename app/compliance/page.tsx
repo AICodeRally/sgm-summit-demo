@@ -91,16 +91,17 @@ export default function CompliancePage() {
   const warningCount = issues.filter(i => i.severity === 'warning').length;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 shadow-sm">
+      <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">Compliance Dashboard</h1>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-600 bg-clip-text text-transparent">Compliance Dashboard</h1>
           <p className="text-gray-600 mt-1">Track and manage governance compliance issues</p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Summary Cards */}
         <div className="grid grid-cols-4 gap-6 mb-12">
           <div className="bg-white rounded-lg border border-gray-200 p-6">
@@ -217,6 +218,7 @@ export default function CompliancePage() {
               Email Report
             </button>
           </div>
+        </div>
         </div>
       </div>
     </div>

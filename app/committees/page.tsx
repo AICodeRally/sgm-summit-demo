@@ -1,313 +1,388 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import {
+  AvatarIcon,
+  PersonIcon,
+  CheckCircledIcon,
+  CalendarIcon,
+  ClockIcon,
+  FileTextIcon,
+  EnvelopeClosedIcon,
+  DotFilledIcon,
+} from '@radix-ui/react-icons';
+import { ThreePaneWorkspace } from '@/components/workspace/ThreePaneWorkspace';
+import { SGCC_COMMITTEE, CRB_COMMITTEE, CRB_DECISION_OPTIONS, type Committee } from '@/lib/data/synthetic/committees.data';
 
-interface CommitteeMember {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  joinedAt: string;
-}
-
-interface DecisionThreshold {
-  decisionType: string;
-  amountMin?: number;
-  amountMax?: number;
-  authority: string;
-  timelineDays: number;
-}
-
-interface Committee {
-  id: string;
-  name: string;
-  acronym: string;
-  type: string;
-  description?: string;
-  chair: CommitteeMember;
-  viceChair?: CommitteeMember;
-  members: CommitteeMember[];
-  decisionThresholds: DecisionThreshold[];
-  approvalAuthority: string[];
-  meetingCadence: string;
-  quorumRequirement: number;
-  lastMeetingAt: string;
-  nextMeetingAt: string;
-  totalDecisions: number;
-  totalMeetings: number;
-}
+const ALL_COMMITTEES = [SGCC_COMMITTEE, CRB_COMMITTEE];
 
 export default function CommitteesPage() {
-  const [committees, setCommittees] = useState<Committee[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedCommittee, setSelectedCommittee] = useState<Committee | null>(null);
+  const [selectedCommittee, setSelectedCommittee] = useState<Committee | null>(SGCC_COMMITTEE);
+  const [activeTab, setActiveTab] = useState<'members' | 'authority' | 'decisions'>('members');
 
-  useEffect(() => {
-    const fetchCommittees = async () => {
-      try {
-        // Get committee data from the registry diagnostics
-        const response = await fetch('/api/sgm/diagnostics');
-        const data = await response.json();
-
-        // For now, use sample data since we don't have a dedicated committees API yet
-        const sampleCommittees: Committee[] = [
-          {
-            id: 'comm-001',
-            name: 'Sales Compensation Governance Committee',
-            acronym: 'SGCC',
-            type: 'PRIMARY',
-            description: 'Primary committee for sales compensation governance',
-            chair: {
-              id: 'user-001',
-              name: 'Jane Smith',
-              email: 'jane.smith@company.com',
-              role: 'VP Sales Compensation',
-              joinedAt: '2024-01-01',
-            },
-            viceChair: {
-              id: 'user-002',
-              name: 'Bob Johnson',
-              email: 'bob.johnson@company.com',
-              role: 'CFO',
-              joinedAt: '2024-01-01',
-            },
-            members: [
-              { id: 'user-003', name: 'Sarah Williams', email: 'sarah.williams@company.com', role: 'CHRO', joinedAt: '2024-01-01' },
-              { id: 'user-004', name: 'Michael Chen', email: 'michael.chen@company.com', role: 'General Counsel', joinedAt: '2024-01-01' },
-              { id: 'user-005', name: 'David Rodriguez', email: 'david.rodriguez@company.com', role: 'Chief Sales Officer', joinedAt: '2024-01-01' },
-              { id: 'user-006', name: 'Lisa Garcia', email: 'lisa.garcia@company.com', role: 'VP Sales Operations', joinedAt: '2024-01-01' },
-              { id: 'user-007', name: 'Tom Anderson', email: 'tom.anderson@company.com', role: 'Regional Sales Lead (AMER)', joinedAt: '2024-06-01' },
-            ],
-            decisionThresholds: [
-              { decisionType: 'SPIF_APPROVAL', amountMin: 0, amountMax: 50000, authority: 'SGCC', timelineDays: 5 },
-              { decisionType: 'SPIF_APPROVAL', amountMin: 50000, amountMax: 250000, authority: 'SGCC+CFO', timelineDays: 10 },
-              { decisionType: 'SPIF_APPROVAL', amountMin: 250000, authority: 'SGCC+CEO', timelineDays: 15 },
-            ],
-            approvalAuthority: ['POLICY_APPROVAL', 'SPIF_APPROVAL', 'EXCEPTION_APPROVAL', 'WINDFALL_REVIEW'],
-            meetingCadence: 'Monthly',
-            quorumRequirement: 5,
-            lastMeetingAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-            nextMeetingAt: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString(),
-            totalDecisions: 45,
-            totalMeetings: 12,
-          },
-          {
-            id: 'comm-002',
-            name: 'Compensation Review Board',
-            acronym: 'CRB',
-            type: 'REVIEW_BOARD',
-            description: 'Board for reviewing large deals, SPIFs, and exceptions',
-            chair: {
-              id: 'user-001',
-              name: 'Jane Smith',
-              email: 'jane.smith@company.com',
-              role: 'VP Sales Compensation',
-              joinedAt: '2024-01-01',
-            },
-            members: [
-              { id: 'user-008', name: 'Jennifer Lee', email: 'jennifer.lee@company.com', role: 'Director of Finance', joinedAt: '2024-01-01' },
-              { id: 'user-006', name: 'Lisa Garcia', email: 'lisa.garcia@company.com', role: 'Manager, Sales Operations', joinedAt: '2024-01-01' },
-            ],
-            decisionThresholds: [
-              { decisionType: 'WINDFALL_REVIEW', amountMin: 1000000, authority: 'CRB', timelineDays: 20 },
-              { decisionType: 'SPIF_APPROVAL', amountMin: 50000, amountMax: 250000, authority: 'CRB', timelineDays: 15 },
-              { decisionType: 'EXCEPTION_REQUEST', amountMin: 25000, authority: 'CRB', timelineDays: 15 },
-            ],
-            approvalAuthority: ['WINDFALL_REVIEW', 'LARGE_SPIF_APPROVAL', 'LARGE_EXCEPTION_APPROVAL', 'CLAWBACK_APPROVAL'],
-            meetingCadence: 'Monthly',
-            quorumRequirement: 2,
-            lastMeetingAt: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
-            nextMeetingAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
-            totalDecisions: 23,
-            totalMeetings: 12,
-          },
-        ];
-
-        setCommittees(sampleCommittees);
-        if (sampleCommittees.length > 0) {
-          setSelectedCommittee(sampleCommittees[0]);
-        }
-      } catch (error) {
-        console.error('Failed to fetch committees:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCommittees();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-500">Loading committees...</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">Governance Committees</h1>
-          <p className="text-gray-600 mt-1">Manage committees and their members</p>
+  // Left Nav - Committee list
+  const leftNav = (
+    <div className="p-4">
+      <div className="mb-4">
+        <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3 mb-3">
+          Committees
+        </h2>
+        <div className="space-y-1">
+          {ALL_COMMITTEES.map(committee => (
+            <button
+              key={committee.id}
+              onClick={() => setSelectedCommittee(committee)}
+              className={`w-full text-left px-3 py-3 rounded-md transition-colors ${
+                selectedCommittee?.id === committee.id
+                  ? 'bg-purple-50 text-purple-700 font-medium'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <div className="flex items-start gap-3">
+                <AvatarIcon className={`w-5 h-5 flex-none mt-0.5 ${
+                  selectedCommittee?.id === committee.id ? 'text-purple-600' : 'text-gray-400'
+                }`} />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">{committee.code}</p>
+                  <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{committee.name}</p>
+                  <div className="flex items-center gap-2 mt-2 text-xs text-gray-500">
+                    <PersonIcon className="w-3 h-3" />
+                    <span>{committee.members.length} members</span>
+                  </div>
+                </div>
+              </div>
+            </button>
+          ))}
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-3 gap-6">
-          {/* Committee List */}
+      <div className="mt-6 p-3 bg-purple-50 rounded-md border border-purple-100">
+        <p className="text-xs font-medium text-purple-900 mb-1">Committee Charters</p>
+        <p className="text-xs text-purple-700">
+          Review governance committee charters in the document library
+        </p>
+        <Link
+          href="/documents"
+          className="inline-block mt-2 text-xs text-purple-600 hover:text-purple-700 font-medium"
+        >
+          View Documents →
+        </Link>
+      </div>
+    </div>
+  );
+
+  // Center Content - Committee details
+  const centerContent = selectedCommittee ? (
+    <div className="flex flex-col h-full">
+      {/* Header */}
+      <div className="flex-none bg-white/90 backdrop-blur-sm border-b border-purple-200 px-6 py-4">
+        <div className="flex items-start justify-between mb-4">
           <div>
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-              <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-900">Committees ({committees.length})</h2>
+            <h1 className="text-2xl font-bold text-gray-900">{selectedCommittee.code}</h1>
+            <p className="text-sm text-gray-600 mt-1">{selectedCommittee.name}</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+              <DotFilledIcon className="w-3 h-3" />
+              {selectedCommittee.status}
+            </span>
+          </div>
+        </div>
+
+        <p className="text-sm text-gray-700 mb-4">{selectedCommittee.purpose}</p>
+
+        {/* Stats */}
+        <div className="grid grid-cols-3 gap-4">
+          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+            <PersonIcon className="w-5 h-5 text-purple-600" />
+            <div>
+              <p className="text-xs text-gray-500">Total Members</p>
+              <p className="text-lg font-bold text-gray-900">{selectedCommittee.members.length}</p>
+              <p className="text-xs text-gray-500">
+                {selectedCommittee.members.filter(m => m.isVoting).length} voting
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+            <CalendarIcon className="w-5 h-5 text-blue-600" />
+            <div>
+              <p className="text-xs text-gray-500">Meeting Cadence</p>
+              <p className="text-sm font-semibold text-gray-900">
+                {selectedCommittee.meetingCadence.split('(')[0]}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+            <CheckCircledIcon className="w-5 h-5 text-green-600" />
+            <div>
+              <p className="text-xs text-gray-500">Quorum</p>
+              <p className="text-sm font-semibold text-gray-900">{selectedCommittee.quorumRequirement}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex gap-1 mt-4 border-b border-purple-200">
+          {[
+            { id: 'members', label: 'Members', icon: PersonIcon },
+            { id: 'authority', label: 'Authority & Scope', icon: FileTextIcon },
+            { id: 'decisions', label: 'Decision Framework', icon: CheckCircledIcon },
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+                activeTab === tab.id
+                  ? 'border-purple-600 text-purple-700'
+                  : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300'
+              }`}
+            >
+              {React.createElement(tab.icon, { className: 'w-4 h-4' })}
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Tab Content */}
+      <div className="flex-1 overflow-y-auto p-6">
+        {activeTab === 'members' && (
+          <div className="space-y-3">
+            {selectedCommittee.members.map(member => (
+              <div
+                key={member.id}
+                className="bg-white rounded-lg border border-purple-200 p-4 hover:shadow-sm transition-shadow"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-none w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+                      <PersonIcon className="w-5 h-5 text-purple-600" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <p className="font-semibold text-gray-900">{member.name}</p>
+                        {member.isVoting ? (
+                          <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-medium">
+                            Voting
+                          </span>
+                        ) : (
+                          <span className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-xs font-medium">
+                            Non-Voting
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm text-purple-600 font-medium mt-0.5">{member.role}</p>
+                      <p className="text-sm text-gray-600 mt-1">{member.title}</p>
+                      <p className="text-xs text-gray-500 mt-1">{member.department}</p>
+                      <div className="flex items-center gap-4 mt-2">
+                        <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                          <EnvelopeClosedIcon className="w-3 h-3" />
+                          {member.email}
+                        </div>
+                        <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                          <CalendarIcon className="w-3 h-3" />
+                          Joined {new Date(member.joinedDate).toLocaleDateString()}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="divide-y divide-gray-200">
-                {committees.map(committee => (
-                  <button
-                    key={committee.id}
-                    onClick={() => setSelectedCommittee(committee)}
-                    className={`w-full text-left px-6 py-4 hover:bg-blue-50 transition-colors ${
-                      selectedCommittee?.id === committee.id ? 'bg-blue-50 border-l-4 border-blue-600' : ''
-                    }`}
-                  >
-                    <p className="font-medium text-gray-900">{committee.acronym}</p>
-                    <p className="text-xs text-gray-600 mt-1">{committee.name}</p>
-                    <p className="text-xs text-gray-500 mt-1">{committee.members.length + 2} members</p>
-                  </button>
-                ))}
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'authority' && (
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">Committee Authority</h3>
+              <div className="bg-white rounded-lg border border-purple-200 p-4">
+                <ul className="space-y-2">
+                  {selectedCommittee.authority.map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                      <CheckCircledIcon className="w-4 h-4 text-green-600 flex-none mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">Charter Document</h3>
+              <Link href={`/documents/${selectedCommittee.charterDocument}`}>
+                <div className="bg-white rounded-lg border border-purple-200 p-4 hover:border-purple-300 hover:shadow-sm transition-all cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <FileTextIcon className="w-10 h-10 text-purple-600" />
+                    <div>
+                      <p className="font-medium text-gray-900">
+                        {selectedCommittee.code} Committee Charter
+                      </p>
+                      <p className="text-xs text-gray-500 mt-0.5">Document: {selectedCommittee.charterDocument}</p>
+                      <p className="text-xs text-purple-600 mt-1 font-medium">View Document →</p>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">Meeting Requirements</h3>
+              <div className="bg-white rounded-lg border border-purple-200 p-4 space-y-3">
+                <div>
+                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Cadence</p>
+                  <p className="text-sm text-gray-900 mt-1">{selectedCommittee.meetingCadence}</p>
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Quorum</p>
+                  <p className="text-sm text-gray-900 mt-1">{selectedCommittee.quorumRequirement}</p>
+                </div>
               </div>
             </div>
           </div>
+        )}
 
-          {/* Committee Details */}
-          <div className="col-span-2 space-y-6">
-            {selectedCommittee ? (
-              <>
-                {/* Committee Header */}
-                <div className="bg-white rounded-lg border border-gray-200 p-8">
-                  <div className="flex items-start justify-between mb-6">
-                    <div>
-                      <h2 className="text-2xl font-bold text-gray-900">{selectedCommittee.acronym}</h2>
-                      <p className="text-gray-600 mt-1">{selectedCommittee.name}</p>
-                    </div>
-                    <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                      {selectedCommittee.type}
-                    </span>
-                  </div>
-
-                  {selectedCommittee.description && (
-                    <p className="text-gray-600 mb-6">{selectedCommittee.description}</p>
-                  )}
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-xs font-medium text-gray-500 uppercase">Meeting Cadence</label>
-                      <p className="mt-1 text-gray-900">{selectedCommittee.meetingCadence}</p>
-                    </div>
-                    <div>
-                      <label className="text-xs font-medium text-gray-500 uppercase">Quorum</label>
-                      <p className="mt-1 text-gray-900">{selectedCommittee.quorumRequirement} of {selectedCommittee.members.length + (selectedCommittee.viceChair ? 2 : 1)}</p>
-                    </div>
-                    <div>
-                      <label className="text-xs font-medium text-gray-500 uppercase">Last Meeting</label>
-                      <p className="mt-1 text-gray-900">{new Date(selectedCommittee.lastMeetingAt).toLocaleDateString()}</p>
-                    </div>
-                    <div>
-                      <label className="text-xs font-medium text-gray-500 uppercase">Next Meeting</label>
-                      <p className="mt-1 text-gray-900">{new Date(selectedCommittee.nextMeetingAt).toLocaleDateString()}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Members */}
-                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                  <div className="bg-gray-50 px-8 py-4 border-b border-gray-200">
-                    <h3 className="text-lg font-semibold text-gray-900">Members</h3>
-                  </div>
-                  <div className="divide-y divide-gray-200">
-                    {/* Chair */}
-                    <div className="px-8 py-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-medium text-gray-900">{selectedCommittee.chair.name}</p>
-                          <p className="text-sm text-gray-600">{selectedCommittee.chair.role}</p>
-                          <p className="text-xs text-gray-500">{selectedCommittee.chair.email}</p>
+        {activeTab === 'decisions' && (
+          <div className="space-y-6">
+            {selectedCommittee.code === 'CRB' && (
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                  CRB Windfall Deal Decision Options
+                </h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  6 decision options for deals &gt;$1M ARR, &gt;$100K commission, or &gt;50% quarterly quota
+                </p>
+                <div className="space-y-3">
+                  {CRB_DECISION_OPTIONS.map((option, idx) => (
+                    <div
+                      key={option.id}
+                      className="bg-white rounded-lg border border-purple-200 p-4"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="flex-none w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+                          <span className="text-sm font-bold text-purple-700">{idx + 1}</span>
                         </div>
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs font-medium">Chair</span>
-                      </div>
-                    </div>
-
-                    {/* Vice Chair */}
-                    {selectedCommittee.viceChair && (
-                      <div className="px-8 py-4">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="font-medium text-gray-900">{selectedCommittee.viceChair.name}</p>
-                            <p className="text-sm text-gray-600">{selectedCommittee.viceChair.role}</p>
-                            <p className="text-xs text-gray-500">{selectedCommittee.viceChair.email}</p>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-gray-900">{option.name}</h4>
+                          <p className="text-sm text-gray-700 mt-1">{option.description}</p>
+                          <div className="mt-3 p-3 bg-gray-50 rounded">
+                            <p className="text-xs font-medium text-gray-600">Rationale</p>
+                            <p className="text-xs text-gray-700 mt-1">{option.rationale}</p>
                           </div>
-                          <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-medium">Vice Chair</span>
+                          <div className="mt-2 p-3 bg-blue-50 rounded">
+                            <p className="text-xs font-medium text-blue-900">Example</p>
+                            <p className="text-xs text-blue-800 mt-1">{option.example}</p>
+                          </div>
                         </div>
                       </div>
-                    )}
-
-                    {/* Other Members */}
-                    {selectedCommittee.members.map(member => (
-                      <div key={member.id} className="px-8 py-4">
-                        <div>
-                          <p className="font-medium text-gray-900">{member.name}</p>
-                          <p className="text-sm text-gray-600">{member.role}</p>
-                          <p className="text-xs text-gray-500">{member.email}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
+              </div>
+            )}
 
-                {/* Decision Thresholds */}
-                {selectedCommittee.decisionThresholds.length > 0 && (
-                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                    <div className="bg-gray-50 px-8 py-4 border-b border-gray-200">
-                      <h3 className="text-lg font-semibold text-gray-900">Decision Authorities</h3>
-                    </div>
-                    <div className="overflow-x-auto">
-                      <table className="w-full">
-                        <thead className="bg-gray-50 border-b border-gray-200">
-                          <tr>
-                            <th className="px-8 py-3 text-left text-xs font-medium text-gray-500 uppercase">Decision Type</th>
-                            <th className="px-8 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount Range</th>
-                            <th className="px-8 py-3 text-left text-xs font-medium text-gray-500 uppercase">Authority</th>
-                            <th className="px-8 py-3 text-left text-xs font-medium text-gray-500 uppercase">Timeline</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200">
-                          {selectedCommittee.decisionThresholds.map((threshold, index) => (
-                            <tr key={index}>
-                              <td className="px-8 py-4 text-sm text-gray-900">{threshold.decisionType}</td>
-                              <td className="px-8 py-4 text-sm text-gray-600">
-                                {threshold.amountMin ? `$${(threshold.amountMin / 1000).toFixed(0)}K` : 'Any'} - {threshold.amountMax ? `$${(threshold.amountMax / 1000).toFixed(0)}K` : 'Unlimited'}
-                              </td>
-                              <td className="px-8 py-4 text-sm text-gray-900">{threshold.authority}</td>
-                              <td className="px-8 py-4 text-sm text-gray-600">{threshold.timelineDays} days</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-                <p className="text-gray-500">Select a committee to view details</p>
+            {selectedCommittee.code === 'SGCC' && (
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900 mb-3">SPIF Approval Thresholds</h3>
+                <div className="bg-white rounded-lg border border-purple-200 overflow-hidden">
+                  <table className="w-full">
+                    <thead className="bg-gray-50 border-b border-purple-200">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Authority</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Timeline</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      <tr>
+                        <td className="px-4 py-3 text-sm text-gray-900">&lt;$50K</td>
+                        <td className="px-4 py-3 text-sm text-gray-700">SGCC</td>
+                        <td className="px-4 py-3 text-sm text-gray-600">5 business days</td>
+                      </tr>
+                      <tr>
+                        <td className="px-4 py-3 text-sm text-gray-900">$50K - $250K</td>
+                        <td className="px-4 py-3 text-sm text-gray-700">SGCC + CFO</td>
+                        <td className="px-4 py-3 text-sm text-gray-600">10 business days</td>
+                      </tr>
+                      <tr>
+                        <td className="px-4 py-3 text-sm text-gray-900">&gt;$250K</td>
+                        <td className="px-4 py-3 text-sm text-gray-700">SGCC + CEO</td>
+                        <td className="px-4 py-3 text-sm text-gray-600">15 business days</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
           </div>
-        </div>
+        )}
       </div>
+    </div>
+  ) : (
+    <div className="flex items-center justify-center h-full">
+      <p className="text-sm text-gray-500">Select a committee to view details</p>
+    </div>
+  );
+
+  // Right Detail Pane - Quick actions / context
+  const rightDetail = selectedCommittee ? (
+    <div className="flex flex-col h-full">
+      <div className="flex-none p-4 border-b border-purple-200">
+        <h3 className="text-sm font-semibold text-gray-900">Quick Actions</h3>
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        <Link
+          href={`/documents/${selectedCommittee.charterDocument}`}
+          className="block p-3 bg-white border border-purple-200 rounded-lg hover:border-purple-300 hover:shadow-sm transition-all"
+        >
+          <div className="flex items-start gap-2">
+            <FileTextIcon className="w-4 h-4 text-purple-600 flex-none mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-gray-900">View Charter</p>
+              <p className="text-xs text-gray-500 mt-0.5">{selectedCommittee.charterDocument}</p>
+            </div>
+          </div>
+        </Link>
+
+        <button className="w-full p-3 bg-white border border-purple-200 rounded-lg hover:border-gray-300 hover:shadow-sm transition-all text-left">
+          <div className="flex items-start gap-2">
+            <CalendarIcon className="w-4 h-4 text-blue-600 flex-none mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-gray-900">Schedule Meeting</p>
+              <p className="text-xs text-gray-500 mt-0.5">Create agenda & invite</p>
+            </div>
+          </div>
+        </button>
+
+        <button className="w-full p-3 bg-white border border-purple-200 rounded-lg hover:border-gray-300 hover:shadow-sm transition-all text-left">
+          <div className="flex items-start gap-2">
+            <ClockIcon className="w-4 h-4 text-orange-600 flex-none mt-0.5" />
+            <div>
+              <p className="text-sm font-medium text-gray-900">View Decisions</p>
+              <p className="text-xs text-gray-500 mt-0.5">Past decisions log</p>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <div className="flex-none p-4 border-t border-purple-200 bg-gray-50">
+        <p className="text-xs text-gray-500">
+          Created {new Date(selectedCommittee.createdAt).toLocaleDateString()}
+        </p>
+      </div>
+    </div>
+  ) : null;
+
+  return (
+    <div className="h-full">
+      <ThreePaneWorkspace
+        leftNav={leftNav}
+        centerContent={centerContent}
+        rightDetail={rightDetail}
+        showRightPane={!!selectedCommittee}
+      />
     </div>
   );
 }

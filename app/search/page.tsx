@@ -83,11 +83,11 @@ function SearchContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 shadow-sm">
+      <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">Search</h1>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-600 bg-clip-text text-transparent">Search</h1>
           <p className="text-gray-600 mt-1">Find documents across your governance system</p>
 
           {/* Search Form */}
@@ -97,11 +97,11 @@ function SearchContent() {
               placeholder="Search documents..."
               value={searchInput}
               onChange={e => setSearchInput(e.target.value)}
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="flex-1 px-4 py-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             />
             <button
               type="submit"
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
+              className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-medium"
             >
               Search
             </button>
@@ -109,7 +109,8 @@ function SearchContent() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-7xl mx-auto px-6 py-12">
         {!query ? (
           <div className="text-center py-12">
             <p className="text-gray-500 text-lg">Enter a search query to get started</p>
@@ -169,6 +170,7 @@ function SearchContent() {
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   );
@@ -176,7 +178,7 @@ function SearchContent() {
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center"><p>Loading...</p></div>}>
+    <Suspense fallback={<div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex items-center justify-center"><p>Loading...</p></div>}>
       <SearchContent />
     </Suspense>
   );
