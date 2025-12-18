@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { AppShell } from "@rally/app-shell";
+// import { AppShell } from "@rally/app-shell"; // Rally package not yet installed
 import { aiManifest } from "../ai.manifest";
 import { CommandPalette } from "@/components/CommandPalette";
 import { OpsChiefOrb } from "@/components/ai/OpsChiefOrb";
@@ -13,14 +13,9 @@ interface RootLayoutClientProps {
 
 /**
  * Client-side root layout wrapper
- * Handles AppShell and AI Backbone initialization
+ * Handles AI components initialization
  */
 export function RootLayoutClient({ children }: RootLayoutClientProps) {
-  // Default values - will be overridden by [tenant] layout context in real usage
-  const tenantId = "platform";
-  const appId = "sgm-sparcc";
-  const tier = "edge" as const;
-
   // Command Palette state
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
 
@@ -38,12 +33,7 @@ export function RootLayoutClient({ children }: RootLayoutClientProps) {
   }, []);
 
   return (
-    <AppShell
-      tenantId={tenantId}
-      appId={appId}
-      tier={tier}
-      manifest={aiManifest}
-    >
+    <>
       {children}
       <CommandPalette
         isOpen={commandPaletteOpen}
@@ -52,6 +42,6 @@ export function RootLayoutClient({ children }: RootLayoutClientProps) {
       {/* AI Widgets */}
       <OpsChiefOrb appName="SGM SPARCC" enabled={true} />
       <AskDock appName="SGM" enabled={true} />
-    </AppShell>
+    </>
   );
 }

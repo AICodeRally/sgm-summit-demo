@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRallyLLMClient, isRallyLLMConfigured } from '@/lib/ai/rally-llm-client';
-import { JAMF_APPROVALS } from '@/lib/data/synthetic/jamf-approvals.data';
-import { JAMF_DOCUMENTS } from '@/lib/data/synthetic/jamf-documents.data';
-import { CASES } from '@/lib/data/synthetic/cases.data';
-import { COMMITTEES } from '@/lib/data/synthetic/committees.data';
+import { APPROVAL_ITEMS } from '@/lib/data/synthetic/jamf-approvals.data';
+import { ALL_JAMF_DOCUMENTS } from '@/lib/data/synthetic/jamf-documents.data';
+import { CASE_ITEMS } from '@/lib/data/synthetic/cases.data';
+import { ALL_COMMITTEES } from '@/lib/data/synthetic/committees.data';
 
 // Telemetry logging helper
 function logTelemetry(event: Record<string, any>) {
@@ -58,18 +58,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Fetch relevant governance context (RAG layer using synthetic data)
-    const pendingApprovals = JAMF_APPROVALS.filter(a => a.status === 'PENDING');
-    const approvedPolicies = JAMF_DOCUMENTS.filter(d => d.type === 'POLICY' && d.status === 'APPROVED');
-    const activeCases = CASES.filter(c => c.status === 'OPEN' || c.status === 'IN_REVIEW');
-    const committees = COMMITTEES;
+    const pendingApprovals = APPROVAL_ITEMS.filter(a => a.status === 'PENDING');
+    const approvedPolicies = ALL_JAMF_DOCUMENTS.filter(d => d.type === 'POLICY' && d.status === 'APPROVED');
+    const activeCases = CASE_ITEMS.filter(c => c.status === 'UNDER_REVIEW' || c.status === 'PENDING_INFO' || c.status === 'ESCALATED');
+    const committees = ALL_COMMITTEES;
 
     // Build RAG context string from retrieved data
     const ragContext = [
       `Pending Approvals: ${pendingApprovals.length} documents awaiting review`,
       `Active Policies: ${approvedPolicies.length} approved governance policies`,
-      `Active Cases: ${activeCases.length} (${CASES.filter(c => c.caseType === 'DISPUTE').length} disputes, ${CASES.filter(c => c.caseType === 'EXCEPTION').length} exceptions)`,
+      `Active Cases: ${activeCases.length} (${CASE_ITEMS.filter(c => c.type === 'DISPUTE').length} disputes, ${CASE_ITEMS.filter(c => c.type === 'EXCEPTION').length} exceptions)`,
       `Governance Committees: ${committees.map(c => c.name).join(', ')}`,
-      `Total Documents: ${JAMF_DOCUMENTS.length}`,
+      `Total Documents: ${ALL_JAMF_DOCUMENTS.length}`,
     ].join('\n');
 
     // Build system prompt with governance context
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
 
 ## Governance Context
 - **Department**: ${body.department || 'governance'}
-- **Total Documents**: ${JAMF_DOCUMENTS.length}
+- **Total Documents**: ${ALL_JAMF_DOCUMENTS.length}
 - **Pending Approvals**: ${pendingApprovals.length}
 - **Active Cases**: ${activeCases.length}
 - **Current Page**: ${body.context?.currentPage || 'dashboard'}

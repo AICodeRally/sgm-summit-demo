@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { emitSignalsFromInsights } from '@/lib/ai/signals';
 import { getRallyLLMClient, isRallyLLMConfigured } from '@/lib/ai/rally-llm-client';
-import { JAMF_APPROVALS } from '@/lib/data/synthetic/jamf-approvals.data';
-import { JAMF_DOCUMENTS } from '@/lib/data/synthetic/jamf-documents.data';
-import { CASES } from '@/lib/data/synthetic/cases.data';
+import { APPROVAL_ITEMS } from '@/lib/data/synthetic/jamf-approvals.data';
+import { ALL_JAMF_DOCUMENTS } from '@/lib/data/synthetic/jamf-documents.data';
+import { CASE_ITEMS } from '@/lib/data/synthetic/cases.data';
 import { AUDIT_EVENTS } from '@/lib/data/synthetic/audit.data';
 
 // Telemetry logging helper
@@ -53,17 +53,17 @@ export async function GET(request: NextRequest) {
     const forceRefresh = searchParams.get('forceRefresh') === 'true';
 
     // Fetch governance data for analysis (using synthetic data)
-    const pendingApprovals = JAMF_APPROVALS.filter(a => a.status === 'PENDING');
-    const slaAtRisk = JAMF_APPROVALS.filter(a => a.slaStatus === 'AT_RISK');
-    const activeCases = CASES.filter(c => c.status === 'OPEN' || c.status === 'IN_REVIEW');
-    const policies = JAMF_DOCUMENTS.filter(d => d.type === 'POLICY');
+    const pendingApprovals = APPROVAL_ITEMS.filter(a => a.status === 'PENDING');
+    const slaAtRisk = APPROVAL_ITEMS.filter(a => a.slaStatus === 'AT_RISK');
+    const activeCases = CASE_ITEMS.filter(c => c.status === 'UNDER_REVIEW' || c.status === 'PENDING_INFO' || c.status === 'ESCALATED');
+    const policies = ALL_JAMF_DOCUMENTS.filter(d => d.type === 'POLICY');
     const recentAudit = AUDIT_EVENTS[0];
 
     // Calculate governance health metrics
-    const totalDocuments = JAMF_DOCUMENTS.length;
-    const approvedDocs = JAMF_DOCUMENTS.filter(d => d.status === 'APPROVED').length;
-    const draftDocs = JAMF_DOCUMENTS.filter(d => d.status === 'DRAFT').length;
-    const expiringDocs = JAMF_DOCUMENTS.filter(d => {
+    const totalDocuments = ALL_JAMF_DOCUMENTS.length;
+    const approvedDocs = ALL_JAMF_DOCUMENTS.filter(d => d.status === 'APPROVED').length;
+    const draftDocs = ALL_JAMF_DOCUMENTS.filter(d => d.status === 'DRAFT').length;
+    const expiringDocs = ALL_JAMF_DOCUMENTS.filter(d => {
       const expiryDate = d.expiryDate ? new Date(d.expiryDate) : null;
       if (!expiryDate) return false;
       const daysUntilExpiry = (expiryDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24);
@@ -102,7 +102,7 @@ ${activeCases
   .map(
     (c) => `
 - **${c.caseNumber}**: ${c.title}
-  - Type: ${c.caseType}
+  - Type: ${c.type}
   - Priority: ${c.priority}
   - Status: ${c.status}
 `

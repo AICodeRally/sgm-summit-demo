@@ -126,7 +126,7 @@ export function AskDock({ appName = 'SGM', enabled = true }: AskDockProps) {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-4 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-lg transition-all hover:scale-110 hover:shadow-xl"
+          className="fixed bottom-4 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 text-white shadow-lg transition-all hover:scale-110 hover:shadow-xl"
           aria-label="Open AskSGM AI Assistant"
           title="AskSGM - Governance AI Assistant"
         >
@@ -138,12 +138,12 @@ export function AskDock({ appName = 'SGM', enabled = true }: AskDockProps) {
       {isOpen && !isMinimized && (
         <div className="fixed bottom-4 right-4 z-40 flex h-[600px] w-96 flex-col rounded-lg bg-white shadow-2xl border border-gray-200">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-gray-200 bg-gradient-to-r from-blue-500 to-cyan-500 p-4 text-white rounded-t-lg">
+          <div className="flex items-center justify-between border-b border-gray-200 bg-gradient-to-r from-purple-500 to-fuchsia-500 p-4 text-white rounded-t-lg">
             <div className="flex items-center gap-2">
               <ChatBubbleIcon className="h-5 w-5" />
               <div>
                 <h3 className="font-semibold">AskSGM</h3>
-                <p className="text-xs text-blue-100">Governance AI Assistant</p>
+                <p className="text-xs text-purple-100">Governance AI Assistant</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -180,10 +180,10 @@ export function AskDock({ appName = 'SGM', enabled = true }: AskDockProps) {
               <>
                 {/* Welcome Message */}
                 <div className="flex gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 text-white">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 text-white">
                     <ChatBubbleIcon className="h-4 w-4" />
                   </div>
-                  <div className="rounded-lg bg-blue-50 p-3 border border-blue-200">
+                  <div className="rounded-lg bg-purple-50 p-3 border border-purple-200">
                     <p className="text-sm text-gray-700">
                       Hi! I'm AskSGM, your governance intelligence assistant. I can help you with:
                     </p>
@@ -203,7 +203,7 @@ export function AskDock({ appName = 'SGM', enabled = true }: AskDockProps) {
                     <button
                       key={idx}
                       onClick={() => handleQuickQuestion(question)}
-                      className="w-full rounded-lg border border-gray-200 bg-white p-2 text-left text-xs text-gray-700 transition-colors hover:bg-blue-50 hover:border-blue-300"
+                      className="w-full rounded-lg border border-gray-200 bg-white p-2 text-left text-xs text-gray-700 transition-colors hover:bg-purple-50 hover:border-purple-300"
                     >
                       💡 {question}
                     </button>
@@ -218,21 +218,21 @@ export function AskDock({ appName = 'SGM', enabled = true }: AskDockProps) {
                     className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}
                   >
                     {message.role === 'assistant' && (
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 text-white">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 text-white">
                         <ChatBubbleIcon className="h-4 w-4" />
                       </div>
                     )}
                     <div
                       className={`max-w-[80%] rounded-lg p-3 text-sm ${
                         message.role === 'user'
-                          ? 'bg-blue-600 text-white'
+                          ? 'bg-purple-600 text-white'
                           : 'bg-white border border-gray-200 text-gray-800'
                       }`}
                     >
                       <p className="whitespace-pre-wrap">{message.content}</p>
                       <p
                         className={`mt-1 text-xs ${
-                          message.role === 'user' ? 'text-blue-100' : 'text-gray-400'
+                          message.role === 'user' ? 'text-purple-100' : 'text-gray-400'
                         }`}
                       >
                         {message.timestamp.toLocaleTimeString([], {
@@ -251,7 +251,7 @@ export function AskDock({ appName = 'SGM', enabled = true }: AskDockProps) {
 
                 {isLoading && (
                   <div className="flex gap-3">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 text-white">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 text-white">
                       <ReloadIcon className="h-4 w-4 animate-spin" />
                     </div>
                     <div className="rounded-lg bg-white border border-gray-200 p-3 text-sm text-gray-600">
@@ -278,14 +278,14 @@ export function AskDock({ appName = 'SGM', enabled = true }: AskDockProps) {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask about governance policies, approvals, SLAs..."
-                className="flex-1 resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                className="flex-1 resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-200"
                 rows={2}
                 disabled={isLoading}
               />
               <button
                 onClick={() => handleSendMessage()}
                 disabled={!input.trim() || isLoading}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-r from-purple-500 to-fuchsia-500 text-white transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <ReloadIcon className="h-4 w-4 animate-spin" />
@@ -305,7 +305,7 @@ export function AskDock({ appName = 'SGM', enabled = true }: AskDockProps) {
       {isOpen && isMinimized && (
         <button
           onClick={() => setIsMinimized(false)}
-          className="fixed bottom-4 right-4 z-40 flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-2 text-white shadow-lg transition-all hover:shadow-xl"
+          className="fixed bottom-4 right-4 z-40 flex items-center gap-2 rounded-lg bg-gradient-to-r from-purple-500 to-fuchsia-500 px-4 py-2 text-white shadow-lg transition-all hover:shadow-xl"
         >
           <ChatBubbleIcon className="h-4 w-4" />
           <span className="text-sm font-medium">AskSGM</span>
