@@ -3,8 +3,22 @@ import type { RagDomain } from "@rally/ai-contracts";
 
 export const aiManifest: BlockManifest = {
   blocks: {
-    orgChief: { enabled: true, slot: "global.overlay.bottomLeft" },
-    askItem: { enabled: true, slot: "global.overlay.bottomRight" },
+    orgChief: {
+      enabled: true,
+      slot: "global.overlay.bottomLeft",
+      config: {
+        appName: "SGM SPARCC",
+        endpoint: "/api/ai/orgchief"
+      }
+    },
+    askItem: {
+      enabled: true,
+      slot: "global.overlay.bottomRight",
+      config: {
+        appName: "SGM",
+        askEndpoint: "/api/ai/asksgm"
+      }
+    },
     glowBar: { enabled: true, slot: "global.overlay.bottomCenter" },
   },
 };
