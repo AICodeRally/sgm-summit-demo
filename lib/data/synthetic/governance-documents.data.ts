@@ -1,9 +1,9 @@
 /**
- * JAMF Compensation Governance - Complete Document Set (48 documents)
- * Based on real JAMF governance delivery package structure
+ * SPARCC Compensation Governance - Complete Document Set (48 documents)
+ * Based on real SPARCC governance delivery package structure
  */
 
-export const JAMF_GOVERNANCE_DOCUMENTS = {
+export const SPARCC_GOVERNANCE_DOCUMENTS = {
   // 01_FRAMEWORK_DOCUMENTS (7 documents)
   frameworks: [
     {
@@ -81,7 +81,7 @@ export const JAMF_GOVERNANCE_DOCUMENTS = {
       version: '1.0',
       effectiveDate: '2026-01-01',
       owner: 'Sales Compensation',
-      description: 'Comprehensive glossary of compensation terms, JAMF-specific language, and metric definitions.',
+      description: 'Comprehensive glossary of compensation terms, SPARCC-specific language, and metric definitions.',
     },
   ],
 
@@ -569,22 +569,22 @@ export const JAMF_GOVERNANCE_DOCUMENTS = {
 };
 
 // Flatten all documents into a single array
-export const ALL_JAMF_DOCUMENTS = [
-  ...JAMF_GOVERNANCE_DOCUMENTS.frameworks,
-  ...JAMF_GOVERNANCE_DOCUMENTS.policies,
-  ...JAMF_GOVERNANCE_DOCUMENTS.procedures,
-  ...JAMF_GOVERNANCE_DOCUMENTS.templates,
-  ...JAMF_GOVERNANCE_DOCUMENTS.checklists,
-  ...JAMF_GOVERNANCE_DOCUMENTS.guides,
+export const ALL_GOVERNANCE_DOCUMENTS = [
+  ...SPARCC_GOVERNANCE_DOCUMENTS.frameworks,
+  ...SPARCC_GOVERNANCE_DOCUMENTS.policies,
+  ...SPARCC_GOVERNANCE_DOCUMENTS.procedures,
+  ...SPARCC_GOVERNANCE_DOCUMENTS.templates,
+  ...SPARCC_GOVERNANCE_DOCUMENTS.checklists,
+  ...SPARCC_GOVERNANCE_DOCUMENTS.guides,
 ];
 
 // Document counts by type
-export const JAMF_DOCUMENT_COUNTS = {
-  FRAMEWORK: JAMF_GOVERNANCE_DOCUMENTS.frameworks.length,
-  POLICY: JAMF_GOVERNANCE_DOCUMENTS.policies.length,
-  PROCEDURE: JAMF_GOVERNANCE_DOCUMENTS.procedures.length,
-  TEMPLATE: JAMF_GOVERNANCE_DOCUMENTS.templates.length,
-  CHECKLIST: JAMF_GOVERNANCE_DOCUMENTS.checklists.length,
-  GUIDE: JAMF_GOVERNANCE_DOCUMENTS.guides.length,
-  TOTAL: ALL_JAMF_DOCUMENTS.length,
+export const GOVERNANCE_DOCUMENT_COUNTS = {
+  FRAMEWORK: SPARCC_GOVERNANCE_DOCUMENTS.frameworks.length,
+  POLICY: SPARCC_GOVERNANCE_DOCUMENTS.policies.length,
+  PROCEDURE: SPARCC_GOVERNANCE_DOCUMENTS.procedures.length,
+  TEMPLATE: SPARCC_GOVERNANCE_DOCUMENTS.templates.length,
+  CHECKLIST: SPARCC_GOVERNANCE_DOCUMENTS.checklists.length,
+  GUIDE: SPARCC_GOVERNANCE_DOCUMENTS.guides.length,
+  TOTAL: ALL_GOVERNANCE_DOCUMENTS.length,
 };

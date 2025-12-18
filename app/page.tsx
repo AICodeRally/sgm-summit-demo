@@ -252,7 +252,7 @@ export default function SGMDashboard() {
                 <div>
                   <h3 className="font-bold text-gray-900">Document Taxonomy</h3>
                   <p className="text-sm text-gray-600 mt-1">
-                    Framework, Policy, Procedure, Template, Checklist, Guide - JAMF governance structure
+                    Framework, Policy, Procedure, Template, Checklist, Guide - SPARCC governance structure
                   </p>
                 </div>
               </div>
@@ -310,7 +310,7 @@ export default function SGMDashboard() {
         {/* Sample Data Notice */}
         <div className="mt-12 p-6 bg-blue-50 border border-blue-200 rounded-lg">
           <p className="text-sm text-blue-900">
-            <strong>Demo Mode:</strong> Running with synthetic JAMF governance data (48 documents, 2 committees, 7 framework docs, 17 policies, 10 procedures) for demonstration.
+            <strong>Demo Mode:</strong> Running with synthetic SPARCC governance data (48 documents, 2 committees, 7 framework docs, 17 policies, 10 procedures) for demonstration.
           </p>
         </div>
       </div>

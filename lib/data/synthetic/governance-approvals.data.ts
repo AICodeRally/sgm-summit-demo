@@ -1,5 +1,5 @@
 /**
- * Approval Workflow Synthetic Data - JAMF Governance
+ * Approval Workflow Synthetic Data - SPARCC Governance
  * Based on SGCC and CRB approval thresholds
  */
 

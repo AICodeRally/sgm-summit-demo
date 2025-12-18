@@ -3,15 +3,16 @@ import type {
   CreateDocument,
   UpdateDocument,
   DocumentFilters,
+  FileType,
 } from '@/lib/contracts/document.contract';
 import type { IDocumentPort } from '@/lib/ports/document.port';
 import { nextVersion } from '@/lib/contracts/document.contract';
-import { ALL_JAMF_DOCUMENTS } from '@/lib/data/synthetic/jamf-documents.data';
+import { ALL_GOVERNANCE_DOCUMENTS } from '@/lib/data/synthetic/governance-documents.data';
 
 /**
- * Synthetic Document Provider - JAMF Governance (48 documents)
+ * Synthetic Document Provider - SPARCC Governance (48 documents)
  *
- * Uses real JAMF governance document structure:
+ * Uses SPARCC governance document structure:
  * - 7 Framework docs
  * - 17 Policies
  * - 10 Procedures
@@ -24,77 +25,69 @@ export class SyntheticDocumentProvider implements IDocumentPort {
   private idCounter = 1;
 
   constructor() {
-    this.initializeJAMFDocuments();
+    this.initializeSPARCCDocuments();
   }
 
   /**
-   * Initialize with all 48 JAMF governance documents
+   * Initialize with all 48 SPARCC governance documents
    */
-  private initializeJAMFDocuments() {
+  private initializeSPARCCDocuments() {
     const tenantId = 'demo-tenant-001';
     const now = new Date().toISOString();
 
-    ALL_JAMF_DOCUMENTS.forEach((jamfDoc, index) => {
+    ALL_GOVERNANCE_DOCUMENTS.forEach((govDoc, index) => {
       const docId = `doc-${String(index + 1).padStart(3, '0')}`;
 
       const document: Document = {
         id: docId,
         tenantId,
-        documentCode: jamfDoc.documentCode,
-        title: jamfDoc.title,
-        description: jamfDoc.description || '',
-        documentType: jamfDoc.documentType as any,
-        category: jamfDoc.category,
-        tags: this.generateTags(jamfDoc),
-        version: jamfDoc.version,
-        status: jamfDoc.status as any,
+        documentCode: govDoc.documentCode,
+        title: govDoc.title,
+        description: govDoc.description || '',
+        documentType: govDoc.documentType as any,
+        category: govDoc.category,
+        tags: this.generateTags(govDoc),
+        version: govDoc.version + '.0', // Convert to semantic versioning (e.g., "1.0" -> "1.0.0")
+        status: govDoc.status as any,
         fileType: 'md',
-        filePath: `documents/${jamfDoc.documentCode}.md`,
+        filePath: `documents/${govDoc.documentCode}.md`,
         fileSize: 15000 + Math.floor(Math.random() * 50000), // 15-65KB
-        owner: jamfDoc.owner,
-        createdBy: jamfDoc.owner,
-        createdAt: this.generateCreatedDate(jamfDoc.status),
-        updatedAt: now,
-        publishedAt: jamfDoc.status === 'APPROVED' || jamfDoc.status === 'ACTIVE' ?
-          '2025-12-01T00:00:00.000Z' : null,
-        archivedAt: jamfDoc.status === 'ARCHIVED' ? now : null,
-        effectiveDate: jamfDoc.effectiveDate || null,
-        expirationDate: null,
+        owner: govDoc.owner,
+        createdBy: govDoc.owner,
+        createdAt: new Date(this.generateCreatedDate(govDoc.status)),
+        lastUpdated: new Date(now),
+        effectiveDate: govDoc.effectiveDate ? new Date(govDoc.effectiveDate) : undefined,
         retentionPeriod: 7,
-        legalReviewStatus: this.getLegalReviewStatus(jamfDoc),
-        legalReviewedAt: jamfDoc.status === 'APPROVED' || jamfDoc.status === 'ACTIVE' ?
-          '2025-11-15T00:00:00.000Z' : null,
-        legalReviewedBy: jamfDoc.status === 'APPROVED' || jamfDoc.status === 'ACTIVE' ?
-          'Legal Counsel' : null,
+        legalReviewStatus: this.getLegalReviewStatus(govDoc),
       };
 
       this.documents.set(docId, document);
     });
   }
 
-  private generateTags(jamfDoc: any): string[] {
-    const tags: string[] = [jamfDoc.documentType.toLowerCase()];
+  private generateTags(govDoc: any): string[] {
+    const tags: string[] = [govDoc.documentType.toLowerCase()];
 
     // Add category-based tags
-    if (jamfDoc.category) {
-      tags.push(jamfDoc.category.toLowerCase().replace(/\s+/g, '-'));
+    if (govDoc.category) {
+      tags.push(govDoc.category.toLowerCase().replace(/\s+/g, '-'));
     }
 
     // Add document-code prefix as tag
-    const prefix = jamfDoc.documentCode.split('-')[0];
+    const prefix = govDoc.documentCode.split('-')[0];
     if (prefix) tags.push(prefix.toLowerCase());
 
     // Add specific tags based on content
-    if (jamfDoc.documentCode.includes('SGCC') || jamfDoc.documentCode === 'GC-001') {
+    if (govDoc.documentCode.includes('SGCC') || govDoc.documentCode === 'GC-001') {
       tags.push('sgcc', 'committee');
     }
-    if (jamfDoc.documentCode.includes('CRB') || jamfDoc.documentCode === 'CRB-001') {
+    if (govDoc.documentCode.includes('CRB') || govDoc.documentCode === 'CRB-001') {
       tags.push('crb', 'windfall', 'large-deals');
     }
-    if (jamfDoc.title.toLowerCase().includes('compliance')) {
+    if (govDoc.title.toLowerCase().includes('compliance')) {
       tags.push('compliance', 'legal');
     }
-    if (jamfDoc.title.toLowerCase().includes('spif')) {
+    if (govDoc.title.toLowerCase().includes('spif')) {
       tags.push('spif', 'incentives');
     }
 
@@ -116,23 +109,20 @@ export class SyntheticDocumentProvider implements IDocumentPort {
     return '2025-11-15T00:00:00.000Z';
   }
 
-  private getLegalReviewStatus(jamfDoc: any): 'NOT_REQUIRED' | 'PENDING' | 'IN_REVIEW' | 'APPROVED' | 'REJECTED' {
+  private getLegalReviewStatus(govDoc: any): 'NOT_REQUIRED' | 'PENDING' | 'APPROVED' | 'REJECTED' {
     // All policies require legal review
-    if (jamfDoc.documentType === 'POLICY') {
-      if (jamfDoc.status === 'APPROVED' || jamfDoc.status === 'ACTIVE') {
+    if (govDoc.documentType === 'POLICY') {
+      if (govDoc.status === 'APPROVED' || govDoc.status === 'ACTIVE') {
         return 'APPROVED';
       }
-      if (jamfDoc.status === 'UNDER_REVIEW') {
-        return 'IN_REVIEW';
-      }
-      if (jamfDoc.status === 'DRAFT') {
+      if (govDoc.status === 'UNDER_REVIEW' || govDoc.status === 'DRAFT') {
         return 'PENDING';
       }
     }
 
     // Frameworks also require legal review
-    if (jamfDoc.documentType === 'FRAMEWORK') {
-      return jamfDoc.status === 'APPROVED' ? 'APPROVED' : 'NOT_REQUIRED';
+    if (govDoc.documentType === 'FRAMEWORK') {
+      return govDoc.status === 'APPROVED' ? 'APPROVED' : 'NOT_REQUIRED';
     }
 
     return 'NOT_REQUIRED';
@@ -166,27 +156,60 @@ export class SyntheticDocumentProvider implements IDocumentPort {
       );
     }
 
-    // Sort by updatedAt descending (most recent first)
+    // Sort by lastUpdated descending (most recent first)
     results.sort((a, b) =>
-      new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      b.lastUpdated.getTime() - a.lastUpdated.getTime()
     );
 
     return results;
   }
 
-  async findById(id: string, tenantId: string): Promise<Document | null> {
+  async findById(id: string): Promise<Document | null> {
     const doc = this.documents.get(id);
-    if (!doc || doc.tenantId !== tenantId) {
-      return null;
-    }
-    return doc;
+    return doc || null;
   }
 
-  async findByCode(documentCode: string, tenantId: string): Promise<Document | null> {
-    const doc = Array.from(this.documents.values()).find(
+  async findByType(tenantId: string, documentType: Document['documentType']): Promise<Document[]> {
+    return Array.from(this.documents.values()).filter(
+      doc => doc.tenantId === tenantId && doc.documentType === documentType
+    );
+  }
+
+  async findByStatus(tenantId: string, status: Document['status']): Promise<Document[]> {
+    return Array.from(this.documents.values()).filter(
+      doc => doc.tenantId === tenantId && doc.status === status
+    );
+  }
+
+  async findActive(tenantId: string, asOfDate?: Date): Promise<Document[]> {
+    const targetDate = asOfDate || new Date();
+    return Array.from(this.documents.values()).filter(
+      doc => doc.tenantId === tenantId && doc.status === 'ACTIVE' &&
+        (!doc.effectiveDate || doc.effectiveDate <= targetDate) &&
+        (!doc.expirationDate || doc.expirationDate > targetDate)
+    );
+  }
+
+  async findVersions(documentId: string): Promise<Document[]> {
+    const doc = await this.findById(documentId);
+    if (!doc) return [];
+
+    // Find all documents with same documentCode (different versions)
+    return Array.from(this.documents.values()).filter(
+      d => d.documentCode === doc.documentCode && d.tenantId === doc.tenantId
+    );
+  }
+
+  async findLatestVersion(tenantId: string, documentCode: string): Promise<Document | null> {
+    const docs = Array.from(this.documents.values()).filter(
       d => d.documentCode === documentCode && d.tenantId === tenantId
     );
-    return doc || null;
+
+    if (docs.length === 0) return null;
+
+    // Sort by version (assuming semantic versioning)
+    docs.sort((a, b) => b.version.localeCompare(a.version));
+    return docs[0];
   }
 
   async create(data: CreateDocument): Promise<Document> {
@@ -209,77 +232,170 @@ export class SyntheticDocumentProvider implements IDocumentPort {
       fileSize: data.fileSize,
       owner: data.owner,
       createdBy: data.createdBy,
-      createdAt: now,
-      updatedAt: now,
-      publishedAt: null,
-      archivedAt: null,
-      effectiveDate: null,
-      expirationDate: null,
+      createdAt: new Date(now),
+      lastUpdated: new Date(now),
       retentionPeriod: data.retentionPeriod,
       legalReviewStatus: data.legalReviewStatus,
-      legalReviewedAt: null,
-      legalReviewedBy: null,
     };
 
     this.documents.set(id, document);
     return document;
   }
 
-  async update(id: string, tenantId: string, updates: UpdateDocument): Promise<Document> {
-    const existing = await this.findById(id, tenantId);
+  async update(data: UpdateDocument): Promise<Document> {
+    const existing = await this.findById(data.id);
     if (!existing) {
-      throw new Error(`Document not found: ${id}`);
+      throw new Error(`Document not found: ${data.id}`);
     }
 
     const updated: Document = {
       ...existing,
-      ...updates,
-      updatedAt: new Date().toISOString(),
+      ...data,
+      lastUpdated: new Date(),
     };
 
-    this.documents.set(id, updated);
+    this.documents.set(data.id, updated);
     return updated;
   }
 
-  async delete(id: string, tenantId: string): Promise<void> {
-    const doc = await this.findById(id, tenantId);
+  async uploadFile(documentId: string, file: File, fileType: FileType): Promise<Document> {
+    throw new Error('uploadFile not implemented in synthetic provider');
+  }
+
+  async downloadFile(documentId: string): Promise<Buffer> {
+    throw new Error('downloadFile not implemented in synthetic provider');
+  }
+
+  async getFileUrl(documentId: string): Promise<string> {
+    const doc = await this.findById(documentId);
+    if (!doc) throw new Error(`Document not found: ${documentId}`);
+    return doc.filePath;
+  }
+
+  async createVersion(
+    documentId: string,
+    changes: Partial<Document>,
+    bumpType: 'major' | 'minor' | 'patch'
+  ): Promise<Document> {
+    throw new Error('createVersion not implemented in synthetic provider');
+  }
+
+  async submitForReview(documentId: string, submittedBy: string): Promise<Document> {
+    return this.update({
+      id: documentId,
+      updatedBy: submittedBy,
+      status: 'UNDER_REVIEW',
+    });
+  }
+
+  async submitForApproval(documentId: string, submittedBy: string, workflowId?: string): Promise<Document> {
+    return this.update({
+      id: documentId,
+      updatedBy: submittedBy,
+      status: 'PENDING_APPROVAL',
+      approvalWorkflowId: workflowId,
+    });
+  }
+
+  async approve(documentId: string, approvedBy: string, comments?: string): Promise<Document> {
+    return this.update({
+      id: documentId,
+      updatedBy: approvedBy,
+      status: 'APPROVED',
+    });
+  }
+
+  async activate(documentId: string, activatedBy: string): Promise<Document> {
+    return this.update({
+      id: documentId,
+      updatedBy: activatedBy,
+      status: 'ACTIVE',
+    });
+  }
+
+  async archive(documentId: string, archivedBy: string): Promise<Document> {
+    return this.update({
+      id: documentId,
+      updatedBy: archivedBy,
+      status: 'ARCHIVED',
+    });
+  }
+
+  async reject(documentId: string, rejectedBy: string, reason: string): Promise<Document> {
+    return this.update({
+      id: documentId,
+      updatedBy: rejectedBy,
+      status: 'DRAFT',
+    });
+  }
+
+  async delete(id: string, deletedBy: string): Promise<void> {
+    const doc = await this.findById(id);
     if (!doc) {
       throw new Error(`Document not found: ${id}`);
     }
     this.documents.delete(id);
   }
 
-  async publish(id: string, tenantId: string): Promise<Document> {
-    return this.update(id, tenantId, {
-      status: 'APPROVED',
-      publishedAt: new Date().toISOString(),
-    });
+  async countByStatus(tenantId: string): Promise<Record<string, number>> {
+    const counts: Record<string, number> = {};
+    Array.from(this.documents.values())
+      .filter(doc => doc.tenantId === tenantId)
+      .forEach(doc => {
+        counts[doc.status] = (counts[doc.status] || 0) + 1;
+      });
+    return counts;
   }
 
-  async archive(id: string, tenantId: string): Promise<Document> {
-    return this.update(id, tenantId, {
-      status: 'ARCHIVED',
-      archivedAt: new Date().toISOString(),
-    });
+  async countByType(tenantId: string): Promise<Record<string, number>> {
+    const counts: Record<string, number> = {};
+    Array.from(this.documents.values())
+      .filter(doc => doc.tenantId === tenantId)
+      .forEach(doc => {
+        counts[doc.documentType] = (counts[doc.documentType] || 0) + 1;
+      });
+    return counts;
   }
 
-  async supersede(id: string, tenantId: string, newVersion: string): Promise<Document> {
-    const original = await this.findById(id, tenantId);
-    if (!original) {
-      throw new Error(`Document not found: ${id}`);
+  async search(tenantId: string, query: string): Promise<Document[]> {
+    return this.findAll({ tenantId, search: query });
+  }
+
+  async findNeedingReview(tenantId: string): Promise<Document[]> {
+    const now = new Date();
+    return Array.from(this.documents.values()).filter(
+      doc => doc.tenantId === tenantId && doc.nextReview && doc.nextReview <= now
+    );
+  }
+
+  async findPendingApproval(tenantId: string): Promise<Document[]> {
+    return this.findByStatus(tenantId, 'PENDING_APPROVAL');
+  }
+
+  async linkDocuments(sourceDocId: string, targetDocId: string, relationType: string): Promise<void> {
+    // Simplified implementation - just update relatedDocs array
+    const source = await this.findById(sourceDocId);
+    if (!source) throw new Error(`Source document not found: ${sourceDocId}`);
+
+    const relatedDocs = source.relatedDocs || [];
+    if (!relatedDocs.includes(targetDocId)) {
+      await this.update({
+        id: sourceDocId,
+        updatedBy: 'system',
+        relatedDocs: [...relatedDocs, targetDocId],
+      });
     }
+  }
 
-    // Archive the original
-    await this.archive(id, tenantId);
+  async unlinkDocuments(sourceDocId: string, targetDocId: string): Promise<void> {
+    const source = await this.findById(sourceDocId);
+    if (!source) throw new Error(`Source document not found: ${sourceDocId}`);
 
-    // Create new version
-    const newDoc = await this.create({
-      ...original,
-      version: newVersion,
-      status: 'DRAFT',
-      createdBy: 'system',
+    const relatedDocs = source.relatedDocs || [];
+    await this.update({
+      id: sourceDocId,
+      updatedBy: 'system',
+      relatedDocs: relatedDocs.filter(id => id !== targetDocId),
     });
-
-    return newDoc;
   }
 }

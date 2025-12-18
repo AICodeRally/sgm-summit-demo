@@ -1,5 +1,5 @@
 /**
- * JAMF Governance Committees - Real Structure from JAMF Documents
+ * SPARCC Governance Committees
  */
 
 export interface CommitteeMember {
@@ -37,7 +37,7 @@ export const SGCC_COMMITTEE: Committee = {
   code: 'SGCC',
   name: 'Sales Compensation Governance Committee',
   description: 'Establishes and oversees the governance framework for all sales compensation programs',
-  purpose: 'Responsible for establishing, maintaining, and improving JAMF\'s sales compensation governance framework. Ensures all compensation plans, policies, and procedures are fair, compliant, transparent, and aligned with business strategy.',
+  purpose: 'Responsible for establishing, maintaining, and improving the sales compensation governance framework. Ensures all compensation plans, policies, and procedures are fair, compliant, transparent, and aligned with business strategy.',
   authority: [
     'Approve new compensation plans and significant plan changes',
     'Approve all compensation policies and procedures',
@@ -52,7 +52,7 @@ export const SGCC_COMMITTEE: Committee = {
       name: 'Sarah Chen',
       role: 'Chair',
       title: 'VP Sales Compensation',
-      email: 'sarah.chen@jamf.com',
+      email: 'sarah.chen@sparcc.demo',
       department: 'Sales Operations',
       isVoting: true,
       joinedDate: '2025-01-01',
@@ -62,7 +62,7 @@ export const SGCC_COMMITTEE: Committee = {
       name: 'Michael Rodriguez',
       role: 'Vice Chair',
       title: 'Chief Financial Officer',
-      email: 'michael.rodriguez@jamf.com',
+      email: 'michael.rodriguez@sparcc.demo',
       department: 'Finance',
       isVoting: true,
       joinedDate: '2025-01-01',
@@ -72,7 +72,7 @@ export const SGCC_COMMITTEE: Committee = {
       name: 'Jennifer Williams',
       role: 'Member',
       title: 'Chief Human Resources Officer',
-      email: 'jennifer.williams@jamf.com',
+      email: 'jennifer.williams@sparcc.demo',
       department: 'Human Resources',
       isVoting: true,
       joinedDate: '2025-01-01',
@@ -82,7 +82,7 @@ export const SGCC_COMMITTEE: Committee = {
       name: 'David Thompson',
       role: 'Member',
       title: 'General Counsel',
-      email: 'david.thompson@jamf.com',
+      email: 'david.thompson@sparcc.demo',
       department: 'Legal',
       isVoting: true,
       joinedDate: '2025-01-01',
@@ -92,7 +92,7 @@ export const SGCC_COMMITTEE: Committee = {
       name: 'Robert Kim',
       role: 'Member',
       title: 'Chief Sales Officer',
-      email: 'robert.kim@jamf.com',
+      email: 'robert.kim@sparcc.demo',
       department: 'Sales',
       isVoting: true,
       joinedDate: '2025-01-01',
@@ -102,7 +102,7 @@ export const SGCC_COMMITTEE: Committee = {
       name: 'Amanda Foster',
       role: 'Member',
       title: 'VP Sales Operations',
-      email: 'amanda.foster@jamf.com',
+      email: 'amanda.foster@sparcc.demo',
       department: 'Sales Operations',
       isVoting: true,
       joinedDate: '2025-01-01',
@@ -112,7 +112,7 @@ export const SGCC_COMMITTEE: Committee = {
       name: 'James Martinez',
       role: 'Member',
       title: 'Regional Sales Director (Rotating)',
-      email: 'james.martinez@jamf.com',
+      email: 'james.martinez@sparcc.demo',
       department: 'Sales',
       isVoting: true,
       joinedDate: '2025-01-01',
@@ -122,7 +122,7 @@ export const SGCC_COMMITTEE: Committee = {
       name: 'Lisa Park',
       role: 'Secretary (Non-Voting)',
       title: 'Sales Compensation Manager',
-      email: 'lisa.park@jamf.com',
+      email: 'lisa.park@sparcc.demo',
       department: 'Sales Operations',
       isVoting: false,
       joinedDate: '2025-01-01',
@@ -132,7 +132,7 @@ export const SGCC_COMMITTEE: Committee = {
       name: 'Kevin Nguyen',
       role: 'Advisor (Non-Voting)',
       title: 'Compensation Administrator',
-      email: 'kevin.nguyen@jamf.com',
+      email: 'kevin.nguyen@sparcc.demo',
       department: 'Sales Operations',
       isVoting: false,
       joinedDate: '2025-01-01',
@@ -168,7 +168,7 @@ export const CRB_COMMITTEE: Committee = {
       name: 'Sarah Chen',
       role: 'Chair',
       title: 'VP Sales Compensation',
-      email: 'sarah.chen@jamf.com',
+      email: 'sarah.chen@sparcc.demo',
       department: 'Sales Operations',
       isVoting: true,
       joinedDate: '2025-01-01',
@@ -178,7 +178,7 @@ export const CRB_COMMITTEE: Committee = {
       name: 'Patricia Garcia',
       role: 'Member',
       title: 'Director of Finance',
-      email: 'patricia.garcia@jamf.com',
+      email: 'patricia.garcia@sparcc.demo',
       department: 'Finance',
       isVoting: true,
       joinedDate: '2025-01-01',
@@ -188,7 +188,7 @@ export const CRB_COMMITTEE: Committee = {
       name: 'Amanda Foster',
       role: 'Member',
       title: 'VP Sales Operations',
-      email: 'amanda.foster@jamf.com',
+      email: 'amanda.foster@sparcc.demo',
       department: 'Sales Operations',
       isVoting: true,
       joinedDate: '2025-01-01',
@@ -198,7 +198,7 @@ export const CRB_COMMITTEE: Committee = {
       name: 'David Thompson',
       role: 'Advisor (Non-Voting)',
       title: 'General Counsel',
-      email: 'david.thompson@jamf.com',
+      email: 'david.thompson@sparcc.demo',
       department: 'Legal',
       isVoting: false,
       joinedDate: '2025-01-01',
@@ -208,7 +208,7 @@ export const CRB_COMMITTEE: Committee = {
       name: 'Robert Kim',
       role: 'Advisor (Non-Voting)',
       title: 'Chief Sales Officer',
-      email: 'robert.kim@jamf.com',
+      email: 'robert.kim@sparcc.demo',
       department: 'Sales',
       isVoting: false,
       joinedDate: '2025-01-01',
@@ -223,7 +223,7 @@ export const CRB_COMMITTEE: Committee = {
 
 /**
  * CRB Decision Options for Windfall Deals
- * From JAMF Windfall Policy (SCP-007)
+ * From Windfall Policy (SCP-007)
  */
 export const CRB_DECISION_OPTIONS = [
   {

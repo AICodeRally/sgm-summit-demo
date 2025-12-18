@@ -3,14 +3,14 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 interface AIWidgetState {
-  orgChiefOpen: boolean;
+  opsChiefOpen: boolean;
   askDockOpen: boolean;
   appChatbotOpen: boolean;
 }
 
 interface AIWidgetContextValue {
   state: AIWidgetState;
-  toggleOrgChief: () => void;
+  toggleOpsChief: () => void;
   toggleAskDock: () => void;
   toggleAppChatbot: () => void;
   closeAll: () => void;
@@ -20,13 +20,13 @@ const AIWidgetContext = createContext<AIWidgetContextValue | undefined>(undefine
 
 export function AIWidgetProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AIWidgetState>({
-    orgChiefOpen: false,
+    opsChiefOpen: false,
     askDockOpen: false,
     appChatbotOpen: false,
   });
 
-  const toggleOrgChief = () => {
-    setState(s => ({ ...s, orgChiefOpen: !s.orgChiefOpen }));
+  const toggleOpsChief = () => {
+    setState(s => ({ ...s, opsChiefOpen: !s.opsChiefOpen }));
   };
 
   const toggleAskDock = () => {
@@ -39,7 +39,7 @@ export function AIWidgetProvider({ children }: { children: ReactNode }) {
 
   const closeAll = () => {
     setState({
-      orgChiefOpen: false,
+      opsChiefOpen: false,
       askDockOpen: false,
       appChatbotOpen: false,
     });
@@ -49,7 +49,7 @@ export function AIWidgetProvider({ children }: { children: ReactNode }) {
     <AIWidgetContext.Provider
       value={{
         state,
-        toggleOrgChief,
+        toggleOpsChief,
         toggleAskDock,
         toggleAppChatbot,
         closeAll,

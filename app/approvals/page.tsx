@@ -15,7 +15,7 @@ import {
   CalendarIcon,
 } from '@radix-ui/react-icons';
 import { ThreePaneWorkspace } from '@/components/workspace/ThreePaneWorkspace';
-import { APPROVAL_ITEMS, APPROVAL_STATS, CRB_WINDFALL_DECISIONS, type ApprovalItem } from '@/lib/data/synthetic/jamf-approvals.data';
+import { APPROVAL_ITEMS, APPROVAL_STATS, CRB_WINDFALL_DECISIONS, type ApprovalItem } from '@/lib/data/synthetic/governance-approvals.data';
 
 export default function ApprovalsPage() {
   const [selectedApproval, setSelectedApproval] = useState<ApprovalItem | null>(null);

@@ -1,6 +1,6 @@
 /**
  * Cases - Exception Requests, Disputes, Territory Changes
- * JAMF Sales Compensation Governance
+ * SPARCC Sales Compensation Governance
  */
 
 export interface CaseItem {

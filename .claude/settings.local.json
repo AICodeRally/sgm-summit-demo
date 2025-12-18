@@ -21,7 +21,9 @@
       "Bash(git rm:*)",
       "Bash(lsof:*)",
       "Bash(xargs kill -9)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(ls:*)"
     ]
   }
 }

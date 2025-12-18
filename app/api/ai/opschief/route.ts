@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { emitSignalsFromInsights } from '@/lib/ai/signals';
 import { getRallyLLMClient, isRallyLLMConfigured } from '@/lib/ai/rally-llm-client';
-import { APPROVAL_ITEMS } from '@/lib/data/synthetic/jamf-approvals.data';
-import { ALL_JAMF_DOCUMENTS } from '@/lib/data/synthetic/jamf-documents.data';
+import { APPROVAL_ITEMS } from '@/lib/data/synthetic/governance-approvals.data';
+import { ALL_GOVERNANCE_DOCUMENTS } from '@/lib/data/synthetic/governance-documents.data';
 import { CASE_ITEMS } from '@/lib/data/synthetic/cases.data';
 import { AUDIT_EVENTS } from '@/lib/data/synthetic/audit.data';
 
@@ -56,19 +56,13 @@ export async function GET(request: NextRequest) {
     const pendingApprovals = APPROVAL_ITEMS.filter(a => a.status === 'PENDING');
     const slaAtRisk = APPROVAL_ITEMS.filter(a => a.slaStatus === 'AT_RISK');
     const activeCases = CASE_ITEMS.filter(c => c.status === 'UNDER_REVIEW' || c.status === 'PENDING_INFO' || c.status === 'ESCALATED');
-    const policies = ALL_JAMF_DOCUMENTS.filter(d => d.type === 'POLICY');
+    const policies = ALL_GOVERNANCE_DOCUMENTS.filter(d => d.documentType === 'POLICY');
     const recentAudit = AUDIT_EVENTS[0];
 
     // Calculate governance health metrics
-    const totalDocuments = ALL_JAMF_DOCUMENTS.length;
-    const approvedDocs = ALL_JAMF_DOCUMENTS.filter(d => d.status === 'APPROVED').length;
-    const draftDocs = ALL_JAMF_DOCUMENTS.filter(d => d.status === 'DRAFT').length;
-    const expiringDocs = ALL_JAMF_DOCUMENTS.filter(d => {
-      const expiryDate = d.expiryDate ? new Date(d.expiryDate) : null;
-      if (!expiryDate) return false;
-      const daysUntilExpiry = (expiryDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24);
-      return daysUntilExpiry > 0 && daysUntilExpiry <= 30;
-    }).length;
+    const totalDocuments = ALL_GOVERNANCE_DOCUMENTS.length;
+    const approvedDocs = ALL_GOVERNANCE_DOCUMENTS.filter(d => d.status === 'APPROVED').length;
+    const draftDocs = ALL_GOVERNANCE_DOCUMENTS.filter(d => d.status === 'DRAFT').length;
 
     // Build analysis prompt for LLM
     const analysisPrompt = `You are OpsChief, an AI governance assistant for the Sales Governance Manager (SGM) SPARCC platform.
@@ -78,7 +72,6 @@ export async function GET(request: NextRequest) {
 **Pending Approvals**: ${pendingApprovals.length}
 **SLA At Risk**: ${slaAtRisk.length}
 **Active Cases**: ${activeCases.length}
-**Documents Expiring Soon**: ${expiringDocs} (within 30 days)
 **Active Policies**: ${policies.length}
 **Last Governance Activity**: ${recentAudit?.timestamp || 'N/A'}
 
@@ -87,10 +80,10 @@ ${pendingApprovals
   .slice(0, 5)
   .map(
     (a) => `
-- **${a.documentCode}**: ${a.documentTitle}
+- **${a.documentCode || a.type}**: ${a.title}
   - Committee: ${a.committee}
   - SLA Status: ${a.slaStatus}
-  - Submitted: ${a.submittedDate}
+  - Submitted: ${a.requestedAt}
   - Priority: ${a.priority}
 `
   )
