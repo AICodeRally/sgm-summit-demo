@@ -10,10 +10,146 @@ datasource db {
   provider = "postgresql"
 }
 
+// =============================================================================
+// TENANT & AUTH MODELS
+// =============================================================================
+
+// Tenant Model - Multi-tenancy support
+model Tenant {
+  id        String   @id @default(cuid())
+  name      String   @db.VarChar(200)
+  slug      String   @unique @db.VarChar(50)
+
+  // Tier & Status
+  tier      TenantTier
+  status    TenantStatus
+
+  // Features & Settings (JSON for flexibility)
+  features  Json     @db.JsonB // maxDocuments, maxUsers, aiEnabled, etc.
+  settings  Json     @db.JsonB // branding, industry, customizations
+
+  // Lifecycle
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  expiresAt DateTime? @map("expires_at") // For trial/beta tenants
+
+  // Relations
+  users      User[]
+  policies   Policy[]
+  territories Territory[]
+  documents  Document[]
+  approvals  Approval[]
+  auditLogs  AuditLog[]
+  committees Committee[]
+  cases      Case[]
+
+  @@index([slug])
+  @@index([status])
+  @@index([tier])
+  @@map("tenants")
+}
+
+enum TenantTier {
+  DEMO
+  BETA
+  PRODUCTION
+}
+
+enum TenantStatus {
+  ACTIVE
+  SUSPENDED
+  TRIAL
+  EXPIRED
+}
+
+// User Model - NextAuth compatible
+model User {
+  id            String    @id @default(cuid())
+  name          String?   @db.VarChar(200)
+  email         String    @unique @db.VarChar(255)
+  emailVerified DateTime? @map("email_verified")
+  image         String?   @db.VarChar(500)
+
+  // Role & Tenant
+  role          UserRole  @default(USER)
+  tenantId      String    @map("tenant_id")
+  tenant        Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  // NextAuth relations
+  accounts      Account[]
+  sessions      Session[]
+
+  // Audit
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  @@index([tenantId])
+  @@index([email])
+  @@map("users")
+}
+
+enum UserRole {
+  SUPER_ADMIN  // Platform admin (cross-tenant)
+  ADMIN        // Tenant admin
+  MANAGER      // Committee member, can approve
+  USER         // Standard user
+  VIEWER       // Read-only access
+}
+
+// Account Model - NextAuth OAuth accounts
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String  @db.VarChar(50)
+  provider          String  @db.VarChar(50)
+  providerAccountId String  @map("provider_account_id") @db.VarChar(255)
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String? @db.VarChar(50)
+  scope             String? @db.Text
+  id_token          String? @db.Text
+  session_state     String? @db.Text
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+// Session Model - NextAuth sessions
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token") @db.VarChar(255)
+  userId       String   @map("user_id")
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+// VerificationToken Model - NextAuth email verification
+model VerificationToken {
+  identifier String   @db.VarChar(255)
+  token      String   @unique @db.VarChar(255)
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// =============================================================================
+// GOVERNANCE MODELS (with tenant relations)
+// =============================================================================
+
 // Policy Model
 model Policy {
   id        String   @id @default(cuid())
   tenantId  String   @map("tenant_id")
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   // Metadata
   name        String   @db.VarChar(200)
@@ -60,6 +196,7 @@ model Policy {
 model Territory {
   id        String   @id @default(cuid())
   tenantId  String   @map("tenant_id")
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   // Metadata
   code        String  @db.VarChar(50)
@@ -104,6 +241,7 @@ model Territory {
 model Document {
   id           String   @id @default(cuid())
   tenantId     String   @map("tenant_id")
+  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   documentCode String   @map("document_code") @db.VarChar(50)
 
   // Metadata
@@ -162,6 +300,7 @@ model Document {
 model Approval {
   id        String   @id @default(cuid())
   tenantId  String   @map("tenant_id")
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   // Metadata
   title       String  @db.VarChar(200)
@@ -211,6 +350,7 @@ model Approval {
 model AuditLog {
   id       String @id @default(cuid())
   tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   // Event Details
   eventType String @map("event_type") @db.VarChar(50)
@@ -248,4 +388,104 @@ model AuditLog {
   @@index([actorId])
   @@index([occurredAt])
   @@map("audit_logs")
+}
+
+// Committee Model
+model Committee {
+  id       String @id @default(cuid())
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  // Metadata
+  code        String  @db.VarChar(50)
+  name        String  @db.VarChar(200)
+  description String? @db.Text
+  type        String  @db.VarChar(50) // SGCC, CRB, etc.
+
+  // Charter
+  charter            String? @db.Text
+  meetingFrequency   String? @map("meeting_frequency") @db.VarChar(50)
+  quorumRequirement  Int?    @map("quorum_requirement")
+
+  // Members (stored as JSON for flexibility)
+  votingMembers    Json? @map("voting_members") @db.JsonB
+  nonVotingMembers Json? @map("non_voting_members") @db.JsonB
+  advisors         Json? @db.JsonB
+
+  // Authority
+  approvalAuthority Json? @map("approval_authority") @db.JsonB
+
+  // Status
+  status String @default("active") @db.VarChar(20)
+
+  // Audit
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  // Metadata
+  metadata Json? @db.JsonB
+
+  @@index([tenantId])
+  @@index([type])
+  @@index([status])
+  @@unique([tenantId, code])
+  @@map("committees")
+}
+
+// Case Model
+model Case {
+  id       String @id @default(cuid())
+  tenantId String @map("tenant_id")
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  // Metadata
+  caseNumber  String  @unique @map("case_number") @db.VarChar(50)
+  title       String  @db.VarChar(200)
+  description String? @db.Text
+  caseType    String  @map("case_type") @db.VarChar(50)
+  priority    String  @default("MEDIUM") @db.VarChar(20)
+  status      String  @default("NEW") @db.VarChar(20)
+
+  // Assignment
+  assignedTo   String?   @map("assigned_to") @db.VarChar(200)
+  committeeId  String?   @map("committee_id")
+
+  // Submitter
+  submittedBy  String    @map("submitted_by") @db.VarChar(200)
+  submittedAt  DateTime  @default(now()) @map("submitted_at")
+
+  // Financial Impact
+  financialImpact     Decimal? @map("financial_impact") @db.Decimal(12, 2)
+  financialImpactType String?  @map("financial_impact_type") @db.VarChar(50)
+
+  // Resolution
+  resolvedBy  String?   @map("resolved_by") @db.VarChar(200)
+  resolvedAt  DateTime? @map("resolved_at")
+  resolution  String?   @db.Text
+
+  // SLA
+  slaDeadline      DateTime? @map("sla_deadline")
+  businessDaysUsed Int?      @map("business_days_used")
+  isOverdue        Boolean   @default(false) @map("is_overdue")
+
+  // Timeline (stored as JSON array)
+  timeline Json? @db.JsonB
+
+  // Attachments
+  attachments Json? @db.JsonB
+
+  // Audit
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  // Metadata
+  metadata Json? @db.JsonB
+
+  @@index([tenantId])
+  @@index([caseType])
+  @@index([status])
+  @@index([priority])
+  @@index([assignedTo])
+  @@index([submittedAt])
+  @@map("cases")
 }

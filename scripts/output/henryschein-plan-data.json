@@ -1,0 +1,394 @@
+{
+  "metadata": {
+    "source": "/Users/toddlebaron/dev__archive_20251219_1518/clients/HenrySchien/Analysis/Comp Analysis/workbooks/master/BHG_01_HS_Comp_Plan_Analysis_FINAL.xlsx",
+    "extractionDate": "1766437300.250798",
+    "totalPlans": 11,
+    "totalPolicyAreas": 15
+  },
+  "policyAreas": [
+    "Plan Levels / Pay Mix Stated",
+    "Performance-to-Plan Premium (exclusions for Federal/Fixed)",
+    "Quarterly True-Up / Mid-Quarter Calc",
+    "Clinical Lab Shared Credit (Service Owner 15% / Non 10%)",
+    "Account Transitions w/ Pre-Qtr Timing + Split Credits",
+    "Recoverable / Non-Recoverable Draw Rules",
+    "AR Deduction / 150-Day Earned Window",
+    "Freight / Delivery Services Treatment",
+    "LOA Quota Proration + Credit Cutoff",
+    "SPIFF Policy Reference / Lease Points",
+    "DocuSign Acknowledgment Required",
+    "Plan Modification & At-Will Language",
+    "Un-forecasted Deal Policy / CRO Approval",
+    "Invoice SKU Commission Cap (Federal/Fixed)",
+    "Territory Movement Governance & Quota Adjustments"
+  ],
+  "plans": [
+    {
+      "planName": "MED_STD",
+      "policyCoverage": {
+        "Plan Levels / Pay Mix Stated": "FULL",
+        "Performance-to-Plan Premium (exclusions for Federal/Fixed)": "FULL",
+        "Quarterly True-Up / Mid-Quarter Calc": "FULL",
+        "Clinical Lab Shared Credit (Service Owner 15% / Non 10%)": "FULL",
+        "Account Transitions w/ Pre-Qtr Timing + Split Credits": "FULL",
+        "Recoverable / Non-Recoverable Draw Rules": "FULL",
+        "AR Deduction / 150-Day Earned Window": "FULL",
+        "Freight / Delivery Services Treatment": "LIMITED",
+        "LOA Quota Proration + Credit Cutoff": "LIMITED",
+        "SPIFF Policy Reference / Lease Points": "FULL",
+        "DocuSign Acknowledgment Required": "LIMITED",
+        "Plan Modification & At-Will Language": "LIMITED",
+        "Un-forecasted Deal Policy / CRO Approval": "LIMITED",
+        "Invoice SKU Commission Cap (Federal/Fixed)": "FULL",
+        "Territory Movement Governance & Quota Adjustments": "LIMITED"
+      }
+    },
+    {
+      "planName": "MED_CA_ENH",
+      "policyCoverage": {
+        "Plan Levels / Pay Mix Stated": "FULL",
+        "Performance-to-Plan Premium (exclusions for Federal/Fixed)": "FULL",
+        "Quarterly True-Up / Mid-Quarter Calc": "FULL",
+        "Clinical Lab Shared Credit (Service Owner 15% / Non 10%)": "FULL",
+        "Account Transitions w/ Pre-Qtr Timing + Split Credits": "FULL",
+        "Recoverable / Non-Recoverable Draw Rules": "FULL",
+        "AR Deduction / 150-Day Earned Window": "FULL",
+        "Freight / Delivery Services Treatment": "LIMITED",
+        "LOA Quota Proration + Credit Cutoff": "LIMITED",
+        "SPIFF Policy Reference / Lease Points": "FULL",
+        "DocuSign Acknowledgment Required": "LIMITED",
+        "Plan Modification & At-Will Language": "LIMITED",
+        "Un-forecasted Deal Policy / CRO Approval": "LIMITED",
+        "Invoice SKU Commission Cap (Federal/Fixed)": "FULL",
+        "Territory Movement Governance & Quota Adjustments": "LIMITED"
+      }
+    },
+    {
+      "planName": "MED_CA_CONCUR",
+      "policyCoverage": {
+        "Plan Levels / Pay Mix Stated": "FULL",
+        "Performance-to-Plan Premium (exclusions for Federal/Fixed)": "FULL",
+        "Quarterly True-Up / Mid-Quarter Calc": "FULL",
+        "Clinical Lab Shared Credit (Service Owner 15% / Non 10%)": "FULL",
+        "Account Transitions w/ Pre-Qtr Timing + Split Credits": "FULL",
+        "Recoverable / Non-Recoverable Draw Rules": "FULL",
+        "AR Deduction / 150-Day Earned Window": "FULL",
+        "Freight / Delivery Services Treatment": "LIMITED",
+        "LOA Quota Proration + Credit Cutoff": "LIMITED",
+        "SPIFF Policy Reference / Lease Points": "FULL",
+        "DocuSign Acknowledgment Required": "LIMITED",
+        "Plan Modification & At-Will Language": "LIMITED",
+        "Un-forecasted Deal Policy / CRO Approval": "LIMITED",
+        "Invoice SKU Commission Cap (Federal/Fixed)": "FULL",
+        "Territory Movement Governance & Quota Adjustments": "LIMITED"
+      }
+    },
+    {
+      "planName": "SURG_STD",
+      "policyCoverage": {
+        "Plan Levels / Pay Mix Stated": "FULL",
+        "Performance-to-Plan Premium (exclusions for Federal/Fixed)": "FULL",
+        "Quarterly True-Up / Mid-Quarter Calc": "FULL",
+        "Clinical Lab Shared Credit (Service Owner 15% / Non 10%)": "NO",
+        "Account Transitions w/ Pre-Qtr Timing + Split Credits": "FULL",
+        "Recoverable / Non-Recoverable Draw Rules": "FULL",
+        "AR Deduction / 150-Day Earned Window": "FULL",
+        "Freight / Delivery Services Treatment": "LIMITED",
+        "LOA Quota Proration + Credit Cutoff": "LIMITED",
+        "SPIFF Policy Reference / Lease Points": "FULL",
+        "DocuSign Acknowledgment Required": "LIMITED",
+        "Plan Modification & At-Will Language": "LIMITED",
+        "Un-forecasted Deal Policy / CRO Approval": "LIMITED",
+        "Invoice SKU Commission Cap (Federal/Fixed)": "NO",
+        "Territory Movement Governance & Quota Adjustments": "LIMITED"
+      }
+    },
+    {
+      "planName": "SURG_CA_ENH",
+      "policyCoverage": {
+        "Plan Levels / Pay Mix Stated": "FULL",
+        "Performance-to-Plan Premium (exclusions for Federal/Fixed)": "FULL",
+        "Quarterly True-Up / Mid-Quarter Calc": "FULL",
+        "Clinical Lab Shared Credit (Service Owner 15% / Non 10%)": "NO",
+        "Account Transitions w/ Pre-Qtr Timing + Split Credits": "FULL",
+        "Recoverable / Non-Recoverable Draw Rules": "FULL",
+        "AR Deduction / 150-Day Earned Window": "FULL",
+        "Freight / Delivery Services Treatment": "LIMITED",
+        "LOA Quota Proration + Credit Cutoff": "LIMITED",
+        "SPIFF Policy Reference / Lease Points": "FULL",
+        "DocuSign Acknowledgment Required": "LIMITED",
+        "Plan Modification & At-Will Language": "LIMITED",
+        "Un-forecasted Deal Policy / CRO Approval": "LIMITED",
+        "Invoice SKU Commission Cap (Federal/Fixed)": "NO",
+        "Territory Movement Governance & Quota Adjustments": "LIMITED"
+      }
+    },
+    {
+      "planName": "SURG_ANNUAL_BONUS",
+      "policyCoverage": {
+        "Plan Levels / Pay Mix Stated": "FULL",
+        "Performance-to-Plan Premium (exclusions for Federal/Fixed)": "NO",
+        "Quarterly True-Up / Mid-Quarter Calc": "NO",
+        "Clinical Lab Shared Credit (Service Owner 15% / Non 10%)": "NO",
+        "Account Transitions w/ Pre-Qtr Timing + Split Credits": "NO",
+        "Recoverable / Non-Recoverable Draw Rules": "NO",
+        "AR Deduction / 150-Day Earned Window": "NO",
+        "Freight / Delivery Services Treatment": "NO",
+        "LOA Quota Proration + Credit Cutoff": "NO",
+        "SPIFF Policy Reference / Lease Points": "FULL",
+        "DocuSign Acknowledgment Required": "FULL",
+        "Plan Modification & At-Will Language": "FULL",
+        "Un-forecasted Deal Policy / CRO Approval": "NO",
+        "Invoice SKU Commission Cap (Federal/Fixed)": "NO",
+        "Territory Movement Governance & Quota Adjustments": "NO"
+      }
+    },
+    {
+      "planName": "DENTAL_FSC",
+      "policyCoverage": {
+        "Plan Levels / Pay Mix Stated": "FULL",
+        "Performance-to-Plan Premium (exclusions for Federal/Fixed)": "LIMITED",
+        "Quarterly True-Up / Mid-Quarter Calc": "FULL",
+        "Clinical Lab Shared Credit (Service Owner 15% / Non 10%)": "NO",
+        "Account Transitions w/ Pre-Qtr Timing + Split Credits": "FULL",
+        "Recoverable / Non-Recoverable Draw Rules": "LIMITED",
+        "AR Deduction / 150-Day Earned Window": "LIMITED",
+        "Freight / Delivery Services Treatment": "FULL",
+        "LOA Quota Proration + Credit Cutoff": "LIMITED",
+        "SPIFF Policy Reference / Lease Points": "FULL",
+        "DocuSign Acknowledgment Required": "LIMITED",
+        "Plan Modification & At-Will Language": "LIMITED",
+        "Un-forecasted Deal Policy / CRO Approval": "LIMITED",
+        "Invoice SKU Commission Cap (Federal/Fixed)": "NO",
+        "Territory Movement Governance & Quota Adjustments": "FULL"
+      }
+    },
+    {
+      "planName": "ISC_ANNUAL",
+      "policyCoverage": {
+        "Plan Levels / Pay Mix Stated": "FULL",
+        "Performance-to-Plan Premium (exclusions for Federal/Fixed)": "NO",
+        "Quarterly True-Up / Mid-Quarter Calc": "NO",
+        "Clinical Lab Shared Credit (Service Owner 15% / Non 10%)": "NO",
+        "Account Transitions w/ Pre-Qtr Timing + Split Credits": "NO",
+        "Recoverable / Non-Recoverable Draw Rules": "NO",
+        "AR Deduction / 150-Day Earned Window": "NO",
+        "Freight / Delivery Services Treatment": "NO",
+        "LOA Quota Proration + Credit Cutoff": "LIMITED",
+        "SPIFF Policy Reference / Lease Points": "FULL",
+        "DocuSign Acknowledgment Required": "LIMITED",
+        "Plan Modification & At-Will Language": "LIMITED",
+        "Un-forecasted Deal Policy / CRO Approval": "LIMITED",
+        "Invoice SKU Commission Cap (Federal/Fixed)": "NO",
+        "Territory Movement Governance & Quota Adjustments": "NO"
+      }
+    },
+    {
+      "planName": "MED_ISC_ADDITIONAL",
+      "policyCoverage": {
+        "Plan Levels / Pay Mix Stated": "FULL",
+        "Performance-to-Plan Premium (exclusions for Federal/Fixed)": "NO",
+        "Quarterly True-Up / Mid-Quarter Calc": "NO",
+        "Clinical Lab Shared Credit (Service Owner 15% / Non 10%)": "NO",
+        "Account Transitions w/ Pre-Qtr Timing + Split Credits": "NO",
+        "Recoverable / Non-Recoverable Draw Rules": "NO",
+        "AR Deduction / 150-Day Earned Window": "NO",
+        "Freight / Delivery Services Treatment": "NO",
+        "LOA Quota Proration + Credit Cutoff": "LIMITED",
+        "SPIFF Policy Reference / Lease Points": "FULL",
+        "DocuSign Acknowledgment Required": "LIMITED",
+        "Plan Modification & At-Will Language": "LIMITED",
+        "Un-forecasted Deal Policy / CRO Approval": "LIMITED",
+        "Invoice SKU Commission Cap (Federal/Fixed)": "NO",
+        "Territory Movement Governance & Quota Adjustments": "NO"
+      }
+    },
+    {
+      "planName": "Notes",
+      "policyCoverage": {
+        "Plan Levels / Pay Mix Stated": "NO",
+        "Performance-to-Plan Premium (exclusions for Federal/Fixed)": "NO",
+        "Quarterly True-Up / Mid-Quarter Calc": "NO",
+        "Clinical Lab Shared Credit (Service Owner 15% / Non 10%)": "NO",
+        "Account Transitions w/ Pre-Qtr Timing + Split Credits": "NO",
+        "Recoverable / Non-Recoverable Draw Rules": "NO",
+        "AR Deduction / 150-Day Earned Window": "NO",
+        "Freight / Delivery Services Treatment": "NO",
+        "LOA Quota Proration + Credit Cutoff": "NO",
+        "SPIFF Policy Reference / Lease Points": "NO",
+        "DocuSign Acknowledgment Required": "NO",
+        "Plan Modification & At-Will Language": "NO",
+        "Un-forecasted Deal Policy / CRO Approval": "NO",
+        "Invoice SKU Commission Cap (Federal/Fixed)": "NO",
+        "Territory Movement Governance & Quota Adjustments": "NO"
+      }
+    },
+    {
+      "planName": "% Coverage by Policy Area",
+      "policyCoverage": {
+        "Plan Levels / Pay Mix Stated": "NO",
+        "Performance-to-Plan Premium (exclusions for Federal/Fixed)": "NO",
+        "Quarterly True-Up / Mid-Quarter Calc": "NO",
+        "Clinical Lab Shared Credit (Service Owner 15% / Non 10%)": "NO",
+        "Account Transitions w/ Pre-Qtr Timing + Split Credits": "NO",
+        "Recoverable / Non-Recoverable Draw Rules": "NO",
+        "AR Deduction / 150-Day Earned Window": "NO",
+        "Freight / Delivery Services Treatment": "NO",
+        "LOA Quota Proration + Credit Cutoff": "NO",
+        "SPIFF Policy Reference / Lease Points": "NO",
+        "DocuSign Acknowledgment Required": "NO",
+        "Plan Modification & At-Will Language": "NO",
+        "Un-forecasted Deal Policy / CRO Approval": "NO",
+        "Invoice SKU Commission Cap (Federal/Fixed)": "NO",
+        "Territory Movement Governance & Quota Adjustments": "NO"
+      }
+    }
+  ],
+  "coverageStats": {
+    "totalPolicyCoverage": {
+      "Plan Levels / Pay Mix Stated": {
+        "FULL": 9,
+        "LIMITED": 0,
+        "NO": 2
+      },
+      "Performance-to-Plan Premium (exclusions for Federal/Fixed)": {
+        "FULL": 5,
+        "LIMITED": 1,
+        "NO": 5
+      },
+      "Quarterly True-Up / Mid-Quarter Calc": {
+        "FULL": 6,
+        "LIMITED": 0,
+        "NO": 5
+      },
+      "Clinical Lab Shared Credit (Service Owner 15% / Non 10%)": {
+        "FULL": 3,
+        "LIMITED": 0,
+        "NO": 8
+      },
+      "Account Transitions w/ Pre-Qtr Timing + Split Credits": {
+        "FULL": 6,
+        "LIMITED": 0,
+        "NO": 5
+      },
+      "Recoverable / Non-Recoverable Draw Rules": {
+        "FULL": 5,
+        "LIMITED": 1,
+        "NO": 5
+      },
+      "AR Deduction / 150-Day Earned Window": {
+        "FULL": 5,
+        "LIMITED": 1,
+        "NO": 5
+      },
+      "Freight / Delivery Services Treatment": {
+        "FULL": 1,
+        "LIMITED": 5,
+        "NO": 5
+      },
+      "LOA Quota Proration + Credit Cutoff": {
+        "FULL": 0,
+        "LIMITED": 8,
+        "NO": 3
+      },
+      "SPIFF Policy Reference / Lease Points": {
+        "FULL": 9,
+        "LIMITED": 0,
+        "NO": 2
+      },
+      "DocuSign Acknowledgment Required": {
+        "FULL": 1,
+        "LIMITED": 8,
+        "NO": 2
+      },
+      "Plan Modification & At-Will Language": {
+        "FULL": 1,
+        "LIMITED": 8,
+        "NO": 2
+      },
+      "Un-forecasted Deal Policy / CRO Approval": {
+        "FULL": 0,
+        "LIMITED": 8,
+        "NO": 3
+      },
+      "Invoice SKU Commission Cap (Federal/Fixed)": {
+        "FULL": 3,
+        "LIMITED": 0,
+        "NO": 8
+      },
+      "Territory Movement Governance & Quota Adjustments": {
+        "FULL": 1,
+        "LIMITED": 5,
+        "NO": 5
+      }
+    },
+    "planCoveragePercentages": {
+      "MED_STD": {
+        "full": 9,
+        "limited": 6,
+        "no": 0,
+        "percentage": 80.0
+      },
+      "MED_CA_ENH": {
+        "full": 9,
+        "limited": 6,
+        "no": 0,
+        "percentage": 80.0
+      },
+      "MED_CA_CONCUR": {
+        "full": 9,
+        "limited": 6,
+        "no": 0,
+        "percentage": 80.0
+      },
+      "SURG_STD": {
+        "full": 7,
+        "limited": 6,
+        "no": 2,
+        "percentage": 66.7
+      },
+      "SURG_CA_ENH": {
+        "full": 7,
+        "limited": 6,
+        "no": 2,
+        "percentage": 66.7
+      },
+      "SURG_ANNUAL_BONUS": {
+        "full": 4,
+        "limited": 0,
+        "no": 11,
+        "percentage": 26.7
+      },
+      "DENTAL_FSC": {
+        "full": 6,
+        "limited": 7,
+        "no": 2,
+        "percentage": 63.3
+      },
+      "ISC_ANNUAL": {
+        "full": 2,
+        "limited": 4,
+        "no": 9,
+        "percentage": 26.7
+      },
+      "MED_ISC_ADDITIONAL": {
+        "full": 2,
+        "limited": 4,
+        "no": 9,
+        "percentage": 26.7
+      },
+      "Notes": {
+        "full": 0,
+        "limited": 0,
+        "no": 15,
+        "percentage": 0.0
+      },
+      "% Coverage by Policy Area": {
+        "full": 0,
+        "limited": 0,
+        "no": 15,
+        "percentage": 0.0
+      }
+    }
+  }
+}

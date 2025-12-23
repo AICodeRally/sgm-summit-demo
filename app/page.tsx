@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   FileTextIcon,
@@ -22,7 +23,29 @@ import {
   ReaderIcon,
 } from '@radix-ui/react-icons';
 
+interface HenryScheinData {
+  totalPlans: number;
+  averageCoverage: number;
+  criticalGaps: number;
+  riskExposure: number;
+  riskMitigation: number;
+}
+
 export default function SGMDashboard() {
+  const [henryScheinData, setHenryScheinData] = useState<HenryScheinData | null>(null);
+
+  useEffect(() => {
+    // Fetch Henry Schein data dynamically
+    fetch('/api/henryschein/gap-analysis')
+      .then((res) => res.json())
+      .then((data) => setHenryScheinData(data))
+      .catch((err) => console.error('Failed to load Henry Schein data:', err));
+  }, []);
+
+  const formatCurrency = (amount: number) => {
+    return `$${(amount / 1000000).toFixed(2)}M`;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50">
       {/* Hero Section */}
@@ -41,6 +64,43 @@ export default function SGMDashboard() {
 
       {/* Quick Stats */}
       <div className="max-w-7xl mx-auto px-6 py-12">
+        {/* Henry Schein Beta Client Banner */}
+        {henryScheinData && (
+          <Link href="/henryschein">
+            <div className="mb-8 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 rounded-xl p-8 hover:shadow-2xl transition-all cursor-pointer border-4 border-blue-400 group">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="px-3 py-1 bg-white text-blue-600 text-sm font-bold rounded-full">
+                      BETA CLIENT
+                    </span>
+                    <span className="text-white text-sm font-medium">
+                      Gap Analysis Ready
+                    </span>
+                  </div>
+                  <h2 className="text-4xl font-bold text-white mb-3">
+                    Henry Schein, Inc.
+                  </h2>
+                  <p className="text-blue-100 text-lg">
+                    {henryScheinData.totalPlans} Plans Analyzed | {henryScheinData.averageCoverage}% Avg Coverage | {henryScheinData.criticalGaps} Gaps Identified | {formatCurrency(henryScheinData.riskExposure)} Risk Exposure
+                  </p>
+                  <div className="mt-4 flex items-center gap-3 text-white font-medium group-hover:gap-4 transition-all">
+                    <span className="text-lg">View Gap Analysis Dashboard</span>
+                    <ArrowRightIcon className="w-5 h-5" />
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="bg-white/20 backdrop-blur-sm rounded-lg p-6">
+                    <p className="text-blue-100 text-sm mb-2">3-Year ROI</p>
+                    <p className="text-5xl font-bold text-white">1,867%</p>
+                    <p className="text-blue-100 text-xs mt-2">{formatCurrency(henryScheinData.riskMitigation)} benefit</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Link>
+        )}
+
         <div className="grid grid-cols-5 gap-6 mb-12">
           <div className="bg-white rounded-lg border border-purple-200 p-6 hover:shadow-lg hover:border-purple-300 transition-all">
             <div className="flex items-center justify-between">

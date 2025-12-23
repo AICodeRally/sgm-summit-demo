@@ -27,8 +27,17 @@ function validateSchemaParam(): boolean {
  * Guards:
  * - Requires DATABASE_URL with schema=sgm_summit_demo
  * - Throws if schema parameter is missing
+ * - Returns null if in synthetic mode (binding mode check)
  */
 export function getPrismaClient(): PrismaClient {
+  // Check if we're in synthetic mode - skip Prisma initialization
+  const bindingMode = process.env.BINDING_MODE || 'synthetic';
+  if (bindingMode === 'synthetic') {
+    throw new Error(
+      'Cannot access Prisma client in synthetic mode. Use in-memory providers instead.'
+    );
+  }
+
   if (!process.env.DATABASE_URL) {
     throw new Error(
       'DATABASE_URL is required for live binding mode. Set BINDING_MODE=synthetic to use in-memory providers.'
@@ -58,9 +67,19 @@ export function getPrismaClient(): PrismaClient {
 }
 
 /**
- * Export singleton instance (lazy-loaded)
+ * Export singleton instance (lazy-loaded via getter)
+ * This ensures Prisma is only initialized when actually accessed
  */
-export const prisma = getPrismaClient();
+let _prismaInstance: PrismaClient | undefined;
+
+export const prisma = new Proxy({} as PrismaClient, {
+  get(target, prop) {
+    if (!_prismaInstance) {
+      _prismaInstance = getPrismaClient();
+    }
+    return (_prismaInstance as any)[prop];
+  },
+});
 
 /**
  * Disconnect helper for graceful shutdown

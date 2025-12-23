@@ -1,0 +1,91 @@
+Category,Readout Item,PPT Reference,Finding/Gap,Priority,Deliverable Type,Deliverable File Path,Implementation Phase,Status
+Executive Summary,Current State Assessment,Slide 1 - Executive Summary,200+ plans with minimal governance,CRITICAL,Assessment,07_ASSESSMENTS/GAP_ANALYSIS_CURRENT_STATE.docx,Immediate,Complete
+Executive Summary,Financial Exposure Analysis,Slide 1 - Executive Summary,$1.25M-$1.75M annual risk,HIGH,Assessment,07_ASSESSMENTS/COMPENSATION_PLAN_RISK_ANALYSIS.docx,Immediate,Complete
+Executive Summary,Operational Gaps,Slide 1 - Executive Summary,No CRB or exception process,CRITICAL,Assessment,07_ASSESSMENTS/GOVERNANCE_EXECUTIVE_SUMMARY.docx,Immediate,Complete
+Executive Summary,Compliance Risk,Slide 1 - Executive Summary,DOL and State wage law exposure,CRITICAL,Assessment,07_ASSESSMENTS/COMPLIANCE_AUDIT_CHECKLIST.docx,Immediate,Complete
+Framework,CRB Charter,Deliverables Package,Compensation Review Board governance,IMMEDIATE,Framework,01_FRAMEWORK_DOCUMENTS/COMP_REVIEW_BOARD_CHARTER.docx,Phase 1 (Month 1),Complete
+Framework,Governance Committee Charter,Deliverables Package,Overall governance structure,IMMEDIATE,Framework,01_FRAMEWORK_DOCUMENTS/GOVERNANCE_COMMITTEE_CHARTER.docx,Phase 1 (Month 1),Complete
+Framework,Segregation of Duties Matrix,Deliverables Package,Fraud prevention controls,HIGH,Framework,01_FRAMEWORK_DOCUMENTS/SEGREGATION_OF_DUTIES_MATRIX.docx,Phase 1 (Month 1),Complete
+Framework,Standard Taxonomy Dictionary,Deliverables Package,Consistent terminology,MEDIUM,Framework,01_FRAMEWORK_DOCUMENTS/STANDARD_TAXONOMY_DICTIONARY.docx,Phase 1 (Month 2),Complete
+Framework,Access Controls Framework,Deliverables Package,Data security controls,HIGH,Framework,01_FRAMEWORK_DOCUMENTS/ACCESS_CONTROLS_FRAMEWORK.docx,Phase 1 (Month 2),Complete
+Framework,Stakeholder Communication Framework,Deliverables Package,Communication protocols,MEDIUM,Framework,01_FRAMEWORK_DOCUMENTS/STAKEHOLDER_COMMUNICATION_FRAMEWORK.docx,Phase 2 (Month 4),Complete
+Framework,Plan Document Template,Deliverables Package,Standardized plan documentation,HIGH,Framework,01_FRAMEWORK_DOCUMENTS/PLAN_DOCUMENT_TEMPLATE.docx,Phase 1 (Month 1),Complete
+Policy - Finalized,Sales Crediting Policy,Deliverables Package,Commission crediting rules,HIGH,Policy,02_POLICIES/SALES_CREDITING_POLICY.docx,Phase 2 (Month 4),Finalized
+Policy - Finalized,Termination Policy,Deliverables Package,Post-termination commission treatment,HIGH,Policy,02_POLICIES/TERMINATION_POLICY.docx,Phase 2 (Month 4),Finalized
+Policy - Finalized,Payment Timing Policy,Deliverables Package,When commissions are paid,MEDIUM,Policy,02_POLICIES/PAYMENT_TIMING_POLICY.docx,Phase 2 (Month 4),Finalized
+Policy - Finalized,Mid-Period Change Policy,Deliverables Package,Plan changes during period,HIGH,Policy,02_POLICIES/MID_PERIOD_CHANGE_POLICY.docx,Phase 2 (Month 4),Finalized
+Policy - Finalized,Leave of Absence Policy,Deliverables Package,Commission treatment during LOA,MEDIUM,Policy,02_POLICIES/LEAVE_OF_ABSENCE_POLICY.docx,Phase 2 (Month 5),Finalized
+Policy - Finalized,Draws & Guarantees Policy,Deliverables Package,Advance payment rules,MEDIUM,Policy,02_POLICIES/DRAWS_AND_GUARANTEES_POLICY.docx,Phase 2 (Month 5),Finalized
+Policy - Finalized,Data Retention Policy,Deliverables Package,Commission data retention requirements,HIGH,Policy,02_POLICIES/DATA_RETENTION_POLICY.docx,Phase 2 (Month 4),Finalized
+Policy - Finalized,Cap & Threshold Guidelines,Deliverables Package,Maximum payment limits,HIGH,Policy,02_POLICIES/CAP_AND_THRESHOLD_GUIDELINES.docx,Phase 1 (Month 2),Finalized
+Policy - Finalized,Standard Terms and Conditions,Deliverables Package,Universal plan terms,MEDIUM,Policy,02_POLICIES/STANDARD_TERMS_AND_CONDITIONS.docx,Phase 2 (Month 4),Finalized
+Policy - Finalized,Version Control Policy,Deliverables Package,Plan change documentation,HIGH,Policy,02_POLICIES/VERSION_CONTROL_POLICY.docx,Phase 1 (Month 3),Finalized
+Policy - DRAFT,Clawback and Recovery Policy,Deliverables Package,Commission recovery procedures,HIGH,Policy,02_POLICIES/DRAFT_FOR_REVIEW/CLAWBACK_AND_RECOVERY_POLICY_DRAFT.docx,Phase 1 (Month 3),Draft - Needs Review
+Policy - DRAFT,Quota Management Policy,Deliverables Package,Quota setting and management,MEDIUM,Policy,02_POLICIES/DRAFT_FOR_REVIEW/QUOTA_MANAGEMENT_POLICY_DRAFT.docx,Phase 2 (Month 5),Draft - Needs Review
+Policy - DRAFT,Section 409A Compliance Policy,Deliverables Package,IRS deferred compensation compliance,CRITICAL,Policy,02_POLICIES/DRAFT_FOR_REVIEW/SECTION_409A_COMPLIANCE_POLICY_DRAFT.docx,Phase 1 (Month 2),Draft - Needs Review
+Policy - DRAFT,SPIF Governance Policy,Deliverables Package,Sales incentive fund controls,MEDIUM,Policy,02_POLICIES/DRAFT_FOR_REVIEW/SPIF_GOVERNANCE_POLICY_DRAFT.docx,Phase 2 (Month 6),Draft - Needs Review
+Policy - DRAFT,State Wage Law Compliance Policy,Deliverables Package,Multi-state compliance requirements,CRITICAL,Policy,02_POLICIES/DRAFT_FOR_REVIEW/STATE_WAGE_LAW_COMPLIANCE_POLICY_DRAFT.docx,Phase 1 (Month 2),Draft - Needs Review
+Policy - DRAFT,Windfall/Large Deal Policy,Deliverables Package,Controls for unusually large commissions,CRITICAL,Policy,02_POLICIES/DRAFT_FOR_REVIEW/WINDFALL_LARGE_DEAL_POLICY_DRAFT.docx,Phase 1 (Week 2),Draft - Needs Review
+Procedure,Dispute Resolution Procedures,Deliverables Package,Formal dispute escalation process,HIGH,Procedure,03_PROCEDURES/DISPUTE_RESOLUTION_PROCEDURES.docx,Phase 1 (Month 3),Complete
+Procedure,Exception Request Process,Deliverables Package,Standardized exception workflow,IMMEDIATE,Procedure,03_PROCEDURES/EXCEPTION_REQUEST_PROCESS.docx,Phase 1 (Week 1),Complete
+Procedure,New Hire Onboarding Process,Deliverables Package,Commission plan enrollment,MEDIUM,Procedure,03_PROCEDURES/NEW_HIRE_ONBOARDING_PROCESS.docx,Phase 2 (Month 5),Complete
+Procedure,Quota Setting Procedures,Deliverables Package,Annual quota process,MEDIUM,Procedure,03_PROCEDURES/QUOTA_SETTING_PROCEDURES.docx,Phase 2 (Month 5),Complete
+Procedure,Territory Change Procedures,Deliverables Package,Territory reassignment process,MEDIUM,Procedure,03_PROCEDURES/TERRITORY_CHANGE_PROCEDURES.docx,Phase 2 (Month 5),Complete
+Procedure,Transfer/Promotion Procedures,Deliverables Package,Role change commission treatment,MEDIUM,Procedure,03_PROCEDURES/TRANSFER_PROMOTION_PROCEDURES.docx,Phase 2 (Month 5),Complete
+Procedure,Reconciliation Procedures,Deliverables Package,Commission calculation validation,HIGH,Procedure,03_PROCEDURES/RECONCILIATION_PROCEDURES.docx,Phase 1 (Month 3),Complete
+Procedure,Calculation Documentation Standard,Deliverables Package,How to document calculations,HIGH,Procedure,03_PROCEDURES/CALCULATION_DOCUMENTATION_STANDARD.docx,Phase 1 (Month 2),Complete
+Procedure,Crediting Rules Documentation,Deliverables Package,Sales credit assignment rules,MEDIUM,Procedure,03_PROCEDURES/CREDITING_RULES_DOCUMENTATION.docx,Phase 2 (Month 4),Complete
+Procedure,Pre-Payment Validation Checklist,Deliverables Package,Payment quality control,HIGH,Procedure,03_PROCEDURES/PRE_PAYMENT_VALIDATION_CHECKLIST.docx,Phase 1 (Month 3),Complete
+Template,Plan Summary Template,Deliverables Package,Standard plan overview format,MEDIUM,Template,04_TEMPLATES/01_PLAN_SUMMARY_TEMPLATE.docx,Phase 2 (Month 4),Complete
+Template,CRB Meeting Agenda Template,Deliverables Package,Standardized CRB meeting format,IMMEDIATE,Template,04_TEMPLATES/02_CRB_MEETING_AGENDA_TEMPLATE.docx,Phase 1 (Week 1),Complete
+Template,Governance Committee Agenda Template,Deliverables Package,Committee meeting format,MEDIUM,Template,04_TEMPLATES/03_GOVERNANCE_COMMITTEE_MEETING_AGENDA_TEMPLATE.docx,Phase 1 (Month 2),Complete
+Template,Meeting Minutes Template,Deliverables Package,Documentation of decisions,HIGH,Template,04_TEMPLATES/04_MEETING_MINUTES_TEMPLATE.docx,Phase 1 (Week 1),Complete
+Template,Decision Log Template,Deliverables Package,Audit trail of approvals,HIGH,Template,04_TEMPLATES/05_DECISION_LOG_TEMPLATE.docx,Phase 1 (Week 1),Complete
+Template,CRB Submission Template,Deliverables Package,Exception request form,IMMEDIATE,Template,04_TEMPLATES/06_CRB_SUBMISSION_TEMPLATE.docx,Phase 1 (Week 1),Complete
+Template,Plan Announcement Template,Deliverables Package,Plan communication format,MEDIUM,Template,04_TEMPLATES/07_PLAN_ANNOUNCEMENT_TEMPLATE.docx,Phase 2 (Month 4),Complete
+Template,FAQ Template,Deliverables Package,Participant questions format,MEDIUM,Template,04_TEMPLATES/08_FAQ_TEMPLATE.docx,Phase 2 (Month 4),Complete
+Template,Access Request Form Template,Deliverables Package,System access request,MEDIUM,Template,04_TEMPLATES/09_ACCESS_REQUEST_FORM_TEMPLATE.docx,Phase 2 (Month 4),Complete
+Template,New Plan Checklist Template,Deliverables Package,New plan launch checklist,HIGH,Template,04_TEMPLATES/10_NEW_PLAN_CHECKLIST_TEMPLATE.docx,Phase 2 (Month 4),Complete
+Template,Plan Sunset Checklist Template,Deliverables Package,Plan termination checklist,MEDIUM,Template,04_TEMPLATES/11_PLAN_SUNSET_CHECKLIST_TEMPLATE.docx,Phase 2 (Month 6),Complete
+Template,Quarterly Review Template,Deliverables Package,Governance review format,MEDIUM,Template,04_TEMPLATES/12_QUARTERLY_REVIEW_TEMPLATE.docx,Phase 3 (Month 9),Complete
+Supporting Doc,Governance Implementation Checklist,Deliverables Package,Master implementation tracker,HIGH,Checklist,05_CHECKLISTS/GOVERNANCE_IMPLEMENTATION_CHECKLIST.xlsx,Phase 1 (Week 1),Complete
+Supporting Doc,Implementation Guide,Deliverables Package,How to deploy the framework,HIGH,User Guide,06_USER_GUIDES/00_IMPLEMENTATION_GUIDE.docx,Phase 1 (Week 1),Complete
+Supporting Doc,Checklist User Guide,Deliverables Package,How to use implementation checklist,MEDIUM,User Guide,06_USER_GUIDES/01_CHECKLIST_USER_GUIDE.docx,Phase 1 (Week 2),Complete
+Assessment,Governance Executive Summary,Executive Summary,Overall governance findings,CRITICAL,Assessment,07_ASSESSMENTS/GOVERNANCE_EXECUTIVE_SUMMARY.docx,Immediate,Complete
+Assessment,Executive Presentation,Full Readout Deck,Complete 44-slide presentation,CRITICAL,Assessment,07_ASSESSMENTS/EXECUTIVE_PRESENTATION.docx,Immediate,Complete
+Assessment,Executive Readout Deck (MD),Full Readout Deck,Markdown version of presentation,CRITICAL,Assessment,07_ASSESSMENTS/EXECUTIVE_READOUT_DECK.md,Immediate,Complete
+Assessment,Gap Analysis - Current State,Appendix B,8 critical governance gaps identified,CRITICAL,Assessment,07_ASSESSMENTS/GAP_ANALYSIS_CURRENT_STATE.docx,Immediate,Complete
+Assessment,Compensation Plan Risk Analysis,Risk Matrix Section,$1.25M-$1.75M exposure quantified,CRITICAL,Assessment,07_ASSESSMENTS/COMPENSATION_PLAN_RISK_ANALYSIS.docx,Immediate,Complete
+Assessment,Compliance Audit Checklist,Compliance Section,DOL and state wage law compliance,CRITICAL,Assessment,07_ASSESSMENTS/COMPLIANCE_AUDIT_CHECKLIST.docx,Immediate,Complete
+Assessment,Validation Report,Confidence Scoring Section,95% confidence validation,HIGH,Assessment,07_ASSESSMENTS/VALIDATION_REPORT.md,Immediate,Complete
+Assessment,International Governance Addendum,International Section,22-country governance analysis,CRITICAL,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md,Immediate,Complete
+Assessment,Top 10 International Risks,International Section,Priority country risks detailed,CRITICAL,Assessment,07_ASSESSMENTS/TOP_10_INTERNATIONAL_RISKS_DETAILED.md,Immediate,Complete
+Critical Gap #1,No Compensation Review Board,Appendix B,No formal governance body,CRITICAL,Multiple,"01_FRAMEWORK_DOCUMENTS/COMP_REVIEW_BOARD_CHARTER.docx, 04_TEMPLATES/02_CRB_MEETING_AGENDA_TEMPLATE.docx",Phase 1 (Week 1),Complete
+Critical Gap #2,No Exception Management Process,Appendix B,No standardized exception workflow,CRITICAL,Multiple,"03_PROCEDURES/EXCEPTION_REQUEST_PROCESS.docx, 04_TEMPLATES/06_CRB_SUBMISSION_TEMPLATE.docx",Phase 1 (Week 1),Complete
+Critical Gap #3,No Windfall/Large Deal Policy,Appendix B,Exposure to $500K+ overpayments,CRITICAL,Multiple,"02_POLICIES/DRAFT_FOR_REVIEW/WINDFALL_LARGE_DEAL_POLICY_DRAFT.docx, 02_POLICIES/CAP_AND_THRESHOLD_GUIDELINES.docx",Phase 1 (Week 2),Draft
+Critical Gap #4,Inadequate Documentation,Appendix B,No version control or standards,HIGH,Multiple,"01_FRAMEWORK_DOCUMENTS/PLAN_DOCUMENT_TEMPLATE.docx, 02_POLICIES/VERSION_CONTROL_POLICY.docx",Phase 1 (Month 2),Complete
+Critical Gap #5,No State Wage Law Compliance,Appendix B,Multi-state compliance gaps,CRITICAL,Multiple,"02_POLICIES/DRAFT_FOR_REVIEW/STATE_WAGE_LAW_COMPLIANCE_POLICY_DRAFT.docx, 07_ASSESSMENTS/COMPLIANCE_AUDIT_CHECKLIST.docx",Phase 1 (Month 2),Draft
+Critical Gap #6,Missing International Governance,Appendix B,22 countries with no controls,CRITICAL,Assessment,"07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md, 07_ASSESSMENTS/TOP_10_INTERNATIONAL_RISKS_DETAILED.md",Immediate,Complete
+Critical Gap #7,No Segregation of Duties,Appendix B,Fraud risk exposure,HIGH,Multiple,"01_FRAMEWORK_DOCUMENTS/SEGREGATION_OF_DUTIES_MATRIX.docx, 01_FRAMEWORK_DOCUMENTS/ACCESS_CONTROLS_FRAMEWORK.docx",Phase 1 (Month 2),Complete
+Critical Gap #8,Inadequate Dispute Resolution,Appendix B,Inconsistent dispute handling,HIGH,Procedure,03_PROCEDURES/DISPUTE_RESOLUTION_PROCEDURES.docx,Phase 1 (Month 3),Complete
+International - CRITICAL,Brazil Governance,International Section,Commission cannot be reduced once set,CRITICAL,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Brazil),Immediate,Complete
+International - CRITICAL,Italy Governance,International Section,Complex agent indemnity (FIRR/Enasarco),CRITICAL,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Italy),Immediate,Complete
+International - HIGH,France Governance,International Section,45-50% social charges on commissions,HIGH,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (France),Phase 1,Complete
+International - HIGH,Germany Governance,International Section,Works Council approval required,HIGH,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Germany),Phase 1,Complete
+International - HIGH,China Governance,International Section,Anti-bribery and 2024 Company Law,HIGH,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (China),Phase 1,Complete
+International - HIGH,Spain Governance,International Section,Commission integration in severance,HIGH,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Spain),Phase 1,Complete
+International - HIGH,Australia Governance,International Section,Fair Work Act 2024 changes,HIGH,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Australia),Phase 1,Complete
+International - MEDIUM,United Kingdom Governance,International Section,IR35 off-payroll rules,MEDIUM,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (UK),Phase 2,Complete
+International - MEDIUM,Hong Kong Governance,International Section,MPF offset abolition (May 2025),MEDIUM,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Hong Kong),Phase 2,Complete
+International - MEDIUM,Singapore Governance,International Section,CPF contribution requirements,MEDIUM,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Singapore),Phase 2,Complete
+International - MEDIUM,Canada Governance,International Section,Provincial variations,MEDIUM,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Canada),Phase 2,Complete
+International - MEDIUM,Netherlands Governance,International Section,CAO collective agreement compliance,MEDIUM,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Netherlands),Phase 2,Complete
+International - MEDIUM,Belgium Governance,International Section,Complex social security system,MEDIUM,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Belgium),Phase 2,Complete
+International - MEDIUM,Switzerland Governance,International Section,Canton-level variations,MEDIUM,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Switzerland),Phase 2,Complete
+International - MEDIUM,Austria Governance,International Section,Similar to Germany governance,MEDIUM,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Austria),Phase 2,Complete
+International - LOW,Sweden Governance,International Section,Strong union framework,LOW,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Sweden),Phase 3,Complete
+International - LOW,Ireland Governance,International Section,GDPR data privacy,LOW,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Ireland),Phase 3,Complete
+International - LOW,Poland Governance,International Section,Emerging requirements,LOW,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Poland),Phase 3,Complete
+International - LOW,New Zealand Governance,International Section,Similar to Australia framework,LOW,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (New Zealand),Phase 3,Complete
+International - LOW,Thailand Governance,International Section,Basic compliance,LOW,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (Thailand),Phase 3,Complete
+International - LOW,South Africa Governance,International Section,Basic Employment Equity,LOW,Assessment,07_ASSESSMENTS/INTERNATIONAL_GOVERNANCE_ADDENDUM.md (South Africa),Phase 3,Complete

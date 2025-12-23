@@ -20,11 +20,13 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@next-auth/prisma-adapter": "^1.0.7",
     "@prisma/adapter-pg": "^7.1.0",
     "@radix-ui/react-icons": "^1.3.2",
     "@rally/ai-clients": "file:../aicoderally-stack/packages/ai-clients",
     "@rally/ai-contracts": "file:../aicoderally-stack/packages/ai-contracts",
     "@rally/app-shell": "file:../aicoderally-stack/packages/app-shell",
+    "@rally/auth": "file:../aicoderally-stack/packages/auth",
     "@rally/blocks-ai": "file:../aicoderally-stack/packages/blocks-ai",
     "@rally/signal-bus": "file:../aicoderally-stack/packages/signal-bus",
     "@rally/telemetry": "file:../aicoderally-stack/packages/telemetry",
@@ -32,6 +34,7 @@
     "@types/pg": "^8.16.0",
     "date-fns": "^4.1.0",
     "next": "^16.0.10",
+    "next-auth": "^4.24.13",
     "pg": "^8.16.3",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
