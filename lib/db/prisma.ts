@@ -5,7 +5,7 @@
  * CRITICAL: DATABASE_URL must include &schema=sgm_summit_demo
  */
 
-import { PrismaClient } from '@prisma/client';
+type PrismaClient = any;
 
 declare global {
   // eslint-disable-next-line no-var
@@ -54,6 +54,12 @@ export function getPrismaClient(): PrismaClient {
   if (global.prisma) {
     return global.prisma;
   }
+
+  // Lazy-require to avoid build-time dependency on generated Prisma types.
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { PrismaClient } = require('@prisma/client') as {
+    PrismaClient: new (args?: Record<string, unknown>) => PrismaClient;
+  };
 
   const prisma = new PrismaClient({
     log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],

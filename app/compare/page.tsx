@@ -11,6 +11,7 @@ import {
   DotFilledIcon,
   ChevronRightIcon,
 } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 import {
   DOCUMENT_VERSIONS,
   VERSION_STATS,
@@ -59,7 +60,7 @@ export default function VersionComparePage() {
       case 'modification':
         return 'bg-yellow-50 border-yellow-200 text-yellow-900';
       default:
-        return 'bg-gray-50 border-gray-200 text-gray-900';
+        return 'bg-gray-50 border-purple-200 text-gray-900';
     }
   };
 
@@ -73,7 +74,7 @@ export default function VersionComparePage() {
       case 'modification':
         return 'bg-yellow-100 text-yellow-700 border-yellow-200';
       default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+        return 'bg-gray-100 text-gray-700 border-purple-200';
     }
   };
 
@@ -85,28 +86,33 @@ export default function VersionComparePage() {
       case 'IN_REVIEW':
         return 'bg-yellow-100 text-yellow-700 border-yellow-200';
       case 'DRAFT':
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+        return 'bg-gray-100 text-gray-700 border-purple-200';
       case 'ARCHIVED':
         return 'bg-red-100 text-red-700 border-red-200';
       default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+        return 'bg-gray-100 text-gray-700 border-purple-200';
     }
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
-      {/* Header */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-600 bg-clip-text text-transparent">
-                Version Compare
-              </h1>
-              <p className="text-sm text-gray-600 mt-1">
-                Side-by-side document version comparison
-              </p>
-            </div>
+    <>
+      <SetPageTitle
+        title="Version Compare"
+        description="Side-by-side document version comparison with highlighted changes"
+      />
+      <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
+        {/* Header */}
+        <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
+          <div className="max-w-7xl mx-auto px-6 py-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-600 bg-clip-text text-transparent">
+                  Version Compare
+                </h1>
+                <p className="text-sm text-gray-600 mt-1">
+                  Side-by-side document version comparison
+                </p>
+              </div>
             <div className="flex items-center gap-4 text-sm">
               <div className="bg-purple-100 px-3 py-1 rounded-full">
                 <span className="font-semibold text-purple-700">{VERSION_STATS.totalVersions}</span>
@@ -388,7 +394,7 @@ export default function VersionComparePage() {
                             {/* Old Text */}
                             {change.oldText && (
                               <div className={`p-3 rounded border ${
-                                change.type === 'deletion' ? getChangeColor('deletion') : 'bg-gray-50 border-gray-200'
+                                change.type === 'deletion' ? getChangeColor('deletion') : 'bg-gray-50 border-purple-200'
                               }`}>
                                 <p className="text-xs font-semibold text-gray-600 mb-1">Old Version</p>
                                 <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
@@ -419,6 +425,7 @@ export default function VersionComparePage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

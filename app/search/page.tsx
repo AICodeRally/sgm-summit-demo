@@ -3,6 +3,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { SetPageTitle } from '@/components/SetPageTitle';
 
 interface SearchResult {
   id: string;
@@ -87,9 +88,6 @@ function SearchContent() {
       {/* Header */}
       <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-600 bg-clip-text text-transparent">Search</h1>
-          <p className="text-gray-600 mt-1">Find documents across your governance system</p>
-
           {/* Search Form */}
           <form onSubmit={handleSearch} className="mt-6 flex gap-4">
             <input
@@ -140,7 +138,7 @@ function SearchContent() {
             <div className="space-y-4">
               {results.map(result => (
                 <Link key={result.id} href={`/documents/${result.id}`}>
-                  <div className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md hover:border-gray-300 transition-all cursor-pointer">
+                  <div className="bg-white rounded-lg border border-purple-200 p-6 hover:shadow-md hover:border-purple-300 transition-all cursor-pointer">
                     <div className="flex items-start gap-4">
                       <span className="text-3xl">{getDocumentIcon(result.documentType)}</span>
                       <div className="flex-1">
@@ -178,8 +176,14 @@ function SearchContent() {
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={<div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex items-center justify-center"><p>Loading...</p></div>}>
-      <SearchContent />
-    </Suspense>
+    <>
+      <SetPageTitle
+        title="Global Search"
+        description="Search across all documents, policies, and governance data"
+      />
+      <Suspense fallback={<div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex items-center justify-center"><p>Loading...</p></div>}>
+        <SearchContent />
+      </Suspense>
+    </>
   );
 }

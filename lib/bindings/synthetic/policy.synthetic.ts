@@ -7,19 +7,23 @@ import type {
 } from '@/lib/contracts/policy.contract';
 import { nextVersion } from '@/lib/contracts/policy.contract';
 import { syntheticPolicies } from '@/lib/data/synthetic';
+import { isDemoDataEnabled } from '@/lib/config/binding-config';
 
 /**
  * SyntheticPolicyProvider
  *
  * In-memory implementation of IPolicyPort for demo purposes.
  * Zero external dependencies - instant demo-ready.
+ *
+ * Demo data is loaded only if ENABLE_DEMO_DATA=true in environment.
  */
 export class SyntheticPolicyProvider implements IPolicyPort {
   private policies: Map<string, Policy>;
 
   constructor() {
-    // Load synthetic data into memory
-    this.policies = new Map(syntheticPolicies.map((p) => [p.id, p]));
+    // Load synthetic data into memory only if demo data is enabled
+    const demoEnabled = isDemoDataEnabled();
+    this.policies = new Map(demoEnabled ? syntheticPolicies.map((p) => [p.id, p]) : []);
   }
 
   /**

@@ -1,0 +1,180 @@
+{
+  "policies": [
+    {
+      "code": "SCP-001",
+      "name": "Clawback and Recovery Policy",
+      "category": "Financial Controls",
+      "framework_area": "Clawback/Recovery",
+      "status": "DRAFT",
+      "legal_review_required": true,
+      "file_path": "lib/data/policies/SCP-001.md",
+      "word_count": 1976
+    },
+    {
+      "code": "SCP-002",
+      "name": "Quota Management Policy",
+      "category": "Performance Management",
+      "framework_area": "Quota Management",
+      "status": "DRAFT",
+      "legal_review_required": true,
+      "file_path": "lib/data/policies/SCP-002.md",
+      "word_count": 2016
+    },
+    {
+      "code": "SCP-003",
+      "name": "Windfall and Large Deal Policy",
+      "category": "Deal Governance",
+      "framework_area": "Windfall/Large Deals",
+      "status": "DRAFT",
+      "legal_review_required": true,
+      "file_path": "lib/data/policies/SCP-003.md",
+      "word_count": 1800
+    },
+    {
+      "code": "SCP-004",
+      "name": "SPIF Governance Policy",
+      "category": "Incentive Programs",
+      "framework_area": "SPIF Governance",
+      "status": "DRAFT",
+      "legal_review_required": true,
+      "file_path": "lib/data/policies/SCP-004.md",
+      "word_count": 1728
+    },
+    {
+      "code": "SCP-005",
+      "name": "Section 409A Compliance Policy",
+      "category": "Legal Compliance",
+      "framework_area": "Compliance (409A, State Wage)",
+      "status": "DRAFT",
+      "legal_review_required": true,
+      "file_path": "lib/data/policies/SCP-005.md",
+      "word_count": 1939
+    },
+    {
+      "code": "SCP-006",
+      "name": "State Wage Law Compliance Policy",
+      "category": "Legal Compliance",
+      "framework_area": "Compliance (409A, State Wage)",
+      "status": "DRAFT",
+      "legal_review_required": true,
+      "file_path": "lib/data/policies/SCP-006.md",
+      "word_count": 2399
+    },
+    {
+      "code": "SCP-007",
+      "name": "Sales Crediting Policy",
+      "category": "Commission Rules",
+      "framework_area": "Sales Crediting",
+      "status": "TEMPLATE",
+      "legal_review_required": false,
+      "file_path": "lib/data/policies/SCP-007.md",
+      "word_count": 2519
+    },
+    {
+      "code": "SCP-008",
+      "name": "Draws and Guarantees Policy",
+      "category": "Financial Controls",
+      "framework_area": "Draws/Guarantees",
+      "status": "TEMPLATE",
+      "legal_review_required": false,
+      "file_path": "lib/data/policies/SCP-008.md",
+      "word_count": 2873
+    },
+    {
+      "code": "SCP-009",
+      "name": "Leave of Absence Policy",
+      "category": "HR Policies",
+      "framework_area": "Leave of Absence",
+      "status": "TEMPLATE",
+      "legal_review_required": false,
+      "file_path": "lib/data/policies/SCP-009.md",
+      "word_count": 2645
+    },
+    {
+      "code": "SCP-010",
+      "name": "Mid-Period Change Policy",
+      "category": "Plan Administration",
+      "framework_area": "Mid-Period Changes",
+      "status": "TEMPLATE",
+      "legal_review_required": false,
+      "file_path": "lib/data/policies/SCP-010.md",
+      "word_count": 2599
+    },
+    {
+      "code": "SCP-011",
+      "name": "Payment Timing Policy",
+      "category": "Payroll",
+      "framework_area": "Payment Timing",
+      "status": "TEMPLATE",
+      "legal_review_required": false,
+      "file_path": "lib/data/policies/SCP-011.md",
+      "word_count": 1672
+    },
+    {
+      "code": "SCP-012",
+      "name": "Termination and Final Pay Policy",
+      "category": "HR Policies",
+      "framework_area": "Termination/Final Pay",
+      "status": "TEMPLATE",
+      "legal_review_required": false,
+      "file_path": "lib/data/policies/SCP-012.md",
+      "word_count": 2708
+    },
+    {
+      "code": "SCP-013",
+      "name": "Data and Systems Controls Policy",
+      "category": "IT Governance",
+      "framework_area": "Data/Systems/Controls",
+      "status": "TEMPLATE",
+      "legal_review_required": false,
+      "file_path": "lib/data/policies/SCP-013.md",
+      "word_count": 1827
+    },
+    {
+      "code": "SCP-014",
+      "name": "Territory Management Guidelines",
+      "category": "Territory Rules",
+      "framework_area": "Territory Management",
+      "status": "TEMPLATE",
+      "legal_review_required": false,
+      "file_path": "lib/data/policies/SCP-014.md",
+      "word_count": 1396
+    },
+    {
+      "code": "SCP-015",
+      "name": "Exception and Dispute Resolution Policy",
+      "category": "Governance",
+      "framework_area": "Exceptions/Disputes",
+      "status": "TEMPLATE",
+      "legal_review_required": false,
+      "file_path": "lib/data/policies/SCP-015.md",
+      "word_count": 4259
+    },
+    {
+      "code": "SCP-016",
+      "name": "New Hire and Onboarding Policy",
+      "category": "HR Policies",
+      "framework_area": "New Hire/Onboarding",
+      "status": "TEMPLATE",
+      "legal_review_required": false,
+      "file_path": "lib/data/policies/SCP-016.md",
+      "word_count": 1615
+    },
+    {
+      "code": "SCP-017",
+      "name": "International Requirements Policy",
+      "category": "Legal Compliance",
+      "framework_area": "International Requirements",
+      "status": "TEMPLATE",
+      "legal_review_required": false,
+      "file_path": "lib/data/policies/SCP-017.md",
+      "word_count": 2766
+    }
+  ],
+  "metadata": {
+    "total_policies": 17,
+    "draft_policies": 6,
+    "template_policies": 11,
+    "extracted_date": "2026-01-08"
+  }
+}

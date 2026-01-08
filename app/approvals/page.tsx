@@ -14,20 +14,34 @@ import {
   ChatBubbleIcon,
   CalendarIcon,
 } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 import { ThreePaneWorkspace } from '@/components/workspace/ThreePaneWorkspace';
 import { APPROVAL_ITEMS, APPROVAL_STATS, CRB_WINDFALL_DECISIONS, type ApprovalItem } from '@/lib/data/synthetic/governance-approvals.data';
+import { DemoBadge, DemoHighlight } from '@/components/demo/DemoBadge';
+import { DemoToggle, DemoFilter, DemoWarningBanner } from '@/components/demo/DemoToggle';
 
 export default function ApprovalsPage() {
   const [selectedApproval, setSelectedApproval] = useState<ApprovalItem | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterCommittee, setFilterCommittee] = useState<string>('all');
+  const [demoFilter, setDemoFilter] = useState<DemoFilter>('all');
 
   // Filter approvals
   const filteredApprovals = APPROVAL_ITEMS.filter(approval => {
     if (filterStatus !== 'all' && approval.status !== filterStatus) return false;
     if (filterCommittee !== 'all' && approval.committee !== filterCommittee) return false;
+    // Demo filter
+    if (demoFilter === 'demo-only' && !approval.isDemo) return false;
+    if (demoFilter === 'real-only' && approval.isDemo) return false;
     return true;
   });
+
+  // Calculate demo counts
+  const demoCounts = {
+    total: APPROVAL_ITEMS.length,
+    demo: APPROVAL_ITEMS.filter(a => a.isDemo).length,
+    real: APPROVAL_ITEMS.filter(a => !a.isDemo).length,
+  };
 
   // Status badge styling
   const getStatusBadge = (status: string) => {
@@ -132,13 +146,35 @@ export default function ApprovalsPage() {
   // Center Content - Approval list
   const centerContent = (
     <div className="flex flex-col h-full">
+      {/* Demo Warning Banner */}
+      {demoCounts.demo > 0 && (
+        <div className="px-4 pt-4">
+          <DemoWarningBanner
+            demoCount={demoCounts.demo}
+            onViewDemoLibrary={() => window.location.href = '/demo-library'}
+          />
+        </div>
+      )}
+
       {/* Toolbar */}
       <div className="flex-none bg-white/90 backdrop-blur-sm border-b border-purple-200 px-4 py-3">
-        <h1 className="text-lg font-semibold text-gray-900 mb-2">Approval Queue</h1>
-        <div className="flex items-center gap-4 text-xs text-gray-500">
-          <span>{filteredApprovals.length} item{filteredApprovals.length !== 1 ? 's' : ''}</span>
-          {filterStatus !== 'all' && <span>• Status: {filterStatus.replace(/_/g, ' ')}</span>}
-          {filterCommittee !== 'all' && <span>• Committee: {filterCommittee}</span>}
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-4 text-xs text-gray-500">
+            <span>{filteredApprovals.length} item{filteredApprovals.length !== 1 ? 's' : ''}</span>
+            {filterStatus !== 'all' && <span>• Status: {filterStatus.replace(/_/g, ' ')}</span>}
+            {filterCommittee !== 'all' && <span>• Committee: {filterCommittee}</span>}
+            {demoFilter !== 'all' && (
+              <span className="text-orange-600 font-medium">
+                • Showing {demoFilter === 'demo-only' ? 'Demo Only' : 'Real Data Only'}
+              </span>
+            )}
+          </div>
+          <DemoToggle
+            value={demoFilter}
+            onChange={setDemoFilter}
+            counts={demoCounts}
+            mode="compact"
+          />
         </div>
       </div>
 
@@ -157,20 +193,23 @@ export default function ApprovalsPage() {
             const priorityStyle = getPriorityBadge(approval.priority);
 
             return (
-              <button
-                key={approval.id}
-                onClick={() => setSelectedApproval(approval)}
-                className={`w-full text-left px-4 py-4 hover:bg-gray-50 transition-colors ${
-                  selectedApproval?.id === approval.id ? 'bg-orange-50' : ''
-                }`}
-              >
-                <div className="flex items-start gap-3">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-semibold text-gray-900 truncate">
-                          {approval.title}
-                        </h3>
+              <DemoHighlight key={approval.id} isDemo={approval.isDemo}>
+                <button
+                  onClick={() => setSelectedApproval(approval)}
+                  className={`w-full text-left px-4 py-4 hover:bg-gray-50 transition-colors ${
+                    selectedApproval?.id === approval.id ? 'bg-orange-50' : ''
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-sm font-semibold text-gray-900 truncate">
+                              {approval.title}
+                            </h3>
+                            <DemoBadge isDemo={approval.isDemo} demoMetadata={approval.demoMetadata} size="sm" />
+                          </div>
                         <p className="text-xs text-gray-500 mt-0.5">
                           {approval.type} • {approval.committee}
                           {approval.documentCode && ` • ${approval.documentCode}`}
@@ -229,6 +268,7 @@ export default function ApprovalsPage() {
                   </div>
                 </div>
               </button>
+              </DemoHighlight>
             );
           })
         )}
@@ -416,13 +456,19 @@ export default function ApprovalsPage() {
   ) : null;
 
   return (
-    <div className="h-full">
-      <ThreePaneWorkspace
-        leftNav={leftNav}
-        centerContent={centerContent}
-        rightDetail={rightDetail}
-        showRightPane={!!selectedApproval}
+    <>
+      <SetPageTitle
+        title="Approvals Queue"
+        description="SGCC and CRB workflows with approval thresholds and SLA tracking"
       />
-    </div>
+      <div className="h-full">
+        <ThreePaneWorkspace
+          leftNav={leftNav}
+          centerContent={centerContent}
+          rightDetail={rightDetail}
+          showRightPane={!!selectedApproval}
+        />
+      </div>
+    </>
   );
 }

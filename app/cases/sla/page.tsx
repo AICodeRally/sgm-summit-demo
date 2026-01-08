@@ -12,6 +12,7 @@ import {
   LightningBoltIcon,
   InfoCircledIcon,
 } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 import { CASE_ITEMS } from '@/lib/data/synthetic/cases.data';
 import {
   calculateCaseSLA,
@@ -79,19 +80,15 @@ export default function CaseSLAPage() {
   }, [assignees]);
 
   return (
-    <div className="h-screen flex flex-col bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 overflow-hidden">
-      {/* Header */}
-      <div className="flex-none bg-white/90 backdrop-blur-sm border-b border-purple-200 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-600 bg-clip-text text-transparent">
-              Case SLA Management & Load Optimization
-            </h1>
-            <p className="text-sm text-gray-600 mt-1">
-              Monitor SLA compliance and optimize case assignments
-            </p>
-          </div>
-          <div className="flex items-center gap-4">
+    <>
+      <SetPageTitle
+        title="Case SLA & Load Management"
+        description="SLA tracking, compliance monitoring, and workload optimization"
+      />
+      <div className="h-screen flex flex-col bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 overflow-hidden">
+        {/* Stats Bar */}
+        <div className="flex-none bg-white/90 backdrop-blur-sm border-b border-purple-200 px-6 py-4">
+          <div className="flex items-center justify-end">
             <div className="text-right">
               <p className="text-xs text-gray-500">Overall SLA Compliance</p>
               <p className="text-2xl font-bold text-purple-600">
@@ -100,7 +97,6 @@ export default function CaseSLAPage() {
             </div>
           </div>
         </div>
-      </div>
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto p-6">
@@ -428,6 +424,7 @@ export default function CaseSLAPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

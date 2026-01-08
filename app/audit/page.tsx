@@ -18,6 +18,7 @@ import {
   ArrowUpIcon,
   DashIcon,
 } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 import { ThreePaneWorkspace } from '@/components/workspace/ThreePaneWorkspace';
 import { AUDIT_EVENTS, AUDIT_STATS, EVENT_TYPE_INFO, AuditEvent } from '@/lib/data/synthetic/audit.data';
 
@@ -321,15 +322,9 @@ export default function AuditPage() {
   // Center Content - Event Timeline
   const centerContent = (
     <div className="h-full flex flex-col">
-      {/* Header */}
+      {/* Toolbar */}
       <div className="flex-none bg-white/90 backdrop-blur-sm border-b border-purple-200 p-6">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Audit Timeline</h1>
-            <p className="text-sm text-gray-600 mt-1">
-              Comprehensive event history and compliance tracking
-            </p>
-          </div>
+        <div className="flex items-center justify-end mb-4">
           <button className="px-4 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 transition-colors flex items-center gap-2">
             <CalendarIcon className="w-4 h-4" />
             Export Log
@@ -570,11 +565,17 @@ export default function AuditPage() {
   ) : null;
 
   return (
-    <ThreePaneWorkspace
-      leftNav={leftNav}
-      centerContent={centerContent}
-      rightDetail={rightDetail}
-      showRightPane={!!selectedEvent}
-    />
+    <>
+      <SetPageTitle
+        title="Audit Timeline"
+        description="Comprehensive event history and compliance tracking"
+      />
+      <ThreePaneWorkspace
+        leftNav={leftNav}
+        centerContent={centerContent}
+        rightDetail={rightDetail}
+        showRightPane={!!selectedEvent}
+      />
+    </>
   );
 }

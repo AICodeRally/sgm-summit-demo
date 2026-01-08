@@ -37,6 +37,14 @@ export interface CaseItem {
     type: string;
     uploadedAt: string;
   }[];
+  // Demo Data Management
+  isDemo?: boolean;
+  demoMetadata?: {
+    year?: number;
+    bu?: string;
+    division?: string;
+    category?: string;
+  } | null;
 }
 
 /**
@@ -60,6 +68,8 @@ export const CASE_ITEMS: CaseItem[] = [
     financialImpact: 30000,
     resolutionDueDate: '2025-12-22T17:00:00.000Z',
     businessDaysElapsed: 7,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
     timeline: [
       {
         timestamp: '2025-12-08T09:30:00.000Z',
@@ -123,6 +133,8 @@ export const CASE_ITEMS: CaseItem[] = [
     financialImpact: 42000,
     resolutionDueDate: '2025-12-20T17:00:00.000Z',
     businessDaysElapsed: 14,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
     timeline: [
       {
         timestamp: '2025-11-28T14:00:00.000Z',
@@ -195,6 +207,8 @@ export const CASE_ITEMS: CaseItem[] = [
     financialImpact: 500,
     resolutionDueDate: '2025-12-13T17:00:00.000Z',
     businessDaysElapsed: 9,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
     timeline: [
       {
         timestamp: '2025-12-06T10:00:00.000Z',
@@ -245,6 +259,8 @@ export const CASE_ITEMS: CaseItem[] = [
     financialImpact: 15000,
     resolutionDueDate: '2025-11-29T17:00:00.000Z',
     businessDaysElapsed: 10,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
     timeline: [
       {
         timestamp: '2025-11-15T13:00:00.000Z',
@@ -302,6 +318,8 @@ export const CASE_ITEMS: CaseItem[] = [
     financialImpact: 0, // No retroactive impact
     resolutionDueDate: '2025-12-20T17:00:00.000Z',
     businessDaysElapsed: 3,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
     timeline: [
       {
         timestamp: '2025-12-14T09:00:00.000Z',
@@ -346,6 +364,8 @@ export const CASE_ITEMS: CaseItem[] = [
     financialImpact: 8000,
     resolutionDueDate: '2025-11-05T17:00:00.000Z',
     businessDaysElapsed: 15,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
     timeline: [
       {
         timestamp: '2025-10-15T10:00:00.000Z',
@@ -402,6 +422,8 @@ export const CASE_ITEMS: CaseItem[] = [
     financialImpact: 18000, // Outstanding draw balance
     resolutionDueDate: '2025-12-27T17:00:00.000Z',
     businessDaysElapsed: 1,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
     timeline: [
       {
         timestamp: '2025-12-16T15:00:00.000Z',

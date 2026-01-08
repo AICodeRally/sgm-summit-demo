@@ -106,7 +106,6 @@ export type ApprovalRequest = z.infer<typeof ApprovalRequestSchema>;
 
 export const CreateApprovalRequestSchema = ApprovalRequestSchema.omit({
   id: true,
-  createdAt: true,
   steps: true,
   currentStep: true,
   status: true,

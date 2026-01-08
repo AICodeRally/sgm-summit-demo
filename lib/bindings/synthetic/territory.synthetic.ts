@@ -1,4 +1,5 @@
 import type { ITerritoryPort } from '@/lib/ports/territory.port';
+import { isDemoDataEnabled } from '@/lib/config/binding-config';
 import type {
   Territory,
   CreateTerritory,
@@ -12,7 +13,8 @@ export class SyntheticTerritoryProvider implements ITerritoryPort {
   private territories: Map<string, Territory>;
 
   constructor() {
-    this.territories = new Map(syntheticTerritories.map((t) => [t.id, t]));
+    const demoEnabled = isDemoDataEnabled();
+    this.territories = new Map(demoEnabled ? syntheticTerritories.map((t) => [t.id, t]) : []);
   }
 
   async findAll(filters?: TerritoryFilters): Promise<Territory[]> {

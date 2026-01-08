@@ -13,6 +13,7 @@ import {
   ArchiveIcon,
   ReaderIcon,
 } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 import {
   REPORT_TEMPLATES,
   GENERATED_REPORTS,
@@ -72,7 +73,7 @@ export default function ReportsPage() {
       case 'AUDIT':
         return 'bg-orange-100 text-orange-700 border-orange-200';
       default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+        return 'bg-gray-100 text-gray-700 border-purple-200';
     }
   };
 
@@ -93,19 +94,16 @@ export default function ReportsPage() {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
-      {/* Header */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-600 bg-clip-text text-transparent">
-                Reports & Export
-              </h1>
-              <p className="text-sm text-gray-600 mt-1">
-                One-click compliance reports and data exports
-              </p>
-            </div>
+    <>
+      <SetPageTitle
+        title="Reports & Export"
+        description="9 pre-built report templates with multiple export formats"
+      />
+      <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
+        {/* Header */}
+        <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
+          <div className="max-w-7xl mx-auto px-6 py-6">
+            <div className="flex items-center justify-between">
             <div className="flex items-center gap-4 text-sm">
               <div className="bg-purple-100 px-3 py-1 rounded-full">
                 <span className="font-semibold text-purple-700">{REPORT_STATS.totalTemplates}</span>
@@ -364,7 +362,7 @@ export default function ReportsPage() {
                         <div className="space-y-1 border border-purple-200 rounded-md p-2 max-h-40 overflow-y-auto">
                           {param.options.map(opt => (
                             <label key={opt.value} className="flex items-center gap-2 text-sm p-1 hover:bg-purple-50 rounded">
-                              <input type="checkbox" className="rounded border-gray-300" />
+                              <input type="checkbox" className="rounded border-purple-300" />
                               <span>{opt.label}</span>
                             </label>
                           ))}
@@ -391,7 +389,7 @@ export default function ReportsPage() {
                           <input
                             type="checkbox"
                             defaultChecked={param.defaultValue}
-                            className="rounded border-gray-300"
+                            className="rounded border-purple-300"
                           />
                           <span className="text-gray-600">Enable this option</span>
                         </label>
@@ -417,6 +415,7 @@ export default function ReportsPage() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

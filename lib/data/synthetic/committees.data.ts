@@ -26,6 +26,14 @@ export interface Committee {
   charterDocument: string;
   status: 'ACTIVE' | 'INACTIVE';
   createdAt: string;
+  // Demo Data Management
+  isDemo?: boolean;
+  demoMetadata?: {
+    year?: number;
+    bu?: string;
+    division?: string;
+    category?: string;
+  } | null;
 }
 
 /**
@@ -143,6 +151,8 @@ export const SGCC_COMMITTEE: Committee = {
   charterDocument: 'GC-001',
   status: 'ACTIVE',
   createdAt: '2025-01-01T00:00:00.000Z',
+  isDemo: true,
+  demoMetadata: { year: 2025, bu: 'SPARCC', division: 'Governance', category: 'Sample Data' },
 };
 
 /**
@@ -219,6 +229,8 @@ export const CRB_COMMITTEE: Committee = {
   charterDocument: 'CRB-001',
   status: 'ACTIVE',
   createdAt: '2025-01-01T00:00:00.000Z',
+  isDemo: true,
+  demoMetadata: { year: 2025, bu: 'SPARCC', division: 'Governance', category: 'Sample Data' },
 };
 
 /**

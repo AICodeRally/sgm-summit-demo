@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeftIcon, DownloadIcon } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 
 interface PlanCoverage {
   planName: string;
@@ -120,27 +121,31 @@ export default function PolicyCoverageMatrix() {
   const filteredPlans = getFilteredPlans();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10">
-        <div className="max-w-full mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link
-                href="/henryschein"
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                <ArrowLeftIcon className="w-4 h-4" />
-                Back to Dashboard
-              </Link>
-              <div className="h-6 w-px bg-gray-300"></div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">Policy Coverage Matrix</h1>
-                <p className="text-sm text-gray-600">
-                  {filteredPlans.length} plans × {POLICY_AREAS.length} policy areas
-                </p>
+    <>
+      <SetPageTitle
+        title="Henry Schein - Coverage Analysis"
+        description="Policy coverage matrix across all compensation plans"
+      />
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <div className="bg-white border-b border-purple-200 shadow-sm sticky top-0 z-10">
+          <div className="max-w-full mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/henryschein"
+                  className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  <ArrowLeftIcon className="w-4 h-4" />
+                  Back to Dashboard
+                </Link>
+                <div className="h-6 w-px bg-gray-300"></div>
+                <div>
+                  <p className="text-sm text-gray-600">
+                    {filteredPlans.length} plans × {POLICY_AREAS.length} policy areas
+                  </p>
+                </div>
               </div>
-            </div>
             <div className="flex items-center gap-4">
               <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-all flex items-center gap-2">
                 <DownloadIcon className="w-4 h-4" />
@@ -153,7 +158,7 @@ export default function PolicyCoverageMatrix() {
 
       <div className="max-w-full mx-auto px-6 py-6">
         {/* Filters */}
-        <div className="mb-6 bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+        <div className="mb-6 bg-white rounded-lg border border-purple-200 p-4 shadow-sm">
           <div className="flex items-center gap-4">
             <span className="text-sm font-medium text-gray-700">Filter by coverage:</span>
             <div className="flex gap-2">
@@ -189,7 +194,7 @@ export default function PolicyCoverageMatrix() {
         </div>
 
         {/* Matrix */}
-        <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-lg border border-purple-200 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full">
               <thead className="bg-gray-50 sticky top-[72px] z-10">
@@ -351,6 +356,7 @@ export default function PolicyCoverageMatrix() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

@@ -1,0 +1,3 @@
+{
+  "/api/sgm/documents/[id]/lifecycle/route": "app/api/sgm/documents/[id]/lifecycle/route.js"
+}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeftIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 
 interface Gap {
   plan: string;
@@ -90,35 +91,40 @@ export default function HenryScheinGaps() {
   const filteredGaps = getFilteredGaps();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link
-                href="/henryschein"
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                <ArrowLeftIcon className="w-4 h-4" />
-                Back to Dashboard
-              </Link>
-              <div className="h-6 w-px bg-gray-300"></div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-                  <ExclamationTriangleIcon className="w-6 h-6 text-red-600" />
-                  Critical Policy Gaps
-                </h1>
-                <p className="text-sm text-gray-600">{gaps.length} total gaps identified</p>
+    <>
+      <SetPageTitle
+        title="Henry Schein - Gap Analysis"
+        description="Critical gaps, warnings, and recommendations"
+      />
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <div className="bg-white border-b border-purple-200 shadow-sm sticky top-0 z-10">
+          <div className="max-w-7xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/henryschein"
+                  className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  <ArrowLeftIcon className="w-4 h-4" />
+                  Back to Dashboard
+                </Link>
+                <div className="h-6 w-px bg-gray-300"></div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                    <ExclamationTriangleIcon className="w-6 h-6 text-red-600" />
+                    Critical Policy Gaps
+                  </h1>
+                  <p className="text-sm text-gray-600">{gaps.length} total gaps identified</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6">
         {/* Filters */}
-        <div className="mb-6 bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+        <div className="mb-6 bg-white rounded-lg border border-purple-200 p-4 shadow-sm">
           <div className="flex items-center gap-4">
             <span className="text-sm font-medium text-gray-700">Filter by coverage level:</span>
             <div className="flex gap-2">
@@ -165,7 +171,7 @@ export default function HenryScheinGaps() {
         </div>
 
         {/* Gaps List */}
-        <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-lg border border-purple-200 shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -265,6 +271,7 @@ export default function HenryScheinGaps() {
           </ul>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

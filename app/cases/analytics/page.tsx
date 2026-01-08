@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { SetPageTitle } from '@/components/SetPageTitle';
 import { CASE_ITEMS } from '@/lib/data/synthetic/cases.data';
 import {
   generateHistoricalMetrics,
@@ -48,23 +49,12 @@ export default function CaseAnalyticsPage() {
   const highRiskBreaches = breaches.filter(b => b.breachProbability >= 70);
 
   return (
-    <div className="h-screen flex flex-col bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50">
-      {/* Header */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center gap-3">
-            <BarChartIcon className="w-8 h-8 text-purple-600" />
-            <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-600 bg-clip-text text-transparent">
-                Case Analytics & Intelligence
-              </h1>
-              <p className="text-sm text-gray-600 mt-1">
-                Comprehensive metrics, trends, predictions, and optimization insights
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <>
+      <SetPageTitle
+        title="Case Analytics Dashboard"
+        description="AI predictions, trends, bottleneck detection, and capacity planning"
+      />
+      <div className="h-screen flex flex-col bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50">
 
       <div className="flex-1 overflow-auto">
         <div className="max-w-7xl mx-auto px-6 py-6 space-y-6">
@@ -614,6 +604,7 @@ export default function CaseAnalyticsPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

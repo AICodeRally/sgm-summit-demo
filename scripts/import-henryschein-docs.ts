@@ -17,7 +17,13 @@
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
-import { PrismaClient } from '@prisma/client';
+// Lazy-require to avoid build-time dependency on generated Prisma types.
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { PrismaClient } = require('@prisma/client') as {
+  PrismaClient: new (args?: Record<string, unknown>) => any;
+};
+
+export {};
 
 const prisma = new PrismaClient();
 

@@ -25,13 +25,35 @@ const getPrismaClient = () => {
 // Build Rally Auth configuration
 const rallyConfig: RallyAuthConfig = {
   providers: {
-    google: {
-      type: 'google',
-      clientId: process.env.GOOGLE_CLIENT_ID || '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-      accessType: 'offline',
-      prompt: 'consent',
+    // Simple passkey authentication for testing
+    credentials: {
+      type: 'credentials',
+      name: 'Passkey',
+      credentials: {
+        passkey: { label: 'Passkey', type: 'password' },
+      },
+      authorize: async (credentials: any) => {
+        // Simple passkey check
+        if (credentials?.passkey === 'bhg2026') {
+          return {
+            id: 'demo-user-001',
+            name: 'Demo User',
+            email: 'demo@demo.com',
+          };
+        }
+        return null;
+      },
     },
+    // Only add Google if credentials are available
+    ...(process.env.GOOGLE_CLIENT_ID && {
+      google: {
+        type: 'google',
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        accessType: 'offline',
+        prompt: 'consent',
+      },
+    }),
     // Only add GitHub if credentials are available
     ...(process.env.GITHUB_CLIENT_ID && {
       github: {
@@ -52,7 +74,7 @@ const rallyConfig: RallyAuthConfig = {
     },
     defaultTenant: 'demo',
     // Custom resolver for tenant creation in synthetic mode
-    resolver: async (user, account) => {
+    resolver: async (user: any, account: any) => {
       const bindingMode = process.env.BINDING_MODE || 'synthetic';
 
       // In synthetic mode, return mock tenant
@@ -118,7 +140,7 @@ const rallyConfig: RallyAuthConfig = {
     },
     roles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'USER', 'VIEWER'],
     // Custom role resolver
-    resolver: async (user, account) => {
+    resolver: async (user: any, account: any) => {
       const bindingMode = process.env.BINDING_MODE || 'synthetic';
 
       // In synthetic mode, return ADMIN
@@ -150,7 +172,8 @@ const rallyConfig: RallyAuthConfig = {
 
   callbacks: {
     // Custom signIn callback for tenant validation
-    async signIn({ user, account }) {
+    async signIn(params: any) {
+      const { user, account } = params;
       const bindingMode = process.env.BINDING_MODE || 'synthetic';
 
       // Skip database operations in synthetic mode
@@ -178,7 +201,8 @@ const rallyConfig: RallyAuthConfig = {
     },
 
     // Custom JWT callback for synthetic mode and tenant info
-    async jwt({ token, user, account }) {
+    async jwt(params: any) {
+      const { token, user, account } = params;
       const bindingMode = process.env.BINDING_MODE || 'synthetic';
 
       // In synthetic mode, add mock data
@@ -217,7 +241,8 @@ const rallyConfig: RallyAuthConfig = {
     },
 
     // Custom session callback for additional tenant fields
-    async session({ session, token }) {
+    async session(params: any) {
+      const { session, token } = params;
       if (session.user) {
         session.user.id = token.userId as string;
         session.user.role = token.role as string;
@@ -232,7 +257,8 @@ const rallyConfig: RallyAuthConfig = {
   },
 
   events: {
-    async signIn({ user, isNewUser }) {
+    async signIn(params: any) {
+      const { user, isNewUser } = params;
       const bindingMode = process.env.BINDING_MODE || 'synthetic';
 
       // Skip database operations in synthetic mode

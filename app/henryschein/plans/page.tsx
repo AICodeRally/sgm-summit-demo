@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeftIcon, CheckCircledIcon, CrossCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 
 interface PlanCoverage {
   planName: string;
@@ -72,31 +73,36 @@ export default function HenryScheinPlans() {
   const sortedPlans = getSortedPlans();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link
-                href="/henryschein"
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                <ArrowLeftIcon className="w-4 h-4" />
-                Back to Dashboard
-              </Link>
-              <div className="h-6 w-px bg-gray-300"></div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">Plan-by-Plan Analysis</h1>
-                <p className="text-sm text-gray-600">{plans.length} compensation plans analyzed</p>
+    <>
+      <SetPageTitle
+        title="Henry Schein - Plans Overview"
+        description="27 compensation plans with governance scoring"
+      />
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <div className="bg-white border-b border-purple-200 shadow-sm sticky top-0 z-10">
+          <div className="max-w-7xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/henryschein"
+                  className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  <ArrowLeftIcon className="w-4 h-4" />
+                  Back to Dashboard
+                </Link>
+                <div className="h-6 w-px bg-gray-300"></div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">Plan-by-Plan Analysis</h1>
+                  <p className="text-sm text-gray-600">{plans.length} compensation plans analyzed</p>
+                </div>
               </div>
-            </div>
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-600">Sort by:</span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as 'name' | 'coverage')}
-                className="px-3 py-1 text-sm border border-gray-300 rounded-md"
+                className="px-3 py-1 text-sm border border-purple-300 rounded-md"
               >
                 <option value="coverage">Coverage (Low to High)</option>
                 <option value="name">Name (A-Z)</option>
@@ -148,7 +154,7 @@ export default function HenryScheinPlans() {
               </div>
 
               {(plan.legalRisk || plan.financialRisk) && (
-                <div className="pt-3 border-t border-gray-200 space-y-1">
+                <div className="pt-3 border-t border-purple-200 space-y-1">
                   {plan.legalRisk && (
                     <p className="text-xs">
                       <span className="font-medium">Legal Risk:</span>{' '}
@@ -182,8 +188,21 @@ export default function HenryScheinPlans() {
                 </div>
               )}
 
-              <div className="mt-4 text-sm text-gray-600 hover:text-gray-900 font-medium">
-                Click to view details →
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <Link
+                  href="/plans/document/HS-MED-FSC-2025"
+                  className="px-3 py-2 bg-white border-2 border-blue-400 text-blue-700 rounded-lg hover:bg-blue-50 transition-all text-sm font-semibold text-center"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  📋 Governance Analysis
+                </Link>
+                <Link
+                  href="/plans/remediation/HS-MED-FSC-2025"
+                  className="px-3 py-2 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white rounded-lg hover:from-purple-700 hover:to-fuchsia-700 transition-all text-sm font-semibold text-center"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  🔧 Gap Analysis
+                </Link>
               </div>
             </div>
           ))}
@@ -193,7 +212,7 @@ export default function HenryScheinPlans() {
         {selectedPlan && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
-              <div className="p-6 border-b border-gray-200 bg-gray-50">
+              <div className="p-6 border-b border-purple-200 bg-gray-50">
                 <div className="flex items-start justify-between">
                   <div>
                     <h2 className="text-2xl font-bold text-gray-900">{selectedPlan.planName}</h2>
@@ -276,7 +295,7 @@ export default function HenryScheinPlans() {
                 </div>
               </div>
 
-              <div className="p-6 border-t border-gray-200 bg-gray-50">
+              <div className="p-6 border-t border-purple-200 bg-gray-50">
                 <button
                   onClick={() => setSelectedPlan(null)}
                   className="px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-all"
@@ -290,7 +309,7 @@ export default function HenryScheinPlans() {
 
         {/* Summary Stats */}
         <div className="mt-8 grid grid-cols-3 gap-6">
-          <div className="bg-white rounded-lg border border-gray-200 shadow p-6">
+          <div className="bg-white rounded-lg border border-purple-200 shadow p-6">
             <div className="flex items-center gap-3 mb-2">
               <CheckCircledIcon className="w-6 h-6 text-green-600" />
               <h3 className="text-sm font-medium text-gray-700">High Coverage Plans (&gt;80%)</h3>
@@ -303,7 +322,7 @@ export default function HenryScheinPlans() {
             </p>
           </div>
 
-          <div className="bg-white rounded-lg border border-gray-200 shadow p-6">
+          <div className="bg-white rounded-lg border border-purple-200 shadow p-6">
             <div className="flex items-center gap-3 mb-2">
               <ExclamationTriangleIcon className="w-6 h-6 text-yellow-600" />
               <h3 className="text-sm font-medium text-gray-700">Medium Coverage Plans (60-80%)</h3>
@@ -320,7 +339,7 @@ export default function HenryScheinPlans() {
             </p>
           </div>
 
-          <div className="bg-white rounded-lg border border-gray-200 shadow p-6">
+          <div className="bg-white rounded-lg border border-purple-200 shadow p-6">
             <div className="flex items-center gap-3 mb-2">
               <CrossCircledIcon className="w-6 h-6 text-red-600" />
               <h3 className="text-sm font-medium text-gray-700">Low Coverage Plans (&lt;60%)</h3>
@@ -334,6 +353,7 @@ export default function HenryScheinPlans() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

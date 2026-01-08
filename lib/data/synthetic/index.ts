@@ -8,10 +8,14 @@ export { syntheticPolicies } from './policies.data';
 export { syntheticTerritories } from './territories.data';
 export { syntheticApprovals, syntheticApprovalWorkflowSteps } from './approvals.data';
 export { syntheticLinks } from './links.data';
-
-// Henry Schein specific data
 export {
-  HENRY_SCHEIN_DOCUMENTS,
-  ALL_HENRY_SCHEIN_DOCUMENTS,
-  HENRY_SCHEIN_STATS,
-} from './henryschein-documents.data';
+  syntheticPlanTemplates,
+  syntheticTemplateSections
+} from './plan-templates.data';
+export {
+  syntheticPlans,
+  syntheticPlanSections
+} from './plans.data';
+export { syntheticGovernanceFrameworks } from './governance-frameworks.data';
+
+// Henry Schein specific data - REMOVED (no client-specific data in system)

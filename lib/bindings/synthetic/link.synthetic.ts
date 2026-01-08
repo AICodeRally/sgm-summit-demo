@@ -1,4 +1,5 @@
 import type { ILinkPort } from '@/lib/ports/link.port';
+import { isDemoDataEnabled } from '@/lib/config/binding-config';
 import type {
   Link,
   CreateLink,
@@ -14,7 +15,8 @@ export class SyntheticLinkProvider implements ILinkPort {
   private links: Map<string, Link>;
 
   constructor() {
-    this.links = new Map(syntheticLinks.map((l) => [l.id, l]));
+    const demoEnabled = isDemoDataEnabled();
+    this.links = new Map(demoEnabled ? syntheticLinks.map((l) => [l.id, l]) : []);
   }
 
   async findAll(filters?: LinkFilters): Promise<Link[]> {

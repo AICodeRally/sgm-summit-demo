@@ -12,6 +12,7 @@ import {
   RocketIcon,
 } from '@radix-ui/react-icons';
 import { useEffect, useState } from 'react';
+import { SetPageTitle } from '@/components/SetPageTitle';
 
 interface GapAnalysis {
   totalPlans: number;
@@ -81,24 +82,29 @@ export default function HenryScheinDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50">
-      {/* Hero Section - Henry Schein Branded */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-blue-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-4">
-                <div className="text-4xl font-bold" style={{ color: '#005EB8' }}>
-                  Henry Schein
+    <>
+      <SetPageTitle
+        title="Henry Schein - Gap Analysis"
+        description="27 plans analyzed | 67% avg coverage | Beta client dashboard"
+      />
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50">
+        {/* Hero Section - Henry Schein Branded */}
+        <div className="bg-white/90 backdrop-blur-sm border-b border-blue-200 shadow-sm">
+          <div className="max-w-7xl mx-auto px-6 py-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-4">
+                  <div className="text-4xl font-bold" style={{ color: '#005EB8' }}>
+                    Henry Schein
+                  </div>
+                  <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">
+                    BETA CLIENT
+                  </span>
                 </div>
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">
-                  BETA CLIENT
-                </span>
+                <p className="text-xl text-gray-700 mt-2">
+                  Compensation Governance Gap Analysis & Implementation Dashboard
+                </p>
               </div>
-              <p className="text-xl text-gray-700 mt-2">
-                Compensation Governance Gap Analysis & Implementation Dashboard
-              </p>
-            </div>
             <div className="text-right">
               <p className="text-sm text-gray-600">Provided by</p>
               <p className="text-lg font-semibold" style={{ color: '#1E3A8A' }}>
@@ -215,7 +221,7 @@ export default function HenryScheinDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {/* Policy Coverage Matrix */}
           <Link href="/henryschein/coverage">
-            <div className="bg-white rounded-lg border-2 border-gray-200 p-6 hover:shadow-xl hover:border-purple-300 transition-all cursor-pointer h-full group">
+            <div className="bg-white rounded-lg border-2 border-purple-200 p-6 hover:shadow-xl hover:border-purple-300 transition-all cursor-pointer h-full group">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 bg-purple-100 rounded-lg">
                   <BarChartIcon className="w-6 h-6 text-purple-600" />
@@ -233,7 +239,7 @@ export default function HenryScheinDashboard() {
 
           {/* Plan Details */}
           <Link href="/henryschein/plans">
-            <div className="bg-white rounded-lg border-2 border-gray-200 p-6 hover:shadow-xl hover:border-blue-300 transition-all cursor-pointer h-full group">
+            <div className="bg-white rounded-lg border-2 border-purple-200 p-6 hover:shadow-xl hover:border-blue-300 transition-all cursor-pointer h-full group">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 bg-blue-100 rounded-lg">
                   <FileTextIcon className="w-6 h-6 text-blue-600" />
@@ -251,7 +257,7 @@ export default function HenryScheinDashboard() {
 
           {/* BHG DRAFT Policies */}
           <Link href="/henryschein/policies">
-            <div className="bg-white rounded-lg border-2 border-gray-200 p-6 hover:shadow-xl hover:border-orange-300 transition-all cursor-pointer h-full group">
+            <div className="bg-white rounded-lg border-2 border-purple-200 p-6 hover:shadow-xl hover:border-orange-300 transition-all cursor-pointer h-full group">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 bg-orange-100 rounded-lg">
                   <CheckCircledIcon className="w-6 h-6 text-orange-600" />
@@ -269,7 +275,7 @@ export default function HenryScheinDashboard() {
 
           {/* Gap Analysis */}
           <Link href="/henryschein/gaps">
-            <div className="bg-white rounded-lg border-2 border-gray-200 p-6 hover:shadow-xl hover:border-red-300 transition-all cursor-pointer h-full group">
+            <div className="bg-white rounded-lg border-2 border-purple-200 p-6 hover:shadow-xl hover:border-red-300 transition-all cursor-pointer h-full group">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 bg-red-100 rounded-lg">
                   <ExclamationTriangleIcon className="w-6 h-6 text-red-600" />
@@ -287,7 +293,7 @@ export default function HenryScheinDashboard() {
 
           {/* Implementation Roadmap */}
           <Link href="/henryschein/roadmap">
-            <div className="bg-white rounded-lg border-2 border-gray-200 p-6 hover:shadow-xl hover:border-green-300 transition-all cursor-pointer h-full group">
+            <div className="bg-white rounded-lg border-2 border-purple-200 p-6 hover:shadow-xl hover:border-green-300 transition-all cursor-pointer h-full group">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 bg-green-100 rounded-lg">
                   <ClockIcon className="w-6 h-6 text-green-600" />
@@ -305,7 +311,7 @@ export default function HenryScheinDashboard() {
 
           {/* Documents Library */}
           <Link href="/documents">
-            <div className="bg-white rounded-lg border-2 border-gray-200 p-6 hover:shadow-xl hover:border-gray-300 transition-all cursor-pointer h-full group">
+            <div className="bg-white rounded-lg border-2 border-purple-200 p-6 hover:shadow-xl hover:border-purple-300 transition-all cursor-pointer h-full group">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-3 bg-gray-100 rounded-lg">
                   <FileTextIcon className="w-6 h-6 text-gray-600" />
@@ -323,7 +329,7 @@ export default function HenryScheinDashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-lg border border-gray-200 shadow-md p-6">
+        <div className="bg-white rounded-lg border border-purple-200 shadow-md p-6">
           <h3 className="text-lg font-bold text-gray-900 mb-4">Recommended Actions</h3>
           <div className="space-y-3">
             <div className="flex items-center gap-3 p-3 bg-red-50 rounded-lg border border-red-200">
@@ -376,6 +382,7 @@ export default function HenryScheinDashboard() {
           </p>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

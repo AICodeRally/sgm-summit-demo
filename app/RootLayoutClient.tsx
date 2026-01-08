@@ -6,6 +6,9 @@ import { aiManifest } from "../ai.manifest";
 import { CommandPalette } from "@/components/CommandPalette";
 import { OpsChiefOrb } from "@/components/ai/OpsChiefOrb";
 import { AskDock } from "@/components/ai/AskDock";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { PageTitleProvider } from "@/components/PageTitle";
 
 interface RootLayoutClientProps {
   children: React.ReactNode;
@@ -33,15 +36,21 @@ export function RootLayoutClient({ children }: RootLayoutClientProps) {
   }, []);
 
   return (
-    <>
-      {children}
-      <CommandPalette
-        isOpen={commandPaletteOpen}
-        onClose={() => setCommandPaletteOpen(false)}
-      />
-      {/* AI Widgets */}
-      <OpsChiefOrb appName="SGM SPARCC" enabled={true} />
-      <AskDock appName="SGM" enabled={true} />
-    </>
+    <PageTitleProvider>
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-1 pb-24">
+          {children}
+        </main>
+        <Footer />
+        <CommandPalette
+          isOpen={commandPaletteOpen}
+          onClose={() => setCommandPaletteOpen(false)}
+        />
+        {/* AI Widgets */}
+        <OpsChiefOrb appName="SGM SPARCC" enabled={true} />
+        <AskDock appName="SGM" enabled={true} />
+      </div>
+    </PageTitleProvider>
   );
 }

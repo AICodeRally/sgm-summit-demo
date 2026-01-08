@@ -19,7 +19,18 @@ export interface BindingConfig {
     link: BindingMode;
     search: BindingMode;
     document?: BindingMode;
+    documentVersion?: BindingMode;
     committee?: BindingMode;
+    planTemplate?: BindingMode;
+    plan?: BindingMode;
+    governanceFramework?: BindingMode;
+  };
+
+  /**
+   * Demo data configuration
+   */
+  demoData?: {
+    enabled: boolean;
   };
 
   /**
@@ -52,7 +63,11 @@ export const defaultBindingConfig: BindingConfig = {
     link: 'synthetic',
     search: 'synthetic',
     document: 'synthetic',
+    documentVersion: 'synthetic',
     committee: 'synthetic',
+    planTemplate: 'synthetic',
+    plan: 'synthetic',
+    governanceFramework: 'synthetic',
   },
 };
 
@@ -71,7 +86,14 @@ export function loadBindingConfig(): BindingConfig {
       link: (process.env.BINDING_MODE_LINK || mode) as BindingMode,
       search: (process.env.BINDING_MODE_SEARCH || mode) as BindingMode,
       document: (process.env.BINDING_MODE_DOCUMENT || mode) as BindingMode,
+      documentVersion: (process.env.BINDING_MODE_DOCUMENT_VERSION || mode) as BindingMode,
       committee: (process.env.BINDING_MODE_COMMITTEE || mode) as BindingMode,
+      planTemplate: (process.env.BINDING_MODE_PLAN_TEMPLATE || mode) as BindingMode,
+      plan: (process.env.BINDING_MODE_PLAN || mode) as BindingMode,
+      governanceFramework: (process.env.BINDING_MODE_GOVERNANCE_FRAMEWORK || mode) as BindingMode,
+    },
+    demoData: {
+      enabled: process.env.ENABLE_DEMO_DATA === 'true',
     },
     mapped: process.env.EXTERNAL_API_URL
       ? {
@@ -87,4 +109,11 @@ export function loadBindingConfig(): BindingConfig {
         }
       : undefined,
   };
+}
+
+/**
+ * Check if demo data is enabled
+ */
+export function isDemoDataEnabled(): boolean {
+  return process.env.ENABLE_DEMO_DATA === 'true';
 }

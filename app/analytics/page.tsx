@@ -14,6 +14,7 @@ import {
   CalendarIcon,
   LayersIcon,
 } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 import {
   GOVERNANCE_KPIS,
   APPROVAL_VELOCITY_TREND,
@@ -69,27 +70,22 @@ export default function AnalyticsPage() {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
-      {/* Header */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-600 bg-clip-text text-transparent">
-                Governance Analytics
-              </h1>
-              <p className="text-sm text-gray-600 mt-1">
-                Real-time governance health metrics and KPIs
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
+    <>
+      <SetPageTitle
+        title="Analytics Dashboard"
+        description="Governance health metrics, trends, and KPIs"
+      />
+      <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
+        {/* Status Bar */}
+        <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
+          <div className="max-w-7xl mx-auto px-6 py-6">
+            <div className="flex items-center justify-end">
               <span className="text-xs font-semibold tracking-wider uppercase text-purple-600 bg-purple-100 px-3 py-1 rounded-full">
                 Last Updated: Just Now
               </span>
             </div>
           </div>
         </div>
-      </div>
 
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
@@ -337,6 +333,7 @@ export default function AnalyticsPage() {
         </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

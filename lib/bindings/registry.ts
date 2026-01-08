@@ -5,8 +5,12 @@ import type { IAuditPort } from '@/lib/ports/audit.port';
 import type { ILinkPort } from '@/lib/ports/link.port';
 import type { ISearchPort } from '@/lib/ports/search.port';
 import type { IDocumentPort } from '@/lib/ports/document.port';
+import type { IDocumentVersionPort } from '@/lib/ports/document-version.port';
 import type { IFileStoragePort } from '@/lib/ports/file-storage.port';
 import type { ICommitteePort } from '@/lib/ports/committee.port';
+import type { IPlanTemplatePort } from '@/lib/ports/plan-template.port';
+import type { IPlanPort } from '@/lib/ports/plan.port';
+import type { IGovernanceFrameworkPort } from '@/lib/ports/governance-framework.port';
 
 import type { BindingConfig } from '@/lib/config/binding-config';
 import { loadBindingConfig } from '@/lib/config/binding-config';
@@ -203,6 +207,98 @@ export class ProviderRegistry {
   }
 
   /**
+   * Get Plan Template provider
+   */
+  getPlanTemplate(): IPlanTemplatePort {
+    const mode = this.config.providers.planTemplate || 'synthetic';
+
+    switch (mode) {
+      case 'synthetic':
+        const { SyntheticPlanTemplateProvider } = require('@/lib/bindings/synthetic/plan-template.synthetic');
+        return new SyntheticPlanTemplateProvider();
+
+      case 'mapped':
+        throw new Error('Mapped plan template provider not implemented yet');
+
+      case 'live':
+        throw new Error('Live plan template provider not implemented yet');
+
+      default:
+        throw new Error(`Unknown binding mode for plan template: ${mode}`);
+    }
+  }
+
+  /**
+   * Get Plan provider
+   */
+  getPlan(): IPlanPort {
+    const mode = this.config.providers.plan || 'synthetic';
+
+    switch (mode) {
+      case 'synthetic':
+        const { SyntheticPlanProvider } = require('@/lib/bindings/synthetic/plan.synthetic');
+        return new SyntheticPlanProvider();
+
+      case 'mapped':
+        throw new Error('Mapped plan provider not implemented yet');
+
+      case 'live':
+        throw new Error('Live plan provider not implemented yet');
+
+      default:
+        throw new Error(`Unknown binding mode for plan: ${mode}`);
+    }
+  }
+
+  /**
+   * Get Governance Framework provider
+   */
+  getGovernanceFramework(): IGovernanceFrameworkPort {
+    const mode = this.config.providers.governanceFramework || 'synthetic';
+
+    switch (mode) {
+      case 'synthetic':
+        const { SyntheticGovernanceFrameworkProvider } = require('@/lib/bindings/synthetic/governance-framework.synthetic');
+        return new SyntheticGovernanceFrameworkProvider();
+
+      case 'mapped':
+        throw new Error('Mapped governance framework provider not implemented yet');
+
+      case 'live':
+        const { LiveGovernanceFrameworkProvider } = require('@/lib/bindings/live/governance-framework.live');
+        return new LiveGovernanceFrameworkProvider();
+
+      default:
+        throw new Error(`Unknown binding mode for governance framework: ${mode}`);
+    }
+  }
+
+  /**
+   * Get Document Version provider
+   * Full provenance tracking for document versions
+   */
+  getDocumentVersion(): IDocumentVersionPort {
+    const mode = this.config.providers.documentVersion || 'synthetic';
+
+    switch (mode) {
+      case 'synthetic':
+        const { SyntheticDocumentVersionProvider } = require('@/lib/bindings/synthetic/document-version.synthetic');
+        return new SyntheticDocumentVersionProvider();
+
+      case 'mapped':
+        throw new Error('Mapped document version provider not implemented yet');
+
+      case 'live':
+        throw new Error('Live document version provider not implemented yet');
+        // const { LiveDocumentVersionProvider } = require('@/lib/bindings/live/document-version.live');
+        // return new LiveDocumentVersionProvider();
+
+      default:
+        throw new Error(`Unknown binding mode for document version: ${mode}`);
+    }
+  }
+
+  /**
    * Get File Storage provider
    */
   getFileStorage(): IFileStoragePort {
@@ -239,7 +335,11 @@ export class ProviderRegistry {
         link: this.config.providers.link,
         search: this.config.providers.search,
         document: this.config.providers.document || 'synthetic',
+        documentVersion: this.config.providers.documentVersion || 'synthetic',
         committee: this.config.providers.committee || 'synthetic',
+        planTemplate: this.config.providers.planTemplate || 'synthetic',
+        plan: this.config.providers.plan || 'synthetic',
+        governanceFramework: this.config.providers.governanceFramework || 'synthetic',
       },
       hasExternalDependencies: Object.values(this.config.providers).some(
         (mode) => mode !== 'synthetic'

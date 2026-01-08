@@ -30,6 +30,14 @@ export interface ApprovalItem {
   totalSteps: number;
   slaStatus: 'ON_TIME' | 'AT_RISK' | 'OVERDUE';
   businessDaysRemaining: number;
+  // Demo Data Management
+  isDemo?: boolean;
+  demoMetadata?: {
+    year?: number;
+    bu?: string;
+    division?: string;
+    category?: string;
+  } | null;
 }
 
 /**
@@ -75,6 +83,8 @@ export const APPROVAL_ITEMS: ApprovalItem[] = [
     totalSteps: 5,
     slaStatus: 'ON_TIME',
     businessDaysRemaining: 22,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
   },
 
   // CRB Windfall Deal
@@ -116,6 +126,8 @@ export const APPROVAL_ITEMS: ApprovalItem[] = [
     totalSteps: 1,
     slaStatus: 'AT_RISK',
     businessDaysRemaining: 5,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
   },
 
   // SGCC SPIF Approval (<$50K)
@@ -145,6 +157,8 @@ export const APPROVAL_ITEMS: ApprovalItem[] = [
     totalSteps: 1,
     slaStatus: 'ON_TIME',
     businessDaysRemaining: 0,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
   },
 
   // SGCC Large SPIF ($50K-$250K) - Requires CFO
@@ -180,6 +194,8 @@ export const APPROVAL_ITEMS: ApprovalItem[] = [
     totalSteps: 2,
     slaStatus: 'ON_TIME',
     businessDaysRemaining: 7,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
   },
 
   // CRB Exception Request
@@ -209,6 +225,8 @@ export const APPROVAL_ITEMS: ApprovalItem[] = [
     totalSteps: 1,
     slaStatus: 'ON_TIME',
     businessDaysRemaining: 10,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
   },
 
   // SGCC Document Approval
@@ -250,6 +268,8 @@ export const APPROVAL_ITEMS: ApprovalItem[] = [
     totalSteps: 5,
     slaStatus: 'ON_TIME',
     businessDaysRemaining: 18,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
   },
 
   // CRB Windfall - Already Decided
@@ -289,6 +309,8 @@ export const APPROVAL_ITEMS: ApprovalItem[] = [
     totalSteps: 1,
     slaStatus: 'ON_TIME',
     businessDaysRemaining: 0,
+    isDemo: true,
+    demoMetadata: { year: 2025, bu: "SPARCC", division: "Governance", category: "Sample Data" },
   },
 ];
 

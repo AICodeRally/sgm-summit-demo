@@ -1,0 +1,49 @@
+# Git
+.git
+.gitignore
+
+# Node
+node_modules
+npm-debug.log
+.npm
+
+# Next.js
+.next
+out
+dist
+dist-electron
+
+# Build
+build
+.cache
+
+# Testing
+coverage
+.nyc_output
+
+# Environment
+.env*.local
+.env
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data (local development)
+data
+prisma/data
+
+# Electron
+electron/icon.*
+
+# Misc
+*.log
+*.md
+README.md
+CHANGELOG.md

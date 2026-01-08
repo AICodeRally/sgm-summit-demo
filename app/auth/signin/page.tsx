@@ -13,6 +13,16 @@ function SignInContent() {
   const error = searchParams.get('error');
 
   const [isLoading, setIsLoading] = useState(false);
+  const [passkey, setPasskey] = useState('');
+
+  const handlePasskeySignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    await signIn('credentials', {
+      passkey,
+      callbackUrl,
+    });
+  };
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
@@ -50,12 +60,47 @@ function SignInContent() {
             </div>
           )}
 
-          {/* Sign In Buttons */}
+          {/* Passkey Sign In */}
+          <form onSubmit={handlePasskeySignIn} className="space-y-3 mb-6">
+            <div>
+              <label htmlFor="passkey" className="block text-sm font-medium text-gray-700 mb-2">
+                Enter Passkey
+              </label>
+              <input
+                id="passkey"
+                type="password"
+                value={passkey}
+                onChange={(e) => setPasskey(e.target.value)}
+                placeholder="bhg2026"
+                disabled={isLoading}
+                className="w-full px-4 py-3 border-2 border-purple-300 rounded-md focus:border-purple-500 focus:outline-none disabled:opacity-50"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={isLoading || !passkey}
+              className="w-full px-4 py-3 bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-500 text-white font-medium rounded-md hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Sign In with Passkey
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="relative mb-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-purple-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white/90 text-gray-500">Or continue with</span>
+            </div>
+          </div>
+
+          {/* OAuth Sign In Buttons */}
           <div className="space-y-3">
             <button
               onClick={handleGoogleSignIn}
               disabled={isLoading}
-              className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border-2 border-gray-300 rounded-md hover:bg-gray-50 hover:border-gray-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white border-2 border-purple-300 rounded-md hover:bg-gray-50 hover:border-gray-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path

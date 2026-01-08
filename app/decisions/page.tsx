@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { SetPageTitle } from '@/components/SetPageTitle';
 
 interface DecisionLog {
   id: string;
@@ -71,21 +72,19 @@ export default function DecisionsPage() {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
-      {/* Header */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-600 bg-clip-text text-transparent">Decision Log</h1>
-          <p className="text-gray-600 mt-1">Record of all major governance decisions</p>
-        </div>
-      </div>
+    <>
+      <SetPageTitle
+        title="Decision Log"
+        description="Track governance decisions and committee resolutions"
+      />
+      <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
 
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-lg border border-purple-200 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-gray-50 border-b border-purple-200">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Decision Type</th>
@@ -127,15 +126,16 @@ export default function DecisionsPage() {
 
         {/* Export Options */}
         <div className="mt-6 flex gap-3">
-          <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium">
+          <button className="px-4 py-2 border border-purple-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium">
             Export to PDF
           </button>
-          <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium">
+          <button className="px-4 py-2 border border-purple-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium">
             Export to Excel
           </button>
         </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

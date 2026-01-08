@@ -34,6 +34,9 @@ export default function UploadPage() {
             createdBy: 'system',
             owner: 'Demo User',
             tenantId: 'demo-tenant-001',
+            // Mark uploaded documents as REAL data (not demo)
+            isDemo: false,
+            demoMetadata: null,
           }),
         });
 

@@ -1,0 +1,428 @@
+import type { PlanTemplate } from '@/lib/contracts/plan-template.contract';
+import type { TemplateSection } from '@/lib/contracts/template-section.contract';
+
+/**
+ * Synthetic Plan Template Data
+ * 5 system templates as specified in the implementation plan
+ */
+
+const DEFAULT_TENANT_ID = 'demo-tenant-001';
+const CREATED_BY = 'System Admin';
+const NOW = new Date('2026-01-07T12:00:00Z');
+
+// =============================================================================
+// TPL-COMP-001: Annual Sales Compensation Plan
+// =============================================================================
+
+export const template1: PlanTemplate = {
+  id: 'tpl-comp-001-id',
+  tenantId: DEFAULT_TENANT_ID,
+  code: 'TPL-COMP-001',
+  name: 'Annual Sales Compensation Plan',
+  description: 'Comprehensive template for annual sales compensation planning with quota structures, commission rates, and payment schedules',
+  planType: 'COMPENSATION_PLAN',
+  category: 'Sales Compensation',
+  tags: ['sales', 'annual', 'quota', 'commission'],
+  version: '1.0.0',
+  status: 'ACTIVE',
+  source: 'SYSTEM',
+  isSystemTemplate: true,
+  clonedFromId: undefined,
+  owner: CREATED_BY,
+  createdBy: CREATED_BY,
+  createdAt: NOW,
+  lastUpdated: NOW,
+  effectiveDate: NOW,
+  usageCount: 0,
+  metadata: {},
+};
+
+export const template1Sections: TemplateSection[] = [
+  {
+    id: 'tpl-comp-001-sec-01',
+    templateId: 'tpl-comp-001-id',
+    parentSectionId: undefined,
+    sectionKey: 'executive-summary',
+    title: 'Executive Summary',
+    description: 'High-level overview of the compensation plan',
+    orderIndex: 0,
+    level: 0,
+    isRequired: true,
+    isRepeatable: false,
+    contentTemplate: '# Executive Summary\n\nThis section provides a high-level overview of the {fiscal_year} compensation plan.',
+    fieldDefinitions: [
+      {
+        fieldKey: 'fiscal_year',
+        label: 'Fiscal Year',
+        type: 'TEXT',
+        description: 'The fiscal year this plan covers',
+        placeholder: '2026',
+        defaultValue: '2026',
+        validationRules: [{ type: 'REQUIRED', message: 'Fiscal year is required' }],
+        orderIndex: 0,
+        isVisible: true,
+      },
+    ],
+    aiAgentRoles: ['DESIGN', 'UIUX'],
+    metadata: {},
+  },
+  {
+    id: 'tpl-comp-001-sec-02',
+    templateId: 'tpl-comp-001-id',
+    parentSectionId: undefined,
+    sectionKey: 'objectives',
+    title: 'Plan Objectives',
+    description: 'Goals and objectives of the compensation plan',
+    orderIndex: 1,
+    level: 0,
+    isRequired: true,
+    isRepeatable: false,
+    contentTemplate: '# Plan Objectives\n\n## Primary Objectives\n\n1. \n2. \n3. ',
+    fieldDefinitions: [],
+    aiAgentRoles: ['POLICY_EXPERT', 'DESIGN'],
+    metadata: {},
+  },
+  {
+    id: 'tpl-comp-001-sec-03',
+    templateId: 'tpl-comp-001-id',
+    parentSectionId: undefined,
+    sectionKey: 'quota-structure',
+    title: 'Quota Structure',
+    description: 'Definition of quota allocation and targets',
+    orderIndex: 2,
+    level: 0,
+    isRequired: true,
+    isRepeatable: false,
+    contentTemplate: '# Quota Structure\n\nAnnual quota per employee: ${annual_quota}\n\nTotal employees: {employee_count}\n\nRegion: {region}',
+    fieldDefinitions: [
+      {
+        fieldKey: 'annual_quota',
+        label: 'Annual Quota',
+        type: 'CURRENCY',
+        description: 'Annual quota per sales rep',
+        placeholder: '500000',
+        defaultValue: '500000',
+        validationRules: [{ type: 'REQUIRED', message: 'Annual quota is required' }],
+        orderIndex: 0,
+        isVisible: true,
+      },
+      {
+        fieldKey: 'employee_count',
+        label: 'Employee Count',
+        type: 'NUMBER',
+        description: 'Number of employees covered by this plan',
+        placeholder: '50',
+        validationRules: [{ type: 'REQUIRED', message: 'Employee count is required' }],
+        orderIndex: 1,
+        isVisible: true,
+      },
+      {
+        fieldKey: 'region',
+        label: 'Region',
+        type: 'DROPDOWN',
+        description: 'Geographic region',
+        options: [
+          { value: 'NORTH_AMERICA', label: 'North America' },
+          { value: 'EMEA', label: 'EMEA' },
+          { value: 'APAC', label: 'APAC' },
+          { value: 'LATAM', label: 'Latin America' },
+        ],
+        orderIndex: 2,
+        isVisible: true,
+      },
+    ],
+    aiAgentRoles: ['POLICY_EXPERT', 'DESIGN'],
+    metadata: {},
+  },
+  {
+    id: 'tpl-comp-001-sec-04',
+    templateId: 'tpl-comp-001-id',
+    parentSectionId: undefined,
+    sectionKey: 'commission-rates',
+    title: 'Commission Rates',
+    description: 'Commission rate structure and accelerators',
+    orderIndex: 3,
+    level: 0,
+    isRequired: true,
+    isRepeatable: false,
+    contentTemplate: '# Commission Rates\n\nBase Rate: {base_rate}%\n\nAccelerator Threshold: {accelerator_threshold}%\n\nAccelerated Rate: {accelerated_rate}%',
+    fieldDefinitions: [
+      {
+        fieldKey: 'base_rate',
+        label: 'Base Commission Rate',
+        type: 'PERCENTAGE',
+        description: 'Base commission rate (0-100%)',
+        placeholder: '10',
+        defaultValue: '10',
+        validationRules: [
+          { type: 'REQUIRED', message: 'Base rate is required' },
+          { type: 'MIN', value: 0, message: 'Must be at least 0%' },
+          { type: 'MAX', value: 100, message: 'Cannot exceed 100%' },
+        ],
+        orderIndex: 0,
+        isVisible: true,
+      },
+      {
+        fieldKey: 'accelerator_threshold',
+        label: 'Accelerator Threshold',
+        type: 'PERCENTAGE',
+        description: 'Quota attainment threshold for accelerated rate',
+        placeholder: '100',
+        defaultValue: '100',
+        orderIndex: 1,
+        isVisible: true,
+      },
+      {
+        fieldKey: 'accelerated_rate',
+        label: 'Accelerated Rate',
+        type: 'PERCENTAGE',
+        description: 'Commission rate above threshold',
+        placeholder: '15',
+        defaultValue: '15',
+        orderIndex: 2,
+        isVisible: true,
+      },
+    ],
+    aiAgentRoles: ['POLICY_EXPERT', 'DESIGN'],
+    metadata: {},
+  },
+  {
+    id: 'tpl-comp-001-sec-05',
+    templateId: 'tpl-comp-001-id',
+    parentSectionId: undefined,
+    sectionKey: 'eligibility',
+    title: 'Eligibility Criteria',
+    description: 'Who is eligible for this compensation plan',
+    orderIndex: 4,
+    level: 0,
+    isRequired: true,
+    isRepeatable: false,
+    contentTemplate: '# Eligibility Criteria\n\n## Eligible Roles\n\n## Requirements\n\n',
+    fieldDefinitions: [],
+    aiAgentRoles: ['POLICY_EXPERT', 'UIUX'],
+    metadata: {},
+  },
+];
+
+// =============================================================================
+// TPL-COMP-002: SPIF Campaign Template
+// =============================================================================
+
+export const template2: PlanTemplate = {
+  id: 'tpl-comp-002-id',
+  tenantId: DEFAULT_TENANT_ID,
+  code: 'TPL-COMP-002',
+  name: 'SPIF Campaign Template',
+  description: 'Short-term Sales Performance Incentive Fund (SPIF) campaign template',
+  planType: 'COMPENSATION_PLAN',
+  category: 'SPIF',
+  tags: ['spif', 'campaign', 'short-term', 'incentive'],
+  version: '1.0.0',
+  status: 'ACTIVE',
+  source: 'SYSTEM',
+  isSystemTemplate: true,
+  clonedFromId: undefined,
+  owner: CREATED_BY,
+  createdBy: CREATED_BY,
+  createdAt: NOW,
+  lastUpdated: NOW,
+  effectiveDate: NOW,
+  usageCount: 0,
+  metadata: {},
+};
+
+export const template2Sections: TemplateSection[] = [
+  {
+    id: 'tpl-comp-002-sec-01',
+    templateId: 'tpl-comp-002-id',
+    parentSectionId: undefined,
+    sectionKey: 'campaign-overview',
+    title: 'Campaign Overview',
+    description: 'Overview of the SPIF campaign',
+    orderIndex: 0,
+    level: 0,
+    isRequired: true,
+    isRepeatable: false,
+    contentTemplate: '# {campaign_name}\n\n**Duration:** {start_date} to {end_date}\n\n**Incentive Amount:** ${spif_amount}',
+    fieldDefinitions: [
+      {
+        fieldKey: 'campaign_name',
+        label: 'Campaign Name',
+        type: 'TEXT',
+        description: 'Name of the SPIF campaign',
+        placeholder: 'Q1 Product Launch SPIF',
+        validationRules: [{ type: 'REQUIRED', message: 'Campaign name is required' }],
+        orderIndex: 0,
+        isVisible: true,
+      },
+      {
+        fieldKey: 'start_date',
+        label: 'Start Date',
+        type: 'DATE',
+        description: 'Campaign start date',
+        validationRules: [{ type: 'REQUIRED', message: 'Start date is required' }],
+        orderIndex: 1,
+        isVisible: true,
+      },
+      {
+        fieldKey: 'end_date',
+        label: 'End Date',
+        type: 'DATE',
+        description: 'Campaign end date',
+        validationRules: [{ type: 'REQUIRED', message: 'End date is required' }],
+        orderIndex: 2,
+        isVisible: true,
+      },
+      {
+        fieldKey: 'spif_amount',
+        label: 'SPIF Amount',
+        type: 'CURRENCY',
+        description: 'Incentive payout amount',
+        placeholder: '5000',
+        validationRules: [{ type: 'REQUIRED', message: 'SPIF amount is required' }],
+        orderIndex: 3,
+        isVisible: true,
+      },
+    ],
+    aiAgentRoles: ['DESIGN', 'UIUX'],
+    metadata: {},
+  },
+  {
+    id: 'tpl-comp-002-sec-02',
+    templateId: 'tpl-comp-002-id',
+    parentSectionId: undefined,
+    sectionKey: 'product-focus',
+    title: 'Product Focus',
+    description: 'Target products for this SPIF',
+    orderIndex: 1,
+    level: 0,
+    isRequired: true,
+    isRepeatable: false,
+    contentTemplate: '# Product Focus\n\nTarget Products: {target_products}\n\n',
+    fieldDefinitions: [
+      {
+        fieldKey: 'target_products',
+        label: 'Target Products',
+        type: 'MULTI_SELECT',
+        description: 'Products eligible for SPIF',
+        options: [
+          { value: 'PRODUCT_A', label: 'Product A' },
+          { value: 'PRODUCT_B', label: 'Product B' },
+          { value: 'PRODUCT_C', label: 'Product C' },
+        ],
+        validationRules: [{ type: 'REQUIRED', message: 'At least one product must be selected' }],
+        orderIndex: 0,
+        isVisible: true,
+      },
+    ],
+    aiAgentRoles: ['POLICY_EXPERT'],
+    metadata: {},
+  },
+];
+
+// =============================================================================
+// TPL-GOV-001: Policy Rollout Implementation Plan
+// =============================================================================
+
+export const template3: PlanTemplate = {
+  id: 'tpl-gov-001-id',
+  tenantId: DEFAULT_TENANT_ID,
+  code: 'TPL-GOV-001',
+  name: 'Policy Rollout Implementation Plan',
+  description: 'Template for planning and executing policy rollouts across the organization',
+  planType: 'GOVERNANCE_PLAN',
+  category: 'Policy Implementation',
+  tags: ['governance', 'policy', 'rollout', 'implementation'],
+  version: '1.0.0',
+  status: 'ACTIVE',
+  source: 'SYSTEM',
+  isSystemTemplate: true,
+  clonedFromId: undefined,
+  owner: CREATED_BY,
+  createdBy: CREATED_BY,
+  createdAt: NOW,
+  lastUpdated: NOW,
+  effectiveDate: NOW,
+  usageCount: 0,
+  metadata: {},
+};
+
+export const template3Sections: TemplateSection[] = [
+  {
+    id: 'tpl-gov-001-sec-01',
+    templateId: 'tpl-gov-001-id',
+    parentSectionId: undefined,
+    sectionKey: 'policy-summary',
+    title: 'Policy Summary',
+    description: 'Summary of the policy being rolled out',
+    orderIndex: 0,
+    level: 0,
+    isRequired: true,
+    isRepeatable: false,
+    contentTemplate: '# Policy Summary\n\nPolicy Code: {policy_code}\n\nEffective Date: {effective_date}\n\nAffected Employees: {affected_employees}',
+    fieldDefinitions: [
+      {
+        fieldKey: 'policy_code',
+        label: 'Policy Code',
+        type: 'TEXT',
+        description: 'Code of the policy being implemented',
+        placeholder: 'POL-COMP-001',
+        validationRules: [{ type: 'REQUIRED', message: 'Policy code is required' }],
+        orderIndex: 0,
+        isVisible: true,
+      },
+      {
+        fieldKey: 'effective_date',
+        label: 'Effective Date',
+        type: 'DATE',
+        description: 'When the policy takes effect',
+        validationRules: [{ type: 'REQUIRED', message: 'Effective date is required' }],
+        orderIndex: 1,
+        isVisible: true,
+      },
+      {
+        fieldKey: 'affected_employees',
+        label: 'Affected Employees',
+        type: 'NUMBER',
+        description: 'Number of employees affected',
+        placeholder: '200',
+        orderIndex: 2,
+        isVisible: true,
+      },
+    ],
+    aiAgentRoles: ['POLICY_EXPERT', 'DESIGN'],
+    metadata: {},
+  },
+  {
+    id: 'tpl-gov-001-sec-02',
+    templateId: 'tpl-gov-001-id',
+    parentSectionId: undefined,
+    sectionKey: 'communication-plan',
+    title: 'Communication Plan',
+    description: 'How the policy will be communicated to stakeholders',
+    orderIndex: 1,
+    level: 0,
+    isRequired: true,
+    isRepeatable: false,
+    contentTemplate: '# Communication Plan\n\n## Stakeholders\n\n## Communication Channels\n\n## Timeline\n\n',
+    fieldDefinitions: [],
+    aiAgentRoles: ['DESIGN', 'UIUX'],
+    metadata: {},
+  },
+];
+
+// =============================================================================
+// Aggregate Exports
+// =============================================================================
+
+export const syntheticPlanTemplates: PlanTemplate[] = [
+  template1,
+  template2,
+  template3,
+];
+
+export const syntheticTemplateSections: TemplateSection[] = [
+  ...template1Sections,
+  ...template2Sections,
+  ...template3Sections,
+];

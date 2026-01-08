@@ -12,6 +12,6 @@ import { authOptions } from '@/lib/auth/auth.config';
  * - /api/auth/csrf
  * - etc.
  */
-const handler = NextAuth(authOptions);
+const handler = NextAuth(authOptions as any);
 
 export { handler as GET, handler as POST };

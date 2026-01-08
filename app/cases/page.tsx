@@ -17,14 +17,18 @@ import {
   ArrowUpIcon,
   DashIcon,
 } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 import { ThreePaneWorkspace } from '@/components/workspace/ThreePaneWorkspace';
 import { CASE_ITEMS, CASE_STATS, CASE_TYPE_INFO, CaseItem } from '@/lib/data/synthetic/cases.data';
+import { DemoBadge, DemoHighlight } from '@/components/demo/DemoBadge';
+import { DemoToggle, DemoFilter, DemoWarningBanner } from '@/components/demo/DemoToggle';
 
 export default function CasesPage() {
   const [selectedCase, setSelectedCase] = useState<CaseItem | null>(null);
   const [filterType, setFilterType] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [demoFilter, setDemoFilter] = useState<DemoFilter>('all');
 
   // Filter cases
   const filteredCases = CASE_ITEMS.filter(c => {
@@ -32,8 +36,18 @@ export default function CasesPage() {
     if (filterStatus !== 'all' && c.status !== filterStatus) return false;
     if (searchQuery && !c.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
         !c.caseNumber.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+    // Demo filter
+    if (demoFilter === 'demo-only' && !c.isDemo) return false;
+    if (demoFilter === 'real-only' && c.isDemo) return false;
     return true;
   });
+
+  // Calculate demo counts
+  const demoCounts = {
+    total: CASE_ITEMS.length,
+    demo: CASE_ITEMS.filter(c => c.isDemo).length,
+    real: CASE_ITEMS.filter(c => !c.isDemo).length,
+  };
 
   // Sort by most recent first
   const sortedCases = [...filteredCases].sort((a, b) =>
@@ -305,15 +319,25 @@ export default function CasesPage() {
   // Center Content - Case List
   const centerContent = (
     <div className="h-full flex flex-col">
-      {/* Header */}
+      {/* Demo Warning Banner */}
+      {demoCounts.demo > 0 && (
+        <div className="px-4 pt-4">
+          <DemoWarningBanner
+            demoCount={demoCounts.demo}
+            onViewDemoLibrary={() => window.location.href = '/demo-library'}
+          />
+        </div>
+      )}
+
+      {/* Toolbar */}
       <div className="flex-none bg-white/90 backdrop-blur-sm border-b border-purple-200 p-6">
         <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Cases</h1>
-            <p className="text-sm text-gray-600 mt-1">
-              Exceptions, disputes, and special requests
-            </p>
-          </div>
+          <DemoToggle
+            value={demoFilter}
+            onChange={setDemoFilter}
+            counts={demoCounts}
+            mode="compact"
+          />
           <button className="px-4 py-2 bg-pink-600 text-white rounded-md text-sm font-medium hover:bg-pink-700 transition-colors flex items-center gap-2">
             <FileTextIcon className="w-4 h-4" />
             New Case
@@ -348,24 +372,27 @@ export default function CasesPage() {
               const TypeIcon = getCaseTypeIcon(caseItem.type);
 
               return (
-                <button
-                  key={caseItem.id}
-                  onClick={() => setSelectedCase(caseItem)}
-                  className={`w-full text-left bg-white/80 backdrop-blur-sm rounded-md border transition-all hover:shadow-md ${
-                    selectedCase?.id === caseItem.id
-                      ? 'border-pink-300 shadow-sm'
-                      : 'border-purple-200'
-                  }`}
-                >
-                  <div className="p-4">
-                    {/* Header Row */}
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex items-center gap-2 flex-1 min-w-0">
-                        <TypeIcon className="w-5 h-5 text-pink-600 flex-shrink-0" />
-                        <div className="min-w-0 flex-1">
-                          <h3 className="font-semibold text-gray-900 text-sm truncate">
-                            {caseItem.title}
-                          </h3>
+                <DemoHighlight key={caseItem.id} isDemo={caseItem.isDemo}>
+                  <button
+                    onClick={() => setSelectedCase(caseItem)}
+                    className={`w-full text-left bg-white/80 backdrop-blur-sm rounded-md border transition-all hover:shadow-md ${
+                      selectedCase?.id === caseItem.id
+                        ? 'border-pink-300 shadow-sm'
+                        : 'border-purple-200'
+                    }`}
+                  >
+                    <div className="p-4">
+                      {/* Header Row */}
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex items-center gap-2 flex-1 min-w-0">
+                          <TypeIcon className="w-5 h-5 text-pink-600 flex-shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-semibold text-gray-900 text-sm truncate">
+                                {caseItem.title}
+                              </h3>
+                              <DemoBadge isDemo={caseItem.isDemo} demoMetadata={caseItem.demoMetadata} size="sm" />
+                            </div>
                           <p className="text-xs text-gray-500 mt-0.5">
                             {caseItem.caseNumber}
                           </p>
@@ -408,6 +435,7 @@ export default function CasesPage() {
                     </div>
                   </div>
                 </button>
+                </DemoHighlight>
               );
             })
           )}
@@ -646,11 +674,17 @@ export default function CasesPage() {
   ) : null;
 
   return (
-    <ThreePaneWorkspace
-      leftNav={leftNav}
-      centerContent={centerContent}
-      rightDetail={rightDetail}
-      showRightPane={!!selectedCase}
-    />
+    <>
+      <SetPageTitle
+        title="Cases Management"
+        description="Exceptions, disputes, territory changes, and special requests with resolution tracking"
+      />
+      <ThreePaneWorkspace
+        leftNav={leftNav}
+        centerContent={centerContent}
+        rightDetail={rightDetail}
+        showRightPane={!!selectedCase}
+      />
+    </>
   );
 }

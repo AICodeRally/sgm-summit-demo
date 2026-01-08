@@ -4,6 +4,7 @@ import type {
   DecisionThreshold,
   ICommitteePort,
 } from '@/lib/ports/committee.port';
+import { isDemoDataEnabled } from '@/lib/config/binding-config';
 
 /**
  * Synthetic Committee Provider - In-memory implementation
@@ -14,7 +15,10 @@ export class SyntheticCommitteeProvider implements ICommitteePort {
   private committees: Map<string, GovernanceCommittee> = new Map();
 
   constructor() {
-    this.initializeSampleCommittees();
+    const demoEnabled = isDemoDataEnabled();
+    if (demoEnabled) {
+      this.initializeSampleCommittees();
+    }
   }
 
   private initializeSampleCommittees() {

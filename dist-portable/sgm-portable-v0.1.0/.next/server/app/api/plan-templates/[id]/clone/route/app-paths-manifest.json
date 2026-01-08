@@ -1,0 +1,3 @@
+{
+  "/api/plan-templates/[id]/clone/route": "app/api/plan-templates/[id]/clone/route.js"
+}

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { SetPageTitle } from '@/components/SetPageTitle';
 import {
   FileTextIcon,
   GearIcon,
@@ -15,6 +16,8 @@ import {
   DotsHorizontalIcon,
 } from '@radix-ui/react-icons';
 import { ThreePaneWorkspace } from '@/components/workspace/ThreePaneWorkspace';
+import { DemoBadge, DemoHighlight, LiveBadge, LiveHighlight } from '@/components/demo/DemoBadge';
+import { DemoToggle, DemoFilter, DemoWarningBanner } from '@/components/demo/DemoToggle';
 
 interface Document {
   id: string;
@@ -28,6 +31,13 @@ interface Document {
   owner: string;
   description?: string;
   effectiveDate?: string;
+  isDemo?: boolean;
+  demoMetadata?: {
+    year?: number;
+    bu?: string;
+    division?: string;
+    category?: string;
+  } | null;
 }
 
 interface FilterState {
@@ -44,6 +54,7 @@ export default function DocumentsPage() {
   const [searchInput, setSearchInput] = useState('');
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
   const [sortBy, setSortBy] = useState<'updated' | 'code' | 'title'>('updated');
+  const [demoFilter, setDemoFilter] = useState<DemoFilter>('all');
 
   // Fetch documents
   useEffect(() => {
@@ -72,6 +83,20 @@ export default function DocumentsPage() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setFilters(prev => ({ ...prev, search: searchInput }));
+  };
+
+  // Filter documents based on demo filter
+  const filteredDocuments = documents.filter(doc => {
+    if (demoFilter === 'demo-only') return doc.isDemo === true;
+    if (demoFilter === 'real-only') return doc.isDemo !== true;
+    return true; // 'all'
+  });
+
+  // Calculate demo counts
+  const demoCounts = {
+    total: documents.length,
+    demo: documents.filter(d => d.isDemo).length,
+    real: documents.filter(d => !d.isDemo).length,
   };
 
   // Get unique document types and categories
@@ -176,17 +201,43 @@ export default function DocumentsPage() {
   // Center Content - Document list
   const centerContent = (
     <div className="flex flex-col h-full">
+      {/* Demo Warning Banner */}
+      {demoCounts.demo > 0 && (
+        <div className="px-4 pt-4">
+          <DemoWarningBanner
+            demoCount={demoCounts.demo}
+            onViewDemoLibrary={() => window.location.href = '/demo-library'}
+          />
+        </div>
+      )}
+
       {/* Toolbar */}
       <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 px-4 py-3">
         <div className="flex items-center justify-between mb-3">
-          <h1 className="text-lg font-semibold text-gray-900">Document Library</h1>
-          <Link
-            href="/documents/new"
-            className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors"
-          >
-            <PlusIcon className="w-4 h-4" />
-            New Document
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/documents/upload"
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+              </svg>
+              Upload Document
+            </Link>
+            <Link
+              href="/documents/new"
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors"
+            >
+              <PlusIcon className="w-4 h-4" />
+              New Document
+            </Link>
+          </div>
+          <DemoToggle
+            value={demoFilter}
+            onChange={setDemoFilter}
+            counts={demoCounts}
+            mode="full"
+          />
         </div>
 
         {/* Search bar */}
@@ -213,9 +264,14 @@ export default function DocumentsPage() {
 
         {/* Results count */}
         <div className="mt-2 text-xs text-gray-500">
-          {documents.length} document{documents.length !== 1 ? 's' : ''}
+          {filteredDocuments.length} document{filteredDocuments.length !== 1 ? 's' : ''}
           {filters.documentType && ` • Type: ${filters.documentType}`}
           {filters.status && ` • Status: ${filters.status.replace(/_/g, ' ')}`}
+          {demoFilter !== 'all' && (
+            <span className="ml-1 text-orange-600 font-medium">
+              • Showing {demoFilter === 'demo-only' ? 'Demo Only' : 'Real Data Only'}
+            </span>
+          )}
         </div>
       </div>
 
@@ -225,7 +281,7 @@ export default function DocumentsPage() {
           <div className="flex items-center justify-center h-full">
             <p className="text-sm text-gray-500">Loading documents...</p>
           </div>
-        ) : documents.length === 0 ? (
+        ) : filteredDocuments.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center px-4">
             <FileTextIcon className="w-12 h-12 text-gray-400 mb-3" />
             <p className="text-sm font-medium text-gray-900 mb-1">No documents found</p>
@@ -240,55 +296,61 @@ export default function DocumentsPage() {
           </div>
         ) : (
           <div className="divide-y divide-gray-200">
-            {documents.map(doc => {
+            {filteredDocuments.map(doc => {
               const IconComponent = getDocumentIcon(doc.documentType);
+              const Highlight = doc.isDemo ? DemoHighlight : LiveHighlight;
               return (
-                <button
-                  key={doc.id}
-                  onClick={() => setSelectedDoc(doc)}
-                  className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors ${
-                    selectedDoc?.id === doc.id ? 'bg-blue-50' : ''
-                  }`}
-                >
-                  <div className="flex items-start gap-3">
-                    <div className="flex-none mt-0.5">
-                      <IconComponent className="w-5 h-5 text-gray-400" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-sm font-medium text-gray-900 truncate">
-                            {doc.title}
-                          </h3>
-                          <p className="text-xs text-gray-500 mt-0.5">
-                            {doc.documentCode} • v{doc.version}
-                          </p>
+                <Highlight key={doc.id} isDemo={doc.isDemo}>
+                  <button
+                    onClick={() => setSelectedDoc(doc)}
+                    className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors ${
+                      selectedDoc?.id === doc.id ? 'bg-blue-50' : ''
+                    }`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="flex-none mt-0.5">
+                        <IconComponent className="w-5 h-5 text-gray-400" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <h3 className="text-sm font-medium text-gray-900 truncate">
+                                {doc.title}
+                              </h3>
+                              <DemoBadge isDemo={doc.isDemo} demoMetadata={doc.demoMetadata} size="sm" />
+                              <LiveBadge isDemo={doc.isDemo} size="sm" label="LIVE" />
+                            </div>
+                            <p className="text-xs text-gray-500 mt-0.5">
+                              {doc.documentCode} • v{doc.version}
+                            </p>
+                          </div>
+                          <span
+                            className={`flex-none px-2 py-0.5 text-xs font-medium rounded ${getStatusColor(
+                              doc.status
+                            )}`}
+                          >
+                            {doc.status.replace(/_/g, ' ')}
+                          </span>
                         </div>
-                        <span
-                          className={`flex-none px-2 py-0.5 text-xs font-medium rounded ${getStatusColor(
-                            doc.status
-                          )}`}
-                        >
-                          {doc.status.replace(/_/g, ' ')}
-                        </span>
-                      </div>
-                      {doc.description && (
-                        <p className="text-xs text-gray-600 mt-1 line-clamp-1">{doc.description}</p>
-                      )}
-                      <div className="flex items-center gap-3 mt-2 text-xs text-gray-500">
-                        <span>{doc.owner}</span>
-                        <span>•</span>
-                        <span>Updated {new Date(doc.lastUpdated).toLocaleDateString()}</span>
-                        {doc.effectiveDate && (
-                          <>
-                            <span>•</span>
-                            <span>Effective {new Date(doc.effectiveDate).toLocaleDateString()}</span>
-                          </>
+                        {doc.description && (
+                          <p className="text-xs text-gray-600 mt-1 line-clamp-1">{doc.description}</p>
                         )}
+                        <div className="flex items-center gap-3 mt-2 text-xs text-gray-500">
+                          <span>{doc.owner}</span>
+                          <span>•</span>
+                          <span>Updated {new Date(doc.lastUpdated).toLocaleDateString()}</span>
+                          {doc.effectiveDate && (
+                            <>
+                              <span>•</span>
+                              <span>Effective {new Date(doc.effectiveDate).toLocaleDateString()}</span>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </button>
+                  </button>
+                </Highlight>
               );
             })}
           </div>
@@ -303,7 +365,11 @@ export default function DocumentsPage() {
       <div className="flex-none p-4 border-b border-purple-200">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <h2 className="text-lg font-semibold text-gray-900">{selectedDoc.title}</h2>
+            <div className="flex items-start gap-2">
+              <h2 className="text-lg font-semibold text-gray-900">{selectedDoc.title}</h2>
+              <DemoBadge isDemo={selectedDoc.isDemo} demoMetadata={selectedDoc.demoMetadata} size="md" />
+              <LiveBadge isDemo={selectedDoc.isDemo} size="md" label="LIVE" />
+            </div>
             <p className="text-sm text-gray-500 mt-1">{selectedDoc.documentCode}</p>
           </div>
           <button className="text-gray-400 hover:text-gray-600">
@@ -391,13 +457,19 @@ export default function DocumentsPage() {
   ) : null;
 
   return (
-    <div className="h-full">
-      <ThreePaneWorkspace
-        leftNav={leftNav}
-        centerContent={centerContent}
-        rightDetail={rightDetail}
-        showRightPane={!!selectedDoc}
+    <>
+      <SetPageTitle
+        title="Document Library"
+        description="48 governance documents with versioning, effective dating, and lifecycle management"
       />
-    </div>
+      <div className="h-full">
+        <ThreePaneWorkspace
+          leftNav={leftNav}
+          centerContent={centerContent}
+          rightDetail={rightDetail}
+          showRightPane={!!selectedDoc}
+        />
+      </div>
+    </>
   );
 }

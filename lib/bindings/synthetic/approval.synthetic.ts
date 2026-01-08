@@ -1,4 +1,5 @@
 import type { IApprovalPort } from '@/lib/ports/approval.port';
+import { isDemoDataEnabled } from '@/lib/config/binding-config';
 import type {
   Approval,
   CreateApproval,
@@ -13,8 +14,9 @@ export class SyntheticApprovalProvider implements IApprovalPort {
   private workflowSteps: Map<string, ApprovalWorkflowStep>;
 
   constructor() {
-    this.approvals = new Map(syntheticApprovals.map((a) => [a.id, a]));
-    this.workflowSteps = new Map(syntheticApprovalWorkflowSteps.map((s) => [s.id, s]));
+    const demoEnabled = isDemoDataEnabled();
+    this.approvals = new Map(demoEnabled ? syntheticApprovals.map((a) => [a.id, a]) : []);
+    this.workflowSteps = new Map(demoEnabled ? syntheticApprovalWorkflowSteps.map((s) => [s.id, s]) : []);
   }
 
   async findAll(filters?: ApprovalFilters): Promise<Approval[]> {

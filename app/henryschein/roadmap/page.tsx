@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowLeftIcon, CheckCircledIcon, ClockIcon, RocketIcon } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 
 interface RoadmapPhase {
   phase: number;
@@ -151,7 +152,7 @@ export default function HenryScheinRoadmap() {
   const getStatusColor = (status: string) => {
     if (status === 'COMPLETED') return 'bg-green-100 text-green-800 border-green-300';
     if (status === 'IN_PROGRESS') return 'bg-blue-100 text-blue-800 border-blue-300';
-    return 'bg-gray-100 text-gray-800 border-gray-300';
+    return 'bg-gray-100 text-gray-800 border-purple-300';
   };
 
   const getStatusIcon = (status: string) => {
@@ -161,28 +162,28 @@ export default function HenryScheinRoadmap() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link
-                href="/henryschein"
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                <ArrowLeftIcon className="w-4 h-4" />
-                Back to Dashboard
-              </Link>
-              <div className="h-6 w-px bg-gray-300"></div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">Q1 2026 Implementation Roadmap</h1>
-                <p className="text-sm text-gray-600">12-week plan from policy finalization to go-live</p>
+    <>
+      <SetPageTitle
+        title="Henry Schein - Implementation Roadmap"
+        description="3-year governance improvement plan with prioritized initiatives"
+      />
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <div className="bg-white border-b border-purple-200 shadow-sm sticky top-0 z-10">
+          <div className="max-w-7xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/henryschein"
+                  className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  <ArrowLeftIcon className="w-4 h-4" />
+                  Back to Dashboard
+                </Link>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6">
         {/* Timeline Overview */}
@@ -211,7 +212,7 @@ export default function HenryScheinRoadmap() {
             const progress = phase.status === 'COMPLETED' ? 100 : phase.status === 'IN_PROGRESS' ? 50 : 0;
 
             return (
-              <div key={phase.phase} className="bg-white rounded-lg border-2 border-gray-200 p-4">
+              <div key={phase.phase} className="bg-white rounded-lg border-2 border-purple-200 p-4">
                 <div className="flex items-center gap-2 mb-2">
                   {getStatusIcon(phase.status)}
                   <h3 className="font-bold text-gray-900">Phase {phase.phase}</h3>
@@ -240,7 +241,7 @@ export default function HenryScheinRoadmap() {
         {/* Phases Detail */}
         <div className="space-y-8">
           {roadmapPhases.map((phase) => (
-            <div key={phase.phase} className="bg-white rounded-lg border-2 border-gray-200 shadow-md p-6">
+            <div key={phase.phase} className="bg-white rounded-lg border-2 border-purple-200 shadow-md p-6">
               <div className="flex items-start justify-between mb-6">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
@@ -267,7 +268,7 @@ export default function HenryScheinRoadmap() {
                     className={`p-4 rounded-lg border-2 ${
                       milestone.critical
                         ? 'bg-red-50 border-red-200'
-                        : 'bg-gray-50 border-gray-200'
+                        : 'bg-gray-50 border-purple-200'
                     }`}
                   >
                     <div className="flex items-start justify-between mb-2">
@@ -373,7 +374,7 @@ export default function HenryScheinRoadmap() {
         </div>
 
         {/* Action Items */}
-        <div className="mt-8 bg-white rounded-lg border border-gray-200 shadow-md p-6">
+        <div className="mt-8 bg-white rounded-lg border border-purple-200 shadow-md p-6">
           <h3 className="text-lg font-bold text-gray-900 mb-4">Next Steps to Start Phase 1</h3>
           <div className="space-y-3">
             <div className="flex items-center gap-3 p-3 bg-red-50 rounded-lg border border-red-200">
@@ -415,6 +416,7 @@ export default function HenryScheinRoadmap() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

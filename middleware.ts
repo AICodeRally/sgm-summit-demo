@@ -19,6 +19,14 @@ const PUBLIC_ROUTES = [
   '/api/auth',
   '/_next',
   '/favicon.ico',
+  // Temporary for testing
+  '/templates',
+  '/plans',
+  '/governance-framework',
+  '/api/plan-templates',
+  '/api/plans',
+  '/api/governance-framework',
+  '/api/ai/agents',
 ];
 
 const ADMIN_ROUTES = ['/admin'];

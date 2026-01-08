@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { SetPageTitle } from '@/components/SetPageTitle';
 
 interface ComplianceIssue {
   id: string;
@@ -73,7 +74,7 @@ export default function CompliancePage() {
       warning: 'bg-yellow-100 text-yellow-800 border-yellow-300',
       info: 'bg-blue-100 text-blue-800 border-blue-300',
     };
-    return colors[severity] || 'bg-gray-100 text-gray-800 border-gray-300';
+    return colors[severity] || 'bg-gray-100 text-gray-800 border-purple-300';
   };
 
   const getTypeIcon = (type: string) => {
@@ -91,20 +92,18 @@ export default function CompliancePage() {
   const warningCount = issues.filter(i => i.severity === 'warning').length;
 
   return (
-    <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
-      {/* Header */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-600 bg-clip-text text-transparent">Compliance Dashboard</h1>
-          <p className="text-gray-600 mt-1">Track and manage governance compliance issues</p>
-        </div>
-      </div>
+    <>
+      <SetPageTitle
+        title="Compliance Dashboard"
+        description="Monitor regulatory compliance and policy adherence"
+      />
+      <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
 
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Summary Cards */}
         <div className="grid grid-cols-4 gap-6 mb-12">
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="bg-white rounded-lg border border-purple-200 p-6">
             <p className="text-sm text-gray-600 font-medium">Total Issues</p>
             <p className="text-3xl font-bold text-gray-900 mt-2">{issues.length}</p>
           </div>
@@ -161,7 +160,7 @@ export default function CompliancePage() {
         </div>
 
         {/* Compliance Report */}
-        <div className="mt-12 bg-white rounded-lg border border-gray-200 p-8">
+        <div className="mt-12 bg-white rounded-lg border border-purple-200 p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Compliance Report</h2>
           <div className="space-y-4">
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded">
@@ -211,16 +210,17 @@ export default function CompliancePage() {
 
           {/* Export */}
           <div className="mt-6 flex gap-3">
-            <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium">
+            <button className="px-4 py-2 border border-purple-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium">
               Export Report
             </button>
-            <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium">
+            <button className="px-4 py-2 border border-purple-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium">
               Email Report
             </button>
           </div>
         </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

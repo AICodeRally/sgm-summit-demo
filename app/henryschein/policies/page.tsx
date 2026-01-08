@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeftIcon, CheckCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 
 interface PolicyImpact {
   policyName: string;
@@ -143,28 +144,33 @@ export default function HenryScheinPolicies() {
   const niceToHavePolicies = policies.filter((p) => p.priority === 'NICE TO HAVE');
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link
-                href="/henryschein"
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                <ArrowLeftIcon className="w-4 h-4" />
-                Back to Dashboard
-              </Link>
-              <div className="h-6 w-px bg-gray-300"></div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">BHG Policy Recommendations</h1>
-                <p className="text-sm text-gray-600">{policies.length} DRAFT policies available for implementation</p>
+    <>
+      <SetPageTitle
+        title="Henry Schein - Policies"
+        description="Policy documents and compliance status"
+      />
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <div className="bg-white border-b border-purple-200 shadow-sm sticky top-0 z-10">
+          <div className="max-w-7xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/henryschein"
+                  className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  <ArrowLeftIcon className="w-4 h-4" />
+                  Back to Dashboard
+                </Link>
+                <div className="h-6 w-px bg-gray-300"></div>
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900">BHG Policy Recommendations</h1>
+                  <p className="text-sm text-gray-600">{policies.length} DRAFT policies available for implementation</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
       <div className="max-w-7xl mx-auto px-6 py-6">
         {/* Summary Stats */}
@@ -223,7 +229,7 @@ export default function HenryScheinPolicies() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-4 gap-4 pt-4 border-t border-gray-200">
+                    <div className="grid grid-cols-4 gap-4 pt-4 border-t border-purple-200">
                       <div>
                         <p className="text-xs text-gray-600 mb-1">Priority</p>
                         <span className={`px-2 py-1 text-xs font-bold rounded border ${getPriorityColor(policy.priority)}`}>
@@ -285,7 +291,7 @@ export default function HenryScheinPolicies() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-4 gap-4 pt-4 border-t border-gray-200">
+                    <div className="grid grid-cols-4 gap-4 pt-4 border-t border-purple-200">
                       <div>
                         <p className="text-xs text-gray-600 mb-1">Priority</p>
                         <span className={`px-2 py-1 text-xs font-bold rounded border ${getPriorityColor(policy.priority)}`}>
@@ -347,7 +353,7 @@ export default function HenryScheinPolicies() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-4 gap-4 pt-4 border-t border-gray-200">
+                    <div className="grid grid-cols-4 gap-4 pt-4 border-t border-purple-200">
                       <div>
                         <p className="text-xs text-gray-600 mb-1">Priority</p>
                         <span className={`px-2 py-1 text-xs font-bold rounded border ${getPriorityColor(policy.priority)}`}>
@@ -384,7 +390,7 @@ export default function HenryScheinPolicies() {
         {selectedPolicy && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
-              <div className="p-6 border-b border-gray-200 bg-gray-50">
+              <div className="p-6 border-b border-purple-200 bg-gray-50">
                 <div className="flex items-start justify-between">
                   <div>
                     <h2 className="text-2xl font-bold text-gray-900">{selectedPolicy.policyName}</h2>
@@ -409,7 +415,7 @@ export default function HenryScheinPolicies() {
                 {selectedPolicy.affectedPlans.length > 0 ? (
                   <div className="space-y-2">
                     {selectedPolicy.affectedPlans.map((planName, idx) => (
-                      <div key={idx} className="p-3 bg-gray-50 rounded border border-gray-200">
+                      <div key={idx} className="p-3 bg-gray-50 rounded border border-purple-200">
                         <p className="text-sm font-medium text-gray-900">{planName}</p>
                       </div>
                     ))}
@@ -431,7 +437,7 @@ export default function HenryScheinPolicies() {
                 </div>
               </div>
 
-              <div className="p-6 border-t border-gray-200 bg-gray-50">
+              <div className="p-6 border-t border-purple-200 bg-gray-50">
                 <button
                   onClick={() => setSelectedPolicy(null)}
                   className="px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-all"
@@ -474,6 +480,7 @@ export default function HenryScheinPolicies() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

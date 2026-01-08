@@ -11,6 +11,7 @@ import {
   CheckCircledIcon,
   FileTextIcon,
 } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 import {
   CALENDAR_EVENTS,
   EVENT_TYPE_INFO,
@@ -100,26 +101,23 @@ export default function CalendarPage() {
       case 'MEDIUM':
         return 'bg-yellow-100 text-yellow-700 border-yellow-200';
       case 'LOW':
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+        return 'bg-gray-100 text-gray-700 border-purple-200';
       default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+        return 'bg-gray-100 text-gray-700 border-purple-200';
     }
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
-      {/* Header */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-600 bg-clip-text text-transparent">
-                Governance Calendar
-              </h1>
-              <p className="text-sm text-gray-600 mt-1">
-                Unified timeline of governance events and deadlines
-              </p>
-            </div>
+    <>
+      <SetPageTitle
+        title="Governance Calendar"
+        description="Month-by-month timeline of governance events and milestones"
+      />
+      <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
+        {/* Header */}
+        <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
+          <div className="max-w-7xl mx-auto px-6 py-6">
+            <div className="flex items-center justify-between">
             <div className="flex items-center gap-4 text-sm">
               <div className="bg-purple-100 px-3 py-1 rounded-full">
                 <span className="font-semibold text-purple-700">{CALENDAR_STATS.upcomingEvents}</span>
@@ -402,6 +400,7 @@ export default function CalendarPage() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

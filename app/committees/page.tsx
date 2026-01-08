@@ -12,8 +12,11 @@ import {
   EnvelopeClosedIcon,
   DotFilledIcon,
 } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 import { ThreePaneWorkspace } from '@/components/workspace/ThreePaneWorkspace';
 import { SGCC_COMMITTEE, CRB_COMMITTEE, CRB_DECISION_OPTIONS, type Committee } from '@/lib/data/synthetic/committees.data';
+import { DemoBadge } from '@/components/demo/DemoBadge';
+import { DemoWarningBanner } from '@/components/demo/DemoToggle';
 
 const ALL_COMMITTEES = [SGCC_COMMITTEE, CRB_COMMITTEE];
 
@@ -44,7 +47,10 @@ export default function CommitteesPage() {
                   selectedCommittee?.id === committee.id ? 'text-purple-600' : 'text-gray-400'
                 }`} />
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{committee.code}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-medium truncate">{committee.code}</p>
+                    <DemoBadge isDemo={committee.isDemo} demoMetadata={committee.demoMetadata} size="sm" />
+                  </div>
                   <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{committee.name}</p>
                   <div className="flex items-center gap-2 mt-2 text-xs text-gray-500">
                     <PersonIcon className="w-3 h-3" />
@@ -75,6 +81,16 @@ export default function CommitteesPage() {
   // Center Content - Committee details
   const centerContent = selectedCommittee ? (
     <div className="flex flex-col h-full">
+      {/* Demo Warning Banner */}
+      {ALL_COMMITTEES.some(c => c.isDemo) && (
+        <div className="px-4 pt-4">
+          <DemoWarningBanner
+            demoCount={ALL_COMMITTEES.filter(c => c.isDemo).length}
+            onViewDemoLibrary={() => window.location.href = '/demo-library'}
+          />
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex-none bg-white/90 backdrop-blur-sm border-b border-purple-200 px-6 py-4">
         <div className="flex items-start justify-between mb-4">
@@ -135,7 +151,7 @@ export default function CommitteesPage() {
               className={`flex items-center gap-2 px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === tab.id
                   ? 'border-purple-600 text-purple-700'
-                  : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300'
+                  : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-purple-300'
               }`}
             >
               {React.createElement(tab.icon, { className: 'w-4 h-4' })}
@@ -346,7 +362,7 @@ export default function CommitteesPage() {
           </div>
         </Link>
 
-        <button className="w-full p-3 bg-white border border-purple-200 rounded-lg hover:border-gray-300 hover:shadow-sm transition-all text-left">
+        <button className="w-full p-3 bg-white border border-purple-200 rounded-lg hover:border-purple-300 hover:shadow-sm transition-all text-left">
           <div className="flex items-start gap-2">
             <CalendarIcon className="w-4 h-4 text-blue-600 flex-none mt-0.5" />
             <div>
@@ -356,7 +372,7 @@ export default function CommitteesPage() {
           </div>
         </button>
 
-        <button className="w-full p-3 bg-white border border-purple-200 rounded-lg hover:border-gray-300 hover:shadow-sm transition-all text-left">
+        <button className="w-full p-3 bg-white border border-purple-200 rounded-lg hover:border-purple-300 hover:shadow-sm transition-all text-left">
           <div className="flex items-start gap-2">
             <ClockIcon className="w-4 h-4 text-orange-600 flex-none mt-0.5" />
             <div>
@@ -376,13 +392,19 @@ export default function CommitteesPage() {
   ) : null;
 
   return (
-    <div className="h-full">
-      <ThreePaneWorkspace
-        leftNav={leftNav}
-        centerContent={centerContent}
-        rightDetail={rightDetail}
-        showRightPane={!!selectedCommittee}
+    <>
+      <SetPageTitle
+        title="Governance Committees"
+        description="SGCC (7 members) and CRB for windfall deals and exception management"
       />
-    </div>
+      <div className="h-full">
+        <ThreePaneWorkspace
+          leftNav={leftNav}
+          centerContent={centerContent}
+          rightDetail={rightDetail}
+          showRightPane={!!selectedCommittee}
+        />
+      </div>
+    </>
   );
 }

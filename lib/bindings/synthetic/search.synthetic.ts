@@ -1,4 +1,5 @@
 import type { ISearchPort } from '@/lib/ports/search.port';
+import { isDemoDataEnabled } from '@/lib/config/binding-config';
 import type {
   IndexItem,
   CreateIndexItem,

@@ -200,7 +200,7 @@ export class LivePolicyProvider implements IPolicyPort {
       _count: { status: true },
     });
 
-    return result.reduce((acc, item) => {
+    return result.reduce((acc: Record<string, number>, item: any) => {
       acc[item.status] = item._count.status;
       return acc;
     }, {} as Record<string, number>);

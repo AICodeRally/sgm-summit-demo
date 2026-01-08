@@ -15,6 +15,7 @@ import {
   UpdateIcon,
   ReaderIcon,
 } from '@radix-ui/react-icons';
+import { SetPageTitle } from '@/components/SetPageTitle';
 import {
   NOTIFICATIONS,
   NOTIFICATION_TYPE_INFO,
@@ -125,9 +126,9 @@ export default function NotificationsPage() {
       case 'MEDIUM':
         return 'bg-yellow-100 text-yellow-700 border-yellow-200';
       case 'LOW':
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+        return 'bg-gray-100 text-gray-700 border-purple-200';
       default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+        return 'bg-gray-100 text-gray-700 border-purple-200';
     }
   };
 
@@ -138,19 +139,16 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
-      {/* Header */}
-      <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-fuchsia-600 to-yellow-600 bg-clip-text text-transparent">
-                Notifications Center
-              </h1>
-              <p className="text-sm text-gray-600 mt-1">
-                Centralized action items and updates
-              </p>
-            </div>
+    <>
+      <SetPageTitle
+        title="Notifications Center"
+        description="Centralized action items inbox with priority filtering"
+      />
+      <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
+        {/* Header */}
+        <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 shadow-sm">
+          <div className="max-w-7xl mx-auto px-6 py-6">
+            <div className="flex items-center justify-between">
             <div className="flex items-center gap-4 text-sm">
               <div className="bg-purple-100 px-3 py-1 rounded-full">
                 <span className="font-semibold text-purple-700">{NOTIFICATION_STATS.unread}</span>
@@ -430,7 +428,7 @@ export default function NotificationsPage() {
 
               {/* Sender */}
               {selectedNotification.sender && (
-                <div className="flex items-center gap-2 text-sm text-gray-600 mb-4 pb-4 border-b border-gray-200">
+                <div className="flex items-center gap-2 text-sm text-gray-600 mb-4 pb-4 border-b border-purple-200">
                   <span className="text-gray-500">From:</span>
                   <span className="font-medium">{selectedNotification.sender}</span>
                 </div>
@@ -499,6 +497,7 @@ export default function NotificationsPage() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }
