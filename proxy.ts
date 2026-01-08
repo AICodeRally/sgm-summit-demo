@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 /**
- * Middleware - Tenant-aware routing and authentication
+ * Proxy - Tenant-aware routing and authentication
  *
  * Responsibilities:
  * 1. Enforce authentication on protected routes
@@ -33,7 +33,7 @@ const PUBLIC_ROUTES = [
 
 const ADMIN_ROUTES = ['/admin'];
 
-export async function middleware(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Allow public routes
