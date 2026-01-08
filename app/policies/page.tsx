@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import {
   DocumentTextIcon,
   MagnifyingGlassIcon,
@@ -379,15 +381,13 @@ export default function PolicyLibraryPage() {
               </div>
 
               <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
-                <div className="prose prose-purple max-w-none">
-                  <div className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                    {selectedPolicy.content.substring(0, 5000)}
-                    {selectedPolicy.content.length > 5000 && (
-                      <p className="text-sm text-gray-500 italic mt-4">
-                        ... (Content truncated. Download the full policy for complete text.)
-                      </p>
-                    )}
-                  </div>
+                <div className="prose prose-purple prose-sm max-w-none">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {selectedPolicy.content.length > 5000
+                      ? selectedPolicy.content.substring(0, 5000) + '\n\n*... (Content truncated. Download the full policy for complete text.)*'
+                      : selectedPolicy.content
+                    }
+                  </ReactMarkdown>
                 </div>
               </div>
 
