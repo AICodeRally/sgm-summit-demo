@@ -1,0 +1,71 @@
+{
+  "code": "SCP-005",
+  "name": "Section 409A Compliance Policy",
+  "category": "Legal Compliance",
+  "frameworkArea": "Compliance (409A, State Wage)",
+  "status": "DRAFT",
+  "version": "0.1.0",
+  "effectiveDate": "2024-01-01T00:00:00Z",
+  "legalReviewRequired": true,
+  "purpose": {
+    "summary": "This policy establishes compliance standards and procedures for Internal Revenue Code Section 409A, which governs deferred compensation arrangements. The policy ensures Henry Schein's compensation plans comply with Section 409A requirements to avoid significant tax penalties for the company and employees.",
+    "objectives": [
+      "Establish framework for compliance (409a, state wage)",
+      "Ensure compliance and consistency",
+      "Provide clear governance structure"
+    ]
+  },
+  "scope": {
+    "appliesTo": [
+      "All deferred compensation arrangements as defined by Section 409A",
+      "Sales compensation plans with payment timing features",
+      "Equity-based compensation with deferral provisions",
+      "Severance agreements and retention programs",
+      "All U.S.-based employees and independent contractors"
+    ],
+    "exclusions": [],
+    "geographic": []
+  },
+  "definitions": [],
+  "provisions": [
+    {
+      "id": "prov-001",
+      "title": "Policy Requirements",
+      "content": "See full policy document for detailed provisions.",
+      "priority": "HIGH",
+      "subProvisions": [],
+      "tables": []
+    }
+  ],
+  "compliance": {
+    "federalLaws": [],
+    "stateLaws": [],
+    "industryStandards": [],
+    "keywords": [
+      "section 409a compliance policy",
+      "section",
+      "compliance",
+      "policy",
+      "(409a,",
+      "state",
+      "wage)"
+    ]
+  },
+  "relatedPolicies": [],
+  "metadata": {
+    "createdAt": "2025-11-01T00:00:00Z",
+    "updatedAt": "2025-11-01T00:00:00Z",
+    "createdBy": "policy-team",
+    "approvedBy": "Pending Legal & Executive Review",
+    "sourceFile": "lib/data/policies/SCP-005.md",
+    "wordCount": 1964,
+    "changeLog": [
+      {
+        "version": "0.1.0",
+        "date": "2025-11-01",
+        "author": "Sales Compensation Governance Committee",
+        "description": "Initial draft created from Gap Analysis requirements"
+      }
+    ]
+  }
+}

@@ -5,24 +5,25 @@ import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {
-  DocumentTextIcon,
+  FileTextIcon,
   MagnifyingGlassIcon,
-  FunnelIcon,
-  ArrowDownTrayIcon,
-  CheckCircleIcon,
+  MixerVerticalIcon,
+  DownloadIcon,
+  CheckCircledIcon,
   ClockIcon,
-  DocumentCheckIcon,
+  FileIcon,
   ExclamationTriangleIcon,
-  BookOpenIcon,
-  ShieldCheckIcon,
-  ArrowTrendingUpIcon,
-  UsersIcon,
-  CurrencyDollarIcon,
-  Cog6ToothIcon,
-  CircleStackIcon,
-  GlobeAltIcon,
-  XMarkIcon
-} from '@heroicons/react/24/outline';
+  ReaderIcon,
+  LockClosedIcon,
+  ArrowUpIcon,
+  PersonIcon,
+  CircleIcon,
+  GearIcon,
+  StackIcon,
+  GlobeIcon,
+  Cross2Icon
+} from '@radix-ui/react-icons';
+import { ModeContextBadge } from '@/components/modes/ModeBadge';
 
 interface Policy {
   code: string;
@@ -84,13 +85,13 @@ export default function PolicyLibraryPage() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'APPROVED':
-        return <CheckCircleIcon className="w-5 h-5 text-green-600" />;
+        return <CheckCircledIcon className="w-5 h-5 text-green-600" />;
       case 'TEMPLATE':
-        return <DocumentCheckIcon className="w-5 h-5 text-blue-600" />;
+        return <FileIcon className="w-5 h-5 text-blue-600" />;
       case 'DRAFT':
         return <ClockIcon className="w-5 h-5 text-orange-600" />;
       default:
-        return <DocumentTextIcon className="w-5 h-5 text-gray-600" />;
+        return <FileTextIcon className="w-5 h-5 text-gray-600" />;
     }
   };
 
@@ -109,13 +110,13 @@ export default function PolicyLibraryPage() {
 
   const getCategoryIcon = (category: string) => {
     const iconClass = "w-5 h-5 text-purple-600";
-    if (category.includes('Financial')) return <CurrencyDollarIcon className={iconClass} />;
-    if (category.includes('Legal') || category.includes('Compliance')) return <ShieldCheckIcon className={iconClass} />;
-    if (category.includes('HR')) return <UsersIcon className={iconClass} />;
-    if (category.includes('Performance')) return <ArrowTrendingUpIcon className={iconClass} />;
-    if (category.includes('IT') || category.includes('Data')) return <CircleStackIcon className={iconClass} />;
-    if (category.includes('Governance')) return <Cog6ToothIcon className={iconClass} />;
-    return <DocumentTextIcon className={iconClass} />;
+    if (category.includes('Financial')) return <CircleIcon className={iconClass} />;
+    if (category.includes('Legal') || category.includes('Compliance')) return <LockClosedIcon className={iconClass} />;
+    if (category.includes('HR')) return <PersonIcon className={iconClass} />;
+    if (category.includes('Performance')) return <ArrowUpIcon className={iconClass} />;
+    if (category.includes('IT') || category.includes('Data')) return <StackIcon className={iconClass} />;
+    if (category.includes('Governance')) return <GearIcon className={iconClass} />;
+    return <FileTextIcon className={iconClass} />;
   };
 
   const handleViewPolicy = (policy: Policy) => {
@@ -159,12 +160,15 @@ export default function PolicyLibraryPage() {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-gradient-to-br from-purple-100 to-fuchsia-100 rounded-xl">
-                  <BookOpenIcon className="w-8 h-8 text-purple-600" />
+                  <ReaderIcon className="w-8 h-8 text-purple-600" />
                 </div>
                 <div>
-                  <h1 className="text-4xl font-bold text-gray-900">
-                    Policy Library
-                  </h1>
+                  <div className="flex items-center gap-3 mb-2">
+                    <h1 className="text-4xl font-bold text-gray-900">
+                      Policy Library
+                    </h1>
+                    <ModeContextBadge size="md" />
+                  </div>
                   <p className="text-gray-600 mt-1">
                     Comprehensive compensation governance policy templates
                   </p>
@@ -215,7 +219,7 @@ export default function PolicyLibraryPage() {
           {/* Filters */}
           <div className="flex flex-wrap gap-3">
             <div className="flex items-center gap-2">
-              <FunnelIcon className="w-4 h-4 text-gray-500" />
+              <MixerVerticalIcon className="w-4 h-4 text-gray-500" />
               <span className="text-sm font-medium text-gray-700">Filters:</span>
             </div>
 
@@ -299,7 +303,7 @@ export default function PolicyLibraryPage() {
                       <>
                         <span>•</span>
                         <span className="flex items-center gap-1">
-                          <ShieldCheckIcon className="w-4 h-4" />
+                          <LockClosedIcon className="w-4 h-4" />
                           {policy.frameworkArea}
                         </span>
                       </>
@@ -308,7 +312,7 @@ export default function PolicyLibraryPage() {
                     <span>{policy.category}</span>
                     <span>•</span>
                     <span className="flex items-center gap-1">
-                      <DocumentTextIcon className="w-4 h-4" />
+                      <FileTextIcon className="w-4 h-4" />
                       {policy.wordCount.toLocaleString()} words
                     </span>
                   </div>
@@ -333,7 +337,7 @@ export default function PolicyLibraryPage() {
                     className="p-2 border-2 border-gray-300 rounded-lg hover:border-purple-400 hover:bg-purple-50 transition-colors"
                     title="Download Markdown"
                   >
-                    <ArrowDownTrayIcon className="w-5 h-5 text-gray-600" />
+                    <DownloadIcon className="w-5 h-5 text-gray-600" />
                   </button>
                 </div>
               </div>
@@ -343,7 +347,7 @@ export default function PolicyLibraryPage() {
 
         {filteredPolicies.length === 0 && (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">
-            <DocumentTextIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <FileTextIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-700 mb-2">No policies found</h3>
             <p className="text-gray-600">Try adjusting your search or filters</p>
           </div>
@@ -404,7 +408,7 @@ export default function PolicyLibraryPage() {
                   onClick={() => handleDownloadPolicy(selectedPolicy)}
                   className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium flex items-center gap-2"
                 >
-                  <ArrowDownTrayIcon className="w-4 h-4" />
+                  <DownloadIcon className="w-4 h-4" />
                   Download
                 </button>
               </div>

@@ -1,0 +1,257 @@
+# SPM Governance Evidence Register
+# Evidence types and requirements for governance workflows
+# Version: 1.0.0
+# Effective: 2026-01-01
+
+---
+evidence_types:
+  - evidence_type_id: EVT-PLAN_DOC
+    name: Plan Document
+    description: Signed compensation plan document or addendum
+    allowed_formats:
+      - pdf
+      - docx
+      - md
+    required_metadata:
+      - policy_id
+      - plan_code
+      - plan_year
+      - version
+      - effective_date
+      - signatures
+    retention_class: governance_record
+    retention_years: 7
+    chain_of_custody_required: true
+
+  - evidence_type_id: EVT-RUN_LOG
+    name: Calculation Run Log
+    description: ICM calculation engine run log with inputs and outputs
+    allowed_formats:
+      - json
+      - csv
+      - xlsx
+    required_metadata:
+      - run_id
+      - run_timestamp
+      - period
+      - input_hash
+      - output_hash
+      - record_count
+    retention_class: audit_pack
+    retention_years: 7
+    chain_of_custody_required: true
+
+  - evidence_type_id: EVT-RECON_REPORT
+    name: Reconciliation Report
+    description: Cross-system reconciliation report between CRM, ICM, and payroll
+    allowed_formats:
+      - pdf
+      - xlsx
+      - json
+    required_metadata:
+      - recon_period
+      - source_systems
+      - discrepancy_count
+      - resolution_status
+      - preparer_id
+      - reviewer_id
+    retention_class: audit_pack
+    retention_years: 7
+    chain_of_custody_required: true
+
+  - evidence_type_id: EVT-APPROVAL
+    name: Approval Record
+    description: Digital or physical approval record with timestamp and rationale
+    allowed_formats:
+      - json
+      - pdf
+      - email
+    required_metadata:
+      - approval_type
+      - approver_id
+      - approver_role
+      - timestamp
+      - decision
+      - rationale
+      - case_reference
+    retention_class: governance_record
+    retention_years: 7
+    chain_of_custody_required: true
+
+  - evidence_type_id: EVT-CASE_BUNDLE
+    name: Exception/Dispute Evidence Bundle
+    description: Complete evidence package for exception or dispute case
+    allowed_formats:
+      - zip
+      - pdf
+      - json
+    required_metadata:
+      - case_id
+      - case_type
+      - evidence_list
+      - collector_id
+      - collection_timestamp
+      - chain_of_custody_log
+    retention_class: case_file
+    retention_years: 7
+    chain_of_custody_required: true
+
+  - evidence_type_id: EVT-IMPACT_ANALYSIS
+    name: Territory/Quota Change Impact Analysis
+    description: Financial and population impact analysis for proposed changes
+    allowed_formats:
+      - xlsx
+      - pdf
+      - pptx
+    required_metadata:
+      - change_request_id
+      - analysis_type
+      - affected_population_count
+      - financial_impact_estimate
+      - preparer_id
+      - review_timestamp
+    retention_class: governance_record
+    retention_years: 5
+    chain_of_custody_required: false
+
+  - evidence_type_id: EVT-COMMUNICATION
+    name: Communication Record
+    description: Record of stakeholder communications regarding decisions or changes
+    allowed_formats:
+      - email
+      - pdf
+      - json
+    required_metadata:
+      - communication_type
+      - recipients
+      - sent_timestamp
+      - delivery_confirmation
+      - reference_id
+    retention_class: transient
+    retention_years: 3
+    chain_of_custody_required: false
+
+  - evidence_type_id: EVT-UNKNOWN
+    name: Unknown/Unnormalized Evidence
+    description: Placeholder for evidence that does not match known types
+    allowed_formats:
+      - any
+    required_metadata:
+      - source_type_label
+      - original_filename
+    retention_class: transient
+    retention_years: 1
+    chain_of_custody_required: false
+
+---
+# Sample Evidence Items (matching seed dataset)
+evidence_items:
+  - evidence_id: SPM-EV-001
+    evidence_type_id: EVT-PLAN_DOC
+    title: FY2026 Sales Compensation Plan v3.0
+    hash: "sha256:abc123..."
+    retention_class: governance_record
+    metadata:
+      plan_code: COMP-2026-SALES
+      plan_year: 2026
+      version: "3.0"
+      effective_date: "2026-01-01"
+      signatures: ["VP Sales", "CFO", "CHRO"]
+      policy_refs: ["B-001", "B-002", "C-001"]
+
+  - evidence_id: SPM-EV-002
+    evidence_type_id: EVT-RUN_LOG
+    title: Q4 2025 Commission Calculation Run
+    hash: "sha256:def456..."
+    retention_class: audit_pack
+    metadata:
+      run_id: "RUN-2025-Q4-FINAL"
+      run_timestamp: "2026-01-05T02:00:00Z"
+      period: "2025-Q4"
+      input_hash: "sha256:input789..."
+      output_hash: "sha256:output012..."
+      record_count: 2847
+
+  - evidence_id: SPM-EV-003
+    evidence_type_id: EVT-RECON_REPORT
+    title: Q4 2025 CRM-ICM Reconciliation
+    hash: "sha256:ghi789..."
+    retention_class: audit_pack
+    metadata:
+      recon_period: "2025-Q4"
+      source_systems: ["Salesforce", "Xactly", "Workday"]
+      discrepancy_count: 12
+      resolution_status: "resolved"
+      preparer_id: "analyst-001"
+      reviewer_id: "manager-002"
+
+  - evidence_id: SPM-EV-004
+    evidence_type_id: EVT-APPROVAL
+    title: CRB Approval - FY2026 Plan Publish
+    hash: "sha256:jkl012..."
+    retention_class: governance_record
+    metadata:
+      approval_type: "plan_publish"
+      approver_id: "crb-chair-001"
+      approver_role: "CRB Chair"
+      timestamp: "2025-12-15T14:30:00Z"
+      decision: "approved"
+      rationale: "All compliance requirements met; budget aligned"
+      case_reference: null
+
+  - evidence_id: SPM-EV-005
+    evidence_type_id: EVT-CASE_BUNDLE
+    title: Exception Case SPM-CASE-EXC-001 Evidence Bundle
+    hash: "sha256:mno345..."
+    retention_class: case_file
+    metadata:
+      case_id: "SPM-CASE-EXC-001"
+      case_type: "exception"
+      evidence_list:
+        - "booking_record_opp123"
+        - "territory_map_v2"
+        - "manager_attestation"
+      collector_id: "analyst-002"
+      collection_timestamp: "2026-01-08T10:00:00Z"
+      chain_of_custody_log:
+        - timestamp: "2026-01-08T10:00:00Z"
+          action: "collected"
+          actor: "analyst-002"
+        - timestamp: "2026-01-08T14:00:00Z"
+          action: "reviewed"
+          actor: "manager-003"
+
+  - evidence_id: SPM-EV-006
+    evidence_type_id: EVT-IMPACT_ANALYSIS
+    title: Territory Realignment Impact Analysis Q1 2026
+    hash: "sha256:pqr678..."
+    retention_class: governance_record
+    metadata:
+      change_request_id: "CHG-2026-001"
+      analysis_type: "territory_realignment"
+      affected_population_count: 45
+      financial_impact_estimate: 125000
+      preparer_id: "analyst-003"
+      review_timestamp: "2026-01-06T16:00:00Z"
+
+---
+# Evidence Type Mapping (for seed loader)
+type_label_mapping:
+  "Plan Document": EVT-PLAN_DOC
+  "Calculation Run Log": EVT-RUN_LOG
+  "Reconciliation Report": EVT-RECON_REPORT
+  "Approval Record": EVT-APPROVAL
+  "Exception/Dispute Evidence Bundle": EVT-CASE_BUNDLE
+  "Territory/Quota Change Impact Analysis": EVT-IMPACT_ANALYSIS
+  "Communication Record": EVT-COMMUNICATION
+
+---
+# Summary
+summary:
+  total_evidence_types: 8
+  total_sample_items: 6
+  retention_classes:
+    governance_record: 3
+    audit_pack: 2
+    case_file: 1
+    transient: 2

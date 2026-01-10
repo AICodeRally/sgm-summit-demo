@@ -1,12 +1,12 @@
 import {
-  DocumentTextIcon,
+  FileTextIcon,
   ClockIcon,
-  EyeIcon,
-  CheckCircleIcon,
-  XCircleIcon,
-  RocketLaunchIcon,
-  ArchiveBoxIcon,
-} from '@heroicons/react/24/outline';
+  EyeOpenIcon,
+  CheckCircledIcon,
+  CrossCircledIcon,
+  RocketIcon,
+  ArchiveIcon,
+} from '@radix-ui/react-icons';
 
 interface PlanStatusBadgeProps {
   status: string;
@@ -24,7 +24,7 @@ export default function PlanStatusBadge({
       case 'DRAFT':
         return {
           label: 'Draft',
-          icon: DocumentTextIcon,
+          icon: FileTextIcon,
           className: 'bg-gray-100 text-gray-800 border-gray-300',
         };
       case 'IN_PROGRESS':
@@ -36,7 +36,7 @@ export default function PlanStatusBadge({
       case 'UNDER_REVIEW':
         return {
           label: 'Under Review',
-          icon: EyeIcon,
+          icon: EyeOpenIcon,
           className: 'bg-yellow-100 text-yellow-800 border-yellow-300',
         };
       case 'PENDING_APPROVAL':
@@ -48,31 +48,31 @@ export default function PlanStatusBadge({
       case 'APPROVED':
         return {
           label: 'Approved',
-          icon: CheckCircleIcon,
+          icon: CheckCircledIcon,
           className: 'bg-green-100 text-green-800 border-green-300',
         };
       case 'PUBLISHED':
         return {
           label: 'Published',
-          icon: RocketLaunchIcon,
+          icon: RocketIcon,
           className: 'bg-purple-100 text-purple-800 border-purple-300',
         };
       case 'SUPERSEDED':
         return {
           label: 'Superseded',
-          icon: XCircleIcon,
+          icon: CrossCircledIcon,
           className: 'bg-gray-100 text-gray-600 border-gray-300',
         };
       case 'ARCHIVED':
         return {
           label: 'Archived',
-          icon: ArchiveBoxIcon,
+          icon: ArchiveIcon,
           className: 'bg-gray-100 text-gray-600 border-gray-300',
         };
       default:
         return {
           label: status,
-          icon: DocumentTextIcon,
+          icon: FileTextIcon,
           className: 'bg-gray-100 text-gray-800 border-gray-300',
         };
     }

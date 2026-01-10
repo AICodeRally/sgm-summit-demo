@@ -1,0 +1,218 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SPM Governance Control Matrix",
+  "description": "10 controls for SPM governance workflows",
+  "version": "1.0.0",
+  "effective_date": "2026-01-01",
+  "control_count": 10,
+  "controls": [
+    {
+      "control_id": "SPM-CTRL-001",
+      "name": "Exception Approval Chain Enforcement",
+      "category": "Approval Controls",
+      "severity": "high",
+      "control_type": "preventive",
+      "description": "Ensures all exceptions follow the defined approval chain based on severity and financial impact",
+      "test_procedure": "Verify that no exception can be executed without all required approvals in the chain",
+      "policy_links": ["SPM-POL-001", "SPM-POL-002", "SPM-POL-003"],
+      "evidence_type_requirements": ["EVT-APPROVAL"],
+      "automation_status": "automated",
+      "failure_action": "Block execution until approvals complete",
+      "audit_frequency": "continuous",
+      "owner": "SalesOps",
+      "risk_mitigated": "Unauthorized exceptions, financial leakage"
+    },
+    {
+      "control_id": "SPM-CTRL-002",
+      "name": "Segregation of Duties - Self-Approval Prevention",
+      "category": "Access Controls",
+      "severity": "critical",
+      "control_type": "preventive",
+      "description": "Prevents any individual from approving their own exception, dispute, or change request",
+      "test_procedure": "Verify system blocks approval when requester_id matches approver_id",
+      "policy_links": ["SPM-POL-011"],
+      "evidence_type_requirements": ["EVT-APPROVAL"],
+      "automation_status": "automated",
+      "failure_action": "Hard block with audit alert",
+      "audit_frequency": "continuous",
+      "owner": "Internal Audit",
+      "risk_mitigated": "Fraud, unauthorized payments, control bypass"
+    },
+    {
+      "control_id": "SPM-CTRL-003",
+      "name": "Dispute 30-Day Submission Window",
+      "category": "Process Controls",
+      "severity": "medium",
+      "control_type": "preventive",
+      "description": "Enforces 30-day window for dispute submission from transaction date",
+      "test_procedure": "Verify disputes outside window are rejected or require exception approval",
+      "policy_links": ["SPM-POL-004", "D-003"],
+      "evidence_type_requirements": ["EVT-CASE_BUNDLE"],
+      "automation_status": "automated",
+      "failure_action": "Reject dispute or route to exception process",
+      "audit_frequency": "monthly",
+      "owner": "SalesOps",
+      "risk_mitigated": "Stale disputes, administrative burden, audit findings"
+    },
+    {
+      "control_id": "SPM-CTRL-004",
+      "name": "Evidence Chain of Custody",
+      "category": "Evidence Controls",
+      "severity": "high",
+      "control_type": "detective",
+      "description": "Maintains complete chain of custody for all evidence attached to cases and decisions",
+      "test_procedure": "Verify all evidence items have timestamps, source systems, and record IDs",
+      "policy_links": ["SPM-POL-012", "F-002"],
+      "evidence_type_requirements": ["EVT-CASE_BUNDLE", "EVT-RECON_REPORT"],
+      "automation_status": "automated",
+      "failure_action": "Flag incomplete evidence for review",
+      "audit_frequency": "continuous",
+      "owner": "Compliance",
+      "risk_mitigated": "Evidence tampering, audit failures, litigation exposure"
+    },
+    {
+      "control_id": "SPM-CTRL-005",
+      "name": "Version Control Immutability",
+      "category": "Document Controls",
+      "severity": "high",
+      "control_type": "preventive",
+      "description": "Ensures plan and policy versions are immutable once published",
+      "test_procedure": "Verify published versions cannot be modified; only superseded by new versions",
+      "policy_links": ["SPM-POL-010", "A-003"],
+      "evidence_type_requirements": ["EVT-PLAN_DOC"],
+      "automation_status": "automated",
+      "failure_action": "Block modification attempt with audit log",
+      "audit_frequency": "continuous",
+      "owner": "SalesOps",
+      "risk_mitigated": "Plan tampering, audit trail gaps, compliance violations"
+    },
+    {
+      "control_id": "SPM-CTRL-006",
+      "name": "Change Impact Assessment Completion",
+      "category": "Process Controls",
+      "severity": "high",
+      "control_type": "preventive",
+      "description": "Requires complete impact assessment before routing changes for approval",
+      "test_procedure": "Verify changes cannot proceed to approval without financial model and population analysis",
+      "policy_links": ["SPM-POL-007", "SPM-POL-008", "D-001"],
+      "evidence_type_requirements": ["EVT-IMPACT_ANALYSIS"],
+      "automation_status": "semi-automated",
+      "failure_action": "Block approval routing until assessment complete",
+      "audit_frequency": "monthly",
+      "owner": "Finance",
+      "risk_mitigated": "Uninformed decisions, financial surprises, compliance gaps"
+    },
+    {
+      "control_id": "SPM-CTRL-007",
+      "name": "Pay Cycle Dual Approval",
+      "category": "Approval Controls",
+      "severity": "critical",
+      "control_type": "preventive",
+      "description": "Requires both Finance and SalesOps approval before pay cycle release",
+      "test_procedure": "Verify payroll file cannot be released without both approvals",
+      "policy_links": ["SPM-POL-011", "C-001", "F-002"],
+      "evidence_type_requirements": ["EVT-APPROVAL", "EVT-RUN_LOG"],
+      "automation_status": "automated",
+      "failure_action": "Block release until both approvals obtained",
+      "audit_frequency": "each pay cycle",
+      "owner": "Finance",
+      "risk_mitigated": "Unauthorized payments, calculation errors, fraud"
+    },
+    {
+      "control_id": "SPM-CTRL-008",
+      "name": "Reconciliation Completion Gate",
+      "category": "Process Controls",
+      "severity": "high",
+      "control_type": "preventive",
+      "description": "Prevents pay cycle approval until all reconciliation discrepancies are resolved",
+      "test_procedure": "Verify open discrepancies block progression to approval state",
+      "policy_links": ["F-002"],
+      "evidence_type_requirements": ["EVT-RECON_REPORT"],
+      "automation_status": "automated",
+      "failure_action": "Block approval until reconciliation complete",
+      "audit_frequency": "each pay cycle",
+      "owner": "SalesOps",
+      "risk_mitigated": "Payment errors, data integrity issues, audit findings"
+    },
+    {
+      "control_id": "SPM-CTRL-009",
+      "name": "Decision Authority Citation Requirement",
+      "category": "Documentation Controls",
+      "severity": "medium",
+      "control_type": "preventive",
+      "description": "Requires all rulings and decisions to cite policy authority and evidence basis",
+      "test_procedure": "Verify decisions cannot be published without authority_basis and evidence_basis populated",
+      "policy_links": ["SPM-POL-006", "SPM-POL-012"],
+      "evidence_type_requirements": ["EVT-CASE_BUNDLE"],
+      "automation_status": "automated",
+      "failure_action": "Block decision publication until citations complete",
+      "audit_frequency": "continuous",
+      "owner": "SalesOps",
+      "risk_mitigated": "Arbitrary decisions, inconsistent rulings, appeal exposure"
+    },
+    {
+      "control_id": "SPM-CTRL-010",
+      "name": "Audit Package Retention",
+      "category": "Retention Controls",
+      "severity": "high",
+      "control_type": "detective",
+      "description": "Ensures audit packages are created and retained according to retention policy",
+      "test_procedure": "Verify audit packages exist for all closed pay cycles and are retained per schedule",
+      "policy_links": ["SPM-POL-010", "F-002"],
+      "evidence_type_requirements": ["EVT-RUN_LOG", "EVT-APPROVAL", "EVT-RECON_REPORT"],
+      "automation_status": "semi-automated",
+      "failure_action": "Alert compliance team; flag for remediation",
+      "audit_frequency": "quarterly",
+      "owner": "Internal Audit",
+      "risk_mitigated": "Regulatory non-compliance, litigation exposure, audit findings"
+    }
+  ],
+  "control_categories": [
+    {
+      "category": "Approval Controls",
+      "controls": ["SPM-CTRL-001", "SPM-CTRL-007"],
+      "description": "Controls governing approval workflows and chains"
+    },
+    {
+      "category": "Access Controls",
+      "controls": ["SPM-CTRL-002"],
+      "description": "Controls governing access and segregation of duties"
+    },
+    {
+      "category": "Process Controls",
+      "controls": ["SPM-CTRL-003", "SPM-CTRL-006", "SPM-CTRL-008"],
+      "description": "Controls governing workflow progression and gates"
+    },
+    {
+      "category": "Evidence Controls",
+      "controls": ["SPM-CTRL-004"],
+      "description": "Controls governing evidence collection and chain of custody"
+    },
+    {
+      "category": "Document Controls",
+      "controls": ["SPM-CTRL-005"],
+      "description": "Controls governing document versioning and immutability"
+    },
+    {
+      "category": "Documentation Controls",
+      "controls": ["SPM-CTRL-009"],
+      "description": "Controls governing decision documentation requirements"
+    },
+    {
+      "category": "Retention Controls",
+      "controls": ["SPM-CTRL-010"],
+      "description": "Controls governing record retention and audit packages"
+    }
+  ],
+  "severity_distribution": {
+    "critical": 2,
+    "high": 6,
+    "medium": 2,
+    "low": 0
+  },
+  "control_type_distribution": {
+    "preventive": 8,
+    "detective": 2,
+    "corrective": 0
+  }
+}

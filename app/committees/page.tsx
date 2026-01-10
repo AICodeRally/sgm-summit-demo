@@ -17,6 +17,7 @@ import { ThreePaneWorkspace } from '@/components/workspace/ThreePaneWorkspace';
 import { SGCC_COMMITTEE, CRB_COMMITTEE, CRB_DECISION_OPTIONS, type Committee } from '@/lib/data/synthetic/committees.data';
 import { DemoBadge } from '@/components/demo/DemoBadge';
 import { DemoWarningBanner } from '@/components/demo/DemoToggle';
+import { ModeContextBadge } from '@/components/modes/ModeBadge';
 
 const ALL_COMMITTEES = [SGCC_COMMITTEE, CRB_COMMITTEE];
 
@@ -95,7 +96,10 @@ export default function CommitteesPage() {
       <div className="flex-none bg-white/90 backdrop-blur-sm border-b border-purple-200 px-6 py-4">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{selectedCommittee.code}</h1>
+            <div className="flex items-center gap-3 mb-2">
+              <h1 className="text-2xl font-bold text-gray-900">{selectedCommittee.code}</h1>
+              <ModeContextBadge size="sm" />
+            </div>
             <p className="text-sm text-gray-600 mt-1">{selectedCommittee.name}</p>
           </div>
           <div className="flex items-center gap-2">

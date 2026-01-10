@@ -1,0 +1,399 @@
+# SPM Governance Procedure Maps
+# 4 State Machines for core governance workflows
+# Version: 1.0.0
+# Effective: 2026-01-01
+
+---
+procedures:
+  - procedure_id: SPM-PROC-001
+    name: Exception Approval Workflow
+    status: active
+    triggers:
+      - exception_request_submitted
+      - policy_deviation_detected
+    policy_links:
+      - SPM-POL-001
+      - SPM-POL-002
+      - SPM-POL-003
+
+    states:
+      - state_key: intake
+        outputs:
+          - exception_case_created
+          - acknowledgment_sent
+        sort_order: 1
+
+      - state_key: triage
+        outputs:
+          - classification_complete
+          - severity_assigned
+          - routing_determined
+        sort_order: 2
+
+      - state_key: review
+        outputs:
+          - analysis_complete
+          - recommendation_prepared
+        sort_order: 3
+
+      - state_key: approval
+        outputs:
+          - approval_decision
+          - conditions_documented
+        sort_order: 4
+
+      - state_key: execution
+        outputs:
+          - exception_executed
+          - audit_logged
+        sort_order: 5
+
+      - state_key: closed
+        outputs:
+          - case_closed
+          - notification_sent
+        sort_order: 6
+
+    transitions:
+      - from: intake
+        to: triage
+        conditions:
+          - documentation_complete
+          - case_assigned
+
+      - from: triage
+        to: review
+        conditions:
+          - classification_complete
+          - routing_assigned
+
+      - from: review
+        to: approval
+        conditions:
+          - analysis_complete
+          - recommendation_prepared
+
+      - from: approval
+        to: execution
+        conditions:
+          - all_approvals_obtained
+
+      - from: approval
+        to: closed
+        conditions:
+          - approval_denied
+
+      - from: execution
+        to: closed
+        conditions:
+          - execution_complete
+          - audit_logged
+
+  - procedure_id: SPM-PROC-002
+    name: Dispute Resolution Workflow
+    status: active
+    triggers:
+      - dispute_submitted
+      - payout_challenged
+      - crediting_disputed
+    policy_links:
+      - SPM-POL-004
+      - SPM-POL-005
+      - SPM-POL-006
+
+    states:
+      - state_key: intake
+        outputs:
+          - dispute_case_created
+          - receipt_acknowledged
+          - 30_day_validation
+        sort_order: 1
+
+      - state_key: investigation
+        outputs:
+          - system_evidence_gathered
+          - parties_interviewed
+          - findings_documented
+        sort_order: 2
+
+      - state_key: ruling
+        outputs:
+          - ruling_drafted
+          - authority_cited
+          - appeal_path_defined
+        sort_order: 3
+
+      - state_key: communication
+        outputs:
+          - ruling_communicated
+          - rep_safe_message_sent
+        sort_order: 4
+
+      - state_key: appeal_window
+        outputs:
+          - appeal_period_tracked
+        sort_order: 5
+
+      - state_key: closed
+        outputs:
+          - case_closed
+          - decision_logged
+        sort_order: 6
+
+    transitions:
+      - from: intake
+        to: investigation
+        conditions:
+          - documentation_validated
+          - within_30_day_window
+          - investigator_assigned
+
+      - from: intake
+        to: closed
+        conditions:
+          - outside_30_day_window
+          - rejection_documented
+
+      - from: investigation
+        to: ruling
+        conditions:
+          - investigation_complete
+          - all_evidence_gathered
+
+      - from: ruling
+        to: communication
+        conditions:
+          - ruling_approved
+          - authority_basis_complete
+
+      - from: communication
+        to: appeal_window
+        conditions:
+          - communication_delivered
+
+      - from: appeal_window
+        to: closed
+        conditions:
+          - appeal_window_expired
+          - no_appeal_filed
+
+      - from: appeal_window
+        to: investigation
+        conditions:
+          - appeal_filed
+          - new_evidence_presented
+
+  - procedure_id: SPM-PROC-003
+    name: Change Control Workflow
+    status: active
+    triggers:
+      - plan_change_requested
+      - policy_update_required
+      - retroactive_change_proposed
+    policy_links:
+      - SPM-POL-007
+      - SPM-POL-008
+      - SPM-POL-009
+      - D-001
+
+    states:
+      - state_key: submission
+        outputs:
+          - change_request_logged
+          - owner_assigned
+        sort_order: 1
+
+      - state_key: impact_analysis
+        outputs:
+          - financial_model_complete
+          - population_analysis_done
+          - compliance_review_complete
+        sort_order: 2
+
+      - state_key: approval_routing
+        outputs:
+          - approval_chain_determined
+          - approvers_notified
+        sort_order: 3
+
+      - state_key: approval_collection
+        outputs:
+          - approvals_collected
+          - conditions_documented
+        sort_order: 4
+
+      - state_key: communication
+        outputs:
+          - stakeholders_notified
+          - acknowledgments_tracked
+        sort_order: 5
+
+      - state_key: implementation
+        outputs:
+          - change_executed
+          - systems_updated
+        sort_order: 6
+
+      - state_key: closed
+        outputs:
+          - change_complete
+          - audit_logged
+        sort_order: 7
+
+    transitions:
+      - from: submission
+        to: impact_analysis
+        conditions:
+          - change_request_valid
+          - owner_assigned
+
+      - from: impact_analysis
+        to: approval_routing
+        conditions:
+          - all_analyses_complete
+          - impact_documented
+
+      - from: approval_routing
+        to: approval_collection
+        conditions:
+          - approval_chain_valid
+          - approvers_available
+
+      - from: approval_collection
+        to: communication
+        conditions:
+          - all_approvals_obtained
+
+      - from: approval_collection
+        to: closed
+        conditions:
+          - change_rejected
+
+      - from: communication
+        to: implementation
+        conditions:
+          - communication_period_complete
+          - acknowledgments_sufficient
+
+      - from: implementation
+        to: closed
+        conditions:
+          - implementation_verified
+          - audit_complete
+
+  - procedure_id: SPM-PROC-004
+    name: Pay Cycle Close Workflow
+    status: active
+    triggers:
+      - pay_cycle_close
+      - period_end
+    policy_links:
+      - SPM-POL-010
+      - SPM-POL-011
+      - SPM-POL-012
+      - C-001
+      - F-002
+
+    states:
+      - state_key: pre_close
+        outputs:
+          - data_snapshot_taken
+          - open_items_flagged
+        sort_order: 1
+
+      - state_key: validate
+        outputs:
+          - validation_report
+          - anomalies_flagged
+        sort_order: 2
+
+      - state_key: reconcile
+        outputs:
+          - reconciliation_complete
+          - discrepancies_resolved
+        sort_order: 3
+
+      - state_key: approve
+        outputs:
+          - finance_approval
+          - salesops_approval
+        sort_order: 4
+
+      - state_key: release
+        outputs:
+          - payroll_file_generated
+          - release_authorized
+        sort_order: 5
+
+      - state_key: audit_log
+        outputs:
+          - audit_package_created
+          - retention_applied
+        sort_order: 6
+
+      - state_key: closed
+        outputs:
+          - cycle_closed
+          - next_cycle_opened
+        sort_order: 7
+
+    transitions:
+      - from: pre_close
+        to: validate
+        conditions:
+          - snapshot_complete
+          - cutoff_passed
+
+      - from: validate
+        to: reconcile
+        conditions:
+          - validation_passed
+          - no_blockers
+
+      - from: validate
+        to: pre_close
+        conditions:
+          - validation_failed
+          - corrections_needed
+
+      - from: reconcile
+        to: approve
+        conditions:
+          - reconciliation_complete
+          - all_discrepancies_resolved
+
+      - from: approve
+        to: release
+        conditions:
+          - all_approvals_obtained
+          - sod_validated
+
+      - from: approve
+        to: reconcile
+        conditions:
+          - approval_rejected
+          - issues_identified
+
+      - from: release
+        to: audit_log
+        conditions:
+          - release_complete
+          - payroll_transmitted
+
+      - from: audit_log
+        to: closed
+        conditions:
+          - audit_package_complete
+          - retention_applied
+
+---
+# Procedure Summary
+summary:
+  total_procedures: 4
+  categories:
+    exception_management: 1
+    dispute_resolution: 1
+    change_control: 1
+    operational: 1
+  total_states: 26
+  total_transitions: 29

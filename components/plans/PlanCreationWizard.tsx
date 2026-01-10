@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  XMarkIcon,
+  Cross2Icon,
   ChevronLeftIcon,
   ChevronRightIcon,
   CheckIcon,
-} from '@heroicons/react/24/outline';
+} from '@radix-ui/react-icons';
 import type { PlanTemplate } from '@/lib/contracts/plan-template.contract';
 import type { CreatePlanFromTemplate } from '@/lib/contracts/plan.contract';
 
@@ -157,7 +157,7 @@ export default function PlanCreationWizard({ isOpen, onClose }: PlanCreationWiza
               onClick={onClose}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
-              <XMarkIcon className="h-6 w-6 text-gray-500" />
+              <Cross2Icon className="h-6 w-6 text-gray-500" />
             </button>
           </div>
 

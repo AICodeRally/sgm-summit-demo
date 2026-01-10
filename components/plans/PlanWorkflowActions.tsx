@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import {
-  PaperAirplaneIcon,
-  CheckCircleIcon,
-  RocketLaunchIcon,
-  XCircleIcon,
-  ArchiveBoxIcon,
-  DocumentArrowDownIcon,
-} from '@heroicons/react/24/outline';
+  PaperPlaneIcon,
+  CheckCircledIcon,
+  RocketIcon,
+  CrossCircledIcon,
+  ArchiveIcon,
+  DownloadIcon,
+  Pencil2Icon,
+} from '@radix-ui/react-icons';
 import type { Plan } from '@/lib/contracts/plan.contract';
 
 interface PlanWorkflowActionsProps {
@@ -96,7 +97,7 @@ export default function PlanWorkflowActions({
         actions.push({
           label: 'Submit for Review',
           action: 'submit-for-review',
-          icon: PaperAirplaneIcon,
+          icon: PaperPlaneIcon,
           data: { submittedBy: 'current-user' },
           className: 'bg-blue-600 hover:bg-blue-700 text-white',
         });
@@ -106,14 +107,14 @@ export default function PlanWorkflowActions({
         actions.push({
           label: 'Submit for Approval',
           action: 'submit-for-approval',
-          icon: PaperAirplaneIcon,
+          icon: PaperPlaneIcon,
           data: { submittedBy: 'current-user' },
           className: 'bg-green-600 hover:bg-green-700 text-white',
         });
         actions.push({
           label: 'Reject',
           action: 'reject',
-          icon: XCircleIcon,
+          icon: CrossCircledIcon,
           data: { rejectedBy: 'current-user', reason: 'Needs revision' },
           className: 'bg-red-600 hover:bg-red-700 text-white',
         });
@@ -123,14 +124,14 @@ export default function PlanWorkflowActions({
         actions.push({
           label: 'Approve',
           action: 'approve',
-          icon: CheckCircleIcon,
+          icon: CheckCircledIcon,
           data: { approvedBy: 'current-user' },
           className: 'bg-green-600 hover:bg-green-700 text-white',
         });
         actions.push({
           label: 'Reject',
           action: 'reject',
-          icon: XCircleIcon,
+          icon: CrossCircledIcon,
           data: { rejectedBy: 'current-user', reason: 'Not approved' },
           className: 'bg-red-600 hover:bg-red-700 text-white',
         });
@@ -140,7 +141,7 @@ export default function PlanWorkflowActions({
         actions.push({
           label: 'Publish',
           action: 'publish',
-          icon: RocketLaunchIcon,
+          icon: RocketIcon,
           data: {
             publishedBy: 'current-user',
             effectiveDate: new Date(),
@@ -155,7 +156,7 @@ export default function PlanWorkflowActions({
       actions.push({
         label: 'Archive',
         action: 'archive',
-        icon: ArchiveBoxIcon,
+        icon: ArchiveIcon,
         data: { archivedBy: 'current-user' },
         className: 'bg-gray-600 hover:bg-gray-700 text-white',
       });
@@ -208,7 +209,7 @@ export default function PlanWorkflowActions({
             disabled={loading}
             className="px-4 py-2 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white rounded-lg hover:from-purple-700 hover:to-fuchsia-700 transition-all shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <DocumentArrowDownIcon className="h-5 w-5" />
+            <DownloadIcon className="h-5 w-5" />
             Generate Document
           </button>
         </div>

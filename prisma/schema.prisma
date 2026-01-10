@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -46,6 +46,7 @@ model Tenant {
   planTemplates PlanTemplate[]
   plans      Plan[]
   governanceFrameworks GovernanceFramework[]
+  clientEngagement ClientEngagement?
 
   @@index([slug])
   @@index([status])
@@ -770,7 +771,8 @@ model PlanSection {
   isRequired            Boolean     @default(false) @map("is_required")
 
   // Content
-  content               String?    
+  content               String?     // @deprecated - Use contentJson for new content
+  contentJson           Json?       @map("content_json") // Structured JSON content (blocks)
 
   // Field Values (JSON array of FieldValue objects)
   fieldValues           Json?       @map("field_values")
@@ -835,4 +837,491 @@ model GovernanceFramework {
   @@index([status])
   @@index([isGlobal])
   @@map("governance_frameworks")
+}
+
+// =============================================================================
+// CLIENT DASHBOARD MODELS (Phase 5)
+// =============================================================================
+
+// Client Engagement Model - Consulting engagement tracking
+model ClientEngagement {
+  id              String   @id @default(cuid())
+  tenantId        String   @unique @map("tenant_id")
+  tenant          Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  // Engagement Type
+  type            String   // GAP_ANALYSIS, FULL_IMPLEMENTATION, AUDIT, CONSULTING
+
+  // Status
+  status          String   // ACTIVE, PAUSED, COMPLETED, ARCHIVED
+
+  // Timeline
+  startDate       DateTime @map("start_date")
+  targetEndDate   DateTime? @map("target_end_date")
+  actualEndDate   DateTime? @map("actual_end_date")
+
+  // Team
+  consultantTeam  Json     @map("consultant_team")  // Array of consultant user IDs
+  clientContacts  Json     @map("client_contacts")  // Array of client contact info
+
+  // Branding (White-label support)
+  brandingConfig  Json?    @map("branding_config")  // Logo, colors, company name
+
+  // Metadata
+  metadata        Json?
+
+  // Audit
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  plans           ClientPlanAnalysis[]
+  gaps            ClientGapAnalysis[]
+  roadmapPhases   ClientRoadmapPhase[]
+
+  @@index([status])
+  @@index([type])
+  @@map("client_engagements")
+}
+
+// Client Plan Analysis Model - Gap analysis results for each plan
+model ClientPlanAnalysis {
+  id              String   @id @default(cuid())
+  engagementId    String   @map("engagement_id")
+  engagement      ClientEngagement @relation(fields: [engagementId], references: [id], onDelete: Cascade)
+
+  // Plan Identity
+  planCode        String   @map("plan_code")
+  planName        String   @map("plan_name")
+  planType        String?  @map("plan_type")  // SALES, SERVICE, EXECUTIVE
+  businessUnit    String?  @map("business_unit")
+
+  // Coverage Scores
+  coverageFull    Int      @map("coverage_full")     // Count of Full Coverage policies
+  coverageLimited Int      @map("coverage_limited")  // Count of Limited Coverage policies
+  coverageNo      Int      @map("coverage_no")       // Count of No Coverage policies
+
+  // Risk Assessment
+  riskScore       Int      @map("risk_score")        // 0-100 risk score
+
+  // Policy Coverage Details (JSON)
+  policyCoverage  Json     @map("policy_coverage")   // Detailed policy mapping
+
+  // Metadata
+  metadata        Json?
+
+  // Audit
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([engagementId])
+  @@index([planCode])
+  @@unique([engagementId, planCode])
+  @@map("client_plan_analyses")
+}
+
+// Client Gap Analysis Model - Individual gaps identified
+model ClientGapAnalysis {
+  id                String   @id @default(cuid())
+  engagementId      String   @map("engagement_id")
+  engagement        ClientEngagement @relation(fields: [engagementId], references: [id], onDelete: Cascade)
+
+  // Gap Identity
+  planCode          String   @map("plan_code")
+  policyArea        String   @map("policy_area")     // SGCC, CRB, Windfall Deals, etc.
+
+  // Description
+  gapDescription    String   @map("gap_description")
+
+  // Severity
+  severity          String   // CRITICAL, HIGH, MEDIUM, LOW
+
+  // Status
+  status            String   // OPEN, PLANNED, IN_PROGRESS, RESOLVED, WONT_FIX
+
+  // Reference
+  bhgPolicyRef      String?  @map("bhg_policy_ref")  // Reference to BHG best practice policy
+
+  // Assignment
+  assignedTo        String?  @map("assigned_to")
+  dueDate           DateTime? @map("due_date")
+
+  // Resolution
+  resolvedBy        String?  @map("resolved_by")
+  resolvedAt        DateTime? @map("resolved_at")
+  resolutionNotes   String?  @map("resolution_notes")
+
+  // Metadata
+  metadata          Json?
+
+  // Audit
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@index([engagementId])
+  @@index([planCode])
+  @@index([severity])
+  @@index([status])
+  @@map("client_gap_analyses")
+}
+
+// Client Roadmap Phase Model - Implementation roadmap phases
+model ClientRoadmapPhase {
+  id              String   @id @default(cuid())
+  engagementId    String   @map("engagement_id")
+  engagement      ClientEngagement @relation(fields: [engagementId], references: [id], onDelete: Cascade)
+
+  // Phase Identity
+  phase           String   // "Weeks 1-3", "Weeks 4-6", "Weeks 7-10", etc.
+  orderIndex      Int      @map("order_index")
+
+  // Content
+  title           String
+  description     String?
+
+  // Milestones (JSON array)
+  milestones      Json     // Array of milestone objects
+
+  // Status
+  status          String   // NOT_STARTED, IN_PROGRESS, COMPLETED, BLOCKED
+  completionPct   Int      @default(0) @map("completion_pct")
+
+  // Timeline
+  startDate       DateTime? @map("start_date")
+  targetEndDate   DateTime? @map("target_end_date")
+  actualEndDate   DateTime? @map("actual_end_date")
+
+  // Metadata
+  metadata        Json?
+
+  // Audit
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([engagementId])
+  @@index([orderIndex])
+  @@index([status])
+  @@map("client_roadmap_phases")
+}
+
+// =============================================================================
+// DOCUMENT INGESTION MODELS (Phase 7 - JSON Content System)
+// =============================================================================
+
+// Uploaded Document Model - Tracks uploaded documents for plan creation
+model UploadedDocument {
+  id              String   @id @default(cuid())
+  tenantId        String   @map("tenant_id")
+
+  // File metadata
+  fileName        String   @map("file_name")
+  fileType        String   @map("file_type")  // pdf, docx, txt, xlsx
+  fileSize        Int      @map("file_size")
+  filePath        String   @map("file_path")
+  checksum        String   // SHA-256
+
+  // Processing status
+  status          DocumentIngestionStatus
+  uploadedBy      String   @map("uploaded_by")
+  uploadedAt      DateTime @default(now()) @map("uploaded_at")
+
+  // Extracted content (JSON)
+  parsedContent   Json?    @map("parsed_content")  // Structured JSON from document
+  parsedAt        DateTime? @map("parsed_at")
+
+  // Statistics
+  totalSections   Int?     @map("total_sections")
+  totalWords      Int?     @map("total_words")
+  processingTime  Int?     @map("processing_time")  // milliseconds
+
+  // Created plan
+  planId          String?  @map("plan_id")
+
+  // Error tracking
+  errorMessage    String?  @map("error_message")
+
+  // Relations
+  sectionMappings SectionMapping[]
+  policyRecommendations PolicyRecommendation[]
+
+  @@index([tenantId, status])
+  @@index([uploadedBy])
+  @@index([uploadedAt])
+  @@map("uploaded_documents")
+}
+
+enum DocumentIngestionStatus {
+  UPLOADED
+  PARSING
+  PARSED
+  MAPPING
+  MAPPED
+  ANALYZING
+  ANALYZED
+  READY
+  COMPLETED
+  FAILED
+}
+
+// Section Mapping Model - Links parsed sections to template sections
+model SectionMapping {
+  id                  String   @id @default(cuid())
+  documentId          String   @map("document_id")
+  document            UploadedDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  // Source from document (JSON structure)
+  detectedTitle       String   @map("detected_title")
+  detectedContent     Json     @map("detected_content")  // { title, content, blocks, pageRange }
+
+  // Target template section
+  templateSectionId   String   @map("template_section_id")
+  templateSectionKey  String   @map("template_section_key")
+  templateSectionTitle String  @map("template_section_title")
+
+  // AI confidence
+  confidenceScore     Float    @map("confidence_score")
+  mappingMethod       String   @map("mapping_method")  // EXACT, FUZZY, AI_SUGGESTED, MANUAL
+
+  // Status
+  status              MappingStatus
+
+  // Alternative suggestions (JSON)
+  alternatives        Json?    // Array of { templateSectionId, score }
+
+  // Metadata
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+  reviewedBy          String?  @map("reviewed_by")
+  reviewedAt          DateTime? @map("reviewed_at")
+
+  @@index([documentId])
+  @@index([status])
+  @@index([confidenceScore])
+  @@map("section_mappings")
+}
+
+enum MappingStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  MODIFIED
+}
+
+// Policy Recommendation Model - Stores policy recommendations for gaps
+model PolicyRecommendation {
+  id               String   @id @default(cuid())
+  documentId       String?  @map("document_id")
+  document         UploadedDocument? @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  planId           String?  @map("plan_id")
+  gapId            String?  @map("gap_id")
+
+  // Policy reference
+  policyCode       String   @map("policy_code")
+  policyData       Json     @map("policy_data")  // Full policy JSON
+
+  // Recommendation details (JSON)
+  recommendationDetails Json  @map("recommendation_details")  // { targetSectionKey, action, insertPosition, contentJson, etc. }
+
+  // Priority & Severity
+  priority         String   // CRITICAL, HIGH, MEDIUM, LOW
+  severity         String   // From gap analysis
+
+  // Status
+  status           RecommendationStatus
+  appliedAt        DateTime? @map("applied_at")
+  appliedBy        String?  @map("applied_by")
+  applicationNotes String?  @map("application_notes")
+
+  // Metadata
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  @@index([documentId])
+  @@index([planId, status])
+  @@index([policyCode])
+  @@index([priority])
+  @@map("policy_recommendations")
+}
+
+enum RecommendationStatus {
+  PENDING
+  APPLIED
+  REJECTED
+  PARTIALLY_APPLIED
+}
+
+// =============================================================================
+// GOVERNANCE REVIEW MODELS (AI-Powered Gap Analysis)
+// =============================================================================
+
+// Governance Review Model - AI-powered gap analysis results
+model GovernanceReview {
+  id              String   @id @default(cuid())
+  tenantId        String   @map("tenant_id")
+
+  // Document Reference
+  documentId      String?  @map("document_id")
+  planName        String   @map("plan_name")
+  planType        String?  @map("plan_type")  // COMPENSATION_PLAN, POLICY, etc.
+  jurisdiction    String   @default("DEFAULT")
+
+  // Analysis Results
+  coverageScore   Float    @map("coverage_score")  // 0.0 - 1.0
+  liabilityScore  Float    @map("liability_score")  // 0.0 - 5.0
+  totalPolicies   Int      @map("total_policies")
+  totalGaps       Int      @map("total_gaps")
+
+  // Gap Summary by Status
+  evidenced       Int      @default(0)
+  partial         Int      @default(0)
+  notEvidenced    Int      @default(0) @map("not_evidenced")
+
+  // AI Validation Summary
+  aiValidated           Boolean  @default(false) @map("ai_validated")
+  aiConfirmedGaps       Int      @default(0) @map("ai_confirmed_gaps")
+  aiFalsePositives      Int      @default(0) @map("ai_false_positives")
+  avgAiConfidence       Float?   @map("avg_ai_confidence")
+
+  // Report Generation
+  htmlReport      String?  @map("html_report")
+  pdfReportUrl    String?  @map("pdf_report_url")
+
+  // Organization Context
+  organizationName  String?  @map("organization_name")
+  organizationState String?  @map("organization_state")
+
+  // Risk Triggers (JSON array)
+  riskTriggers    Json?    @map("risk_triggers")
+
+  // Raw Analysis Data (full GovLens response)
+  rawAnalysis     Json?    @map("raw_analysis")
+
+  // Audit
+  analyzedBy      String?  @map("analyzed_by")
+  analyzedAt      DateTime @default(now()) @map("analyzed_at")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Demo flag
+  isDemo          Boolean  @default(false) @map("is_demo")
+
+  // Relations
+  gaps            GovernanceGap[]
+  conversations   GovernanceConversation[]
+
+  @@index([tenantId])
+  @@index([documentId])
+  @@index([analyzedAt])
+  @@index([coverageScore])
+  @@index([isDemo])
+  @@map("governance_reviews")
+}
+
+// Governance Gap Model - Individual gap findings with AI validation
+model GovernanceGap {
+  id              String   @id @default(cuid())
+  reviewId        String   @map("review_id")
+  review          GovernanceReview @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  // Policy Reference
+  policyCode      String   @map("policy_code")     // A-001, B-002, etc.
+  policyName      String   @map("policy_name")
+  policyCategory  String?  @map("policy_category") // A=Definitions, B=Performance, etc.
+  requirementId   String?  @map("requirement_id")
+  requirementName String?  @map("requirement_name")
+
+  // Detection Results
+  finding         GapFinding  // EVIDENCED, PARTIAL, NOT_EVIDENCED
+  severity        GapSeverity
+  evidence        Json?       // Array of evidence strings
+  missingElements Json?       @map("missing_elements")  // Array of missing elements
+
+  // AI Validation
+  aiValidated     Boolean  @default(false) @map("ai_validated")
+  aiIsGap         Boolean? @map("ai_is_gap")
+  aiConfidence    Int?     @map("ai_confidence")  // 0-100
+  aiReasoning     String?  @map("ai_reasoning")
+  aiSuggestedGrade String? @map("ai_suggested_grade")  // A, B, C
+  aiValidatedAt   DateTime? @map("ai_validated_at")
+
+  // Remediation
+  remediationGenerated Boolean  @default(false) @map("remediation_generated")
+  remediationText      String?  @map("remediation_text")
+  remediationInsertionPoint String? @map("remediation_insertion_point")
+  remediationIntegrationNotes String? @map("remediation_integration_notes")
+  remediationConflictWarnings Json?   @map("remediation_conflict_warnings")
+  remediationConfidence Int?    @map("remediation_confidence")
+  remediationGeneratedAt DateTime? @map("remediation_generated_at")
+
+  // User Disposition (action taken by user)
+  disposition     GapDisposition @default(PENDING)
+  dispositionNotes String?  @map("disposition_notes")
+  dispositionBy   String?  @map("disposition_by")
+  dispositionAt   DateTime? @map("disposition_at")
+
+  // Audit
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([reviewId])
+  @@index([policyCode])
+  @@index([finding])
+  @@index([severity])
+  @@index([aiValidated])
+  @@index([disposition])
+  @@map("governance_gaps")
+}
+
+enum GapFinding {
+  EVIDENCED
+  PARTIAL
+  NOT_EVIDENCED
+}
+
+enum GapSeverity {
+  CRITICAL
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum GapDisposition {
+  PENDING           // Not yet reviewed
+  GAP_CONFIRMED     // User confirmed it's a gap
+  COVERED_ELSEWHERE // Coverage exists in another document
+  NOT_APPLICABLE    // Policy doesn't apply to this plan
+  REMEDIATION_ADDED // Fix has been applied
+  WONT_FIX          // Accepted risk
+}
+
+// Governance Conversation Model - Chat history with The Toddfather
+model GovernanceConversation {
+  id              String   @id @default(cuid())
+  tenantId        String   @map("tenant_id")
+
+  // Optional Review Context
+  reviewId        String?  @map("review_id")
+  review          GovernanceReview? @relation(fields: [reviewId], references: [id], onDelete: SetNull)
+
+  // AICR Conversation Reference
+  aicrConversationId String @map("aicr_conversation_id")
+
+  // Context at conversation start
+  contextSnapshot Json?    @map("context_snapshot")  // { planName, gaps, coverage }
+
+  // Message Count (for quick stats)
+  messageCount    Int      @default(0) @map("message_count")
+
+  // User
+  userId          String?  @map("user_id")
+
+  // Timestamps
+  createdAt       DateTime @default(now()) @map("created_at")
+  lastMessageAt   DateTime @default(now()) @map("last_message_at")
+
+  @@index([tenantId])
+  @@index([reviewId])
+  @@index([aicrConversationId])
+  @@index([lastMessageAt])
+  @@map("governance_conversations")
 }

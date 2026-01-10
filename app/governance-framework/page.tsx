@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  BookOpenIcon,
+  ReaderIcon,
   MagnifyingGlassIcon,
-  ShieldCheckIcon,
-  DocumentTextIcon,
+  LockClosedIcon,
+  FileTextIcon,
   ExclamationTriangleIcon,
-  CheckBadgeIcon,
-} from '@heroicons/react/24/outline';
+  CheckCircledIcon,
+} from '@radix-ui/react-icons';
 import type { GovernanceFramework } from '@/lib/contracts/governance-framework.contract';
 
 export default function GovernanceFrameworkPage() {
@@ -60,15 +60,15 @@ export default function GovernanceFrameworkPage() {
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'METHODOLOGY':
-        return <BookOpenIcon className="h-5 w-5" />;
+        return <ReaderIcon className="h-5 w-5" />;
       case 'STANDARDS':
-        return <CheckBadgeIcon className="h-5 w-5" />;
+        return <CheckCircledIcon className="h-5 w-5" />;
       case 'COMPLIANCE':
-        return <ShieldCheckIcon className="h-5 w-5" />;
+        return <LockClosedIcon className="h-5 w-5" />;
       case 'REGULATORY':
         return <ExclamationTriangleIcon className="h-5 w-5" />;
       default:
-        return <DocumentTextIcon className="h-5 w-5" />;
+        return <FileTextIcon className="h-5 w-5" />;
     }
   };
 
@@ -158,7 +158,7 @@ export default function GovernanceFrameworkPage() {
             </div>
           ) : filteredFrameworks.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-64 text-gray-500">
-              <DocumentTextIcon className="h-16 w-16 mb-4 text-gray-300" />
+              <FileTextIcon className="h-16 w-16 mb-4 text-gray-300" />
               <p>No governance frameworks found</p>
               <p className="text-sm">Try adjusting your filters or search query</p>
             </div>

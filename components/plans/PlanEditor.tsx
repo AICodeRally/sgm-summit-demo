@@ -4,13 +4,13 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   ArrowLeftIcon,
-  CheckCircleIcon,
+  CheckCircledIcon,
   ClockIcon,
-  DocumentArrowUpIcon,
-  ShieldCheckIcon,
-  XMarkIcon,
+  UploadIcon,
+  LockClosedIcon,
+  Cross2Icon,
   ExclamationTriangleIcon,
-} from '@heroicons/react/24/outline';
+} from '@radix-ui/react-icons';
 import Link from 'next/link';
 import SectionNavigator from './SectionNavigator';
 import RichEditor from './RichEditor';
@@ -248,7 +248,7 @@ export default function PlanEditor({ planId }: PlanEditorProps) {
               aria-label="Open workflow actions dialog"
               className="px-4 py-2 border border-blue-300 text-blue-700 rounded-lg hover:bg-blue-50 transition-colors flex items-center gap-2"
             >
-              <DocumentArrowUpIcon className="h-5 w-5" aria-hidden="true" />
+              <UploadIcon className="h-5 w-5" aria-hidden="true" />
               Workflow Actions
             </button>
             <button
@@ -256,7 +256,7 @@ export default function PlanEditor({ planId }: PlanEditorProps) {
               aria-label={`View applicable governance standards (${applicableFrameworks.filter(f => f.mandatoryCompliance).length} mandatory)`}
               className="px-4 py-2 border border-purple-300 text-purple-700 rounded-lg hover:bg-purple-50 transition-colors flex items-center gap-2"
             >
-              <ShieldCheckIcon className="h-5 w-5" aria-hidden="true" />
+              <LockClosedIcon className="h-5 w-5" aria-hidden="true" />
               View Applicable Standards
               {applicableFrameworks.filter(f => f.mandatoryCompliance).length > 0 && (
                 <span className="ml-1 px-2 py-0.5 text-xs bg-red-100 text-red-800 rounded-full font-semibold" aria-label="Mandatory frameworks count">
@@ -274,7 +274,7 @@ export default function PlanEditor({ planId }: PlanEditorProps) {
               aria-label="Submit plan for review"
               className="px-6 py-2 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white rounded-lg hover:from-purple-700 hover:to-fuchsia-700 transition-all shadow-lg flex items-center gap-2"
             >
-              <DocumentArrowUpIcon className="h-5 w-5" aria-hidden="true" />
+              <UploadIcon className="h-5 w-5" aria-hidden="true" />
               Submit for Review
             </button>
           </div>
@@ -330,7 +330,7 @@ export default function PlanEditor({ planId }: PlanEditorProps) {
             {/* Modal Header */}
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-purple-50 to-fuchsia-50">
               <div className="flex items-center gap-3">
-                <ShieldCheckIcon className="h-6 w-6 text-purple-600" />
+                <LockClosedIcon className="h-6 w-6 text-purple-600" />
                 <h2 className="text-xl font-bold text-gray-900">
                   Applicable Governance Standards
                 </h2>
@@ -339,7 +339,7 @@ export default function PlanEditor({ planId }: PlanEditorProps) {
                 onClick={() => setShowStandardsModal(false)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
-                <XMarkIcon className="h-5 w-5 text-gray-600" />
+                <Cross2Icon className="h-5 w-5 text-gray-600" />
               </button>
             </div>
 
@@ -347,7 +347,7 @@ export default function PlanEditor({ planId }: PlanEditorProps) {
             <div className="flex-1 overflow-y-auto p-6">
               {applicableFrameworks.length === 0 ? (
                 <div className="text-center py-12 text-gray-500">
-                  <ShieldCheckIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+                  <LockClosedIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                   <p>No governance frameworks applicable to this plan type</p>
                 </div>
               ) : (
@@ -447,7 +447,7 @@ export default function PlanEditor({ planId }: PlanEditorProps) {
             {/* Modal Header */}
             <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-blue-50 to-purple-50">
               <div className="flex items-center gap-3">
-                <DocumentArrowUpIcon className="h-6 w-6 text-blue-600" />
+                <UploadIcon className="h-6 w-6 text-blue-600" />
                 <div>
                   <h2 className="text-xl font-bold text-gray-900">
                     Plan Workflow
@@ -461,7 +461,7 @@ export default function PlanEditor({ planId }: PlanEditorProps) {
                 onClick={() => setShowWorkflowModal(false)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
-                <XMarkIcon className="h-5 w-5 text-gray-600" />
+                <Cross2Icon className="h-5 w-5 text-gray-600" />
               </button>
             </div>
 

@@ -9,9 +9,9 @@ import {
   TrashIcon,
   ChevronUpIcon,
   ChevronDownIcon,
-  XMarkIcon,
-  DocumentDuplicateIcon,
-} from '@heroicons/react/24/outline';
+  Cross2Icon,
+  CopyIcon,
+} from '@radix-ui/react-icons';
 import type { PlanTemplate, UpdatePlanTemplate } from '@/lib/contracts/plan-template.contract';
 import type { TemplateSection } from '@/lib/contracts/template-section.contract';
 
@@ -238,7 +238,7 @@ export default function TemplateEditorPage({ params }: { params: Promise<{ id: s
               onClick={handleClone}
               className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
             >
-              <DocumentDuplicateIcon className="h-5 w-5" />
+              <CopyIcon className="h-5 w-5" />
               Clone
             </button>
             <button
@@ -335,7 +335,7 @@ export default function TemplateEditorPage({ params }: { params: Promise<{ id: s
                           onClick={() => removeTag(tag)}
                           className="hover:bg-purple-200 rounded-full p-0.5"
                         >
-                          <XMarkIcon className="h-4 w-4" />
+                          <Cross2Icon className="h-4 w-4" />
                         </button>
                       )}
                     </span>

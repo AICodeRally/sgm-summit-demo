@@ -1,0 +1,100 @@
+{
+  "code": "SCP-003",
+  "name": "Windfall and Large Deal Policy",
+  "category": "Deal Governance",
+  "frameworkArea": "Windfall/Large Deals",
+  "status": "DRAFT",
+  "version": "0.1.0",
+  "effectiveDate": "2024-01-01T00:00:00Z",
+  "legalReviewRequired": true,
+  "purpose": {
+    "summary": "This policy establishes governance and treatment guidelines for windfall sales transactions and unusually large deals that have the potential to create disproportionate compensation outcomes. The policy ensures fair treatment of exceptional sales while maintaining the integrity and sustainability of Henry Schein's sales compensation program.",
+    "objectives": [
+      "Establish framework for windfall/large deals",
+      "Ensure compliance and consistency",
+      "Provide clear governance structure"
+    ]
+  },
+  "scope": {
+    "appliesTo": [
+      "All sales compensation plans with commission or bonus components",
+      "All sales roles across Henry Schein divisions",
+      "Individual transactions and multi-transaction deals meeting windfall criteria",
+      "Both new business and expansion sales to existing customers"
+    ],
+    "exclusions": [],
+    "geographic": []
+  },
+  "definitions": [
+    {
+      "term": "Windfall Transaction",
+      "definition": "A single sales transaction or series of related transactions that meets one or more of the windfall criteria defined in Section 4 of this policy.",
+      "examples": []
+    },
+    {
+      "term": "Large Deal",
+      "definition": "A transaction with contract value exceeding $1,000,000 or resulting in commission payment exceeding $100,000.",
+      "examples": []
+    },
+    {
+      "term": "Disproportionate Outcome",
+      "definition": "A compensation result where a single transaction provides >50% of a sales representative's annual target incentive or >25% of annual quota attainment.",
+      "examples": []
+    },
+    {
+      "term": "Sales Effort",
+      "definition": "The documented activities, time investment, relationship building, and strategic selling work performed by the sales representative to close the transaction.",
+      "examples": []
+    },
+    {
+      "term": "Amortization",
+      "definition": "Spreading commission payments over multiple payment periods aligned with contract term or delivery schedule.",
+      "examples": []
+    },
+    {
+      "term": "Split Credit",
+      "definition": "Dividing commission credit between multiple contributors based on their relative effort and contribution.",
+      "examples": []
+    }
+  ],
+  "provisions": [
+    {
+      "id": "prov-001",
+      "title": "Policy Requirements",
+      "content": "See full policy document for detailed provisions.",
+      "priority": "HIGH",
+      "subProvisions": [],
+      "tables": []
+    }
+  ],
+  "compliance": {
+    "federalLaws": [],
+    "stateLaws": [],
+    "industryStandards": [],
+    "keywords": [
+      "windfall and large deal policy",
+      "windfall",
+      "large",
+      "policy",
+      "windfall/large",
+      "deals"
+    ]
+  },
+  "relatedPolicies": [],
+  "metadata": {
+    "createdAt": "2025-11-01T00:00:00Z",
+    "updatedAt": "2025-11-01T00:00:00Z",
+    "createdBy": "policy-team",
+    "approvedBy": "Pending Legal & Executive Review",
+    "sourceFile": "lib/data/policies/SCP-003.md",
+    "wordCount": 1824,
+    "changeLog": [
+      {
+        "version": "0.1.0",
+        "date": "2025-11-01",
+        "author": "Sales Compensation Governance Committee",
+        "description": "Initial draft created from Gap Analysis requirements"
+      }
+    ]
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "pack_id": "spm-governance-pack",
+  "name": "SPM Governance Kernel Pack",
+  "version": "1.0.0",
+  "domain": "spm",
+  "umbrella_product": "AskSPM 'The Toddfather'",
+  "modules": [
+    "policy_library",
+    "procedure_engine",
+    "control_matrix",
+    "evidence_register",
+    "decision_log",
+    "exception_dispute_cases",
+    "precedent_tags",
+    "prompt_packs"
+  ],
+  "primary_personas": [
+    "sales_comp_admin",
+    "revops",
+    "finance",
+    "sales_leader",
+    "enablement_lead",
+    "legal",
+    "internal_audit"
+  ],
+  "systems_of_record": ["crm", "cpq", "erp", "hris", "icm"],
+  "required_capabilities": [
+    "versioning",
+    "approval_workflows",
+    "immutable_audit_log",
+    "rbac",
+    "attachments",
+    "citations_to_evidence"
+  ],
+  "ask_modules": {
+    "AskSGM": {
+      "domain": "Sales Governance Management",
+      "deliverables": ["RULING", "EXCEPTION_PACKET", "DISPUTE_KIT", "CHANGE_CONTROL_MEMO", "GOVERNANCE_GAP"],
+      "policy_library_ref": "knowledge/askspm/policy-library-v2.ts"
+    },
+    "AskSTM": {
+      "domain": "Sales Territory Management",
+      "status": "planned"
+    },
+    "AskSQM": {
+      "domain": "Sales Quota Management",
+      "status": "planned"
+    },
+    "AskCalc": {
+      "domain": "Simulation + Calculations",
+      "status": "planned"
+    },
+    "AskData": {
+      "domain": "Data Integrity",
+      "status": "planned"
+    },
+    "AskICM": {
+      "domain": "Incentive Comp Management",
+      "status": "planned"
+    },
+    "AskPolicy": {
+      "domain": "Policy Authoring",
+      "status": "planned"
+    }
+  }
+}

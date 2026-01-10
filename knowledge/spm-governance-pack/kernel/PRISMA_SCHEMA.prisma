@@ -1,0 +1,410 @@
+// SPM Governance Kernel - Prisma Schema Extension
+// Target: packages/database/prisma/schema.prisma (or apps/aicr/prisma/schema.prisma)
+//
+// This schema should be MERGED with existing AICR schema, not replace it.
+// Add these enums and models to support the SPM Governance Pack.
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+enum RecordStatus {
+  active
+  inactive
+  deprecated
+}
+
+enum CaseType {
+  dispute
+  exception
+}
+
+enum CaseStatus {
+  open
+  in_review
+  awaiting_evidence
+  decided
+  executed
+  closed
+  canceled
+}
+
+enum DecisionOutcome {
+  approved
+  approved_with_conditions
+  partial_approve
+  denied
+  informational
+}
+
+enum ControlSeverity {
+  low
+  medium
+  high
+  critical
+}
+
+enum ControlType {
+  preventive
+  detective
+  corrective
+}
+
+enum RetentionClass {
+  governance_record
+  audit_pack
+  case_file
+  transient
+}
+
+// ============================================================================
+// PRECEDENT TAGS
+// ============================================================================
+
+model PrecedentTag {
+  tagId       String   @id @db.Text // e.g. PRECEDENT-CREDITING-SPLIT
+  name        String
+  category    String
+  description String?
+
+  // Relations
+  caseLinks     CasePrecedentTag[]
+  decisionLinks DecisionPrecedentTag[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+}
+
+// ============================================================================
+// POLICY + POLICY VERSION
+// ============================================================================
+
+model SpmPolicy {
+  policyId      String       @id @db.Text // e.g. SPM-POL-001
+  name          String
+  category      String
+  cadence       String?
+  decisionBody  String?      // "CRB", "PRB", etc
+  status        RecordStatus @default(active)
+
+  ownerRoles    String[]     // e.g. ["sales_comp"]
+  approverRoles String[]     // e.g. ["finance","legal"]
+
+  // Relations
+  versions       SpmPolicyVersion[]
+  procedureLinks ProcedurePolicy[]
+  controlLinks   ControlPolicy[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@index([status])
+}
+
+model SpmPolicyVersion {
+  policyVersionId String @id @db.Text // e.g. SPM-POL-001@v1.0
+  policyId        String @db.Text
+
+  versionLabel    String  // "v1.0"
+  effectiveDate   DateTime
+  supersedesId    String? @db.Text // prior policyVersionId
+
+  requiredArtifacts String[]
+  rules             Json      // versioned rule payload
+
+  // Relations
+  policy       SpmPolicy         @relation(fields: [policyId], references: [policyId], onDelete: Cascade)
+  supersedes   SpmPolicyVersion? @relation("PolicyVersionSupersedes", fields: [supersedesId], references: [policyVersionId])
+  supersededBy SpmPolicyVersion? @relation("PolicyVersionSupersedes")
+
+  caseLinks     CasePolicyVersion[]
+  decisionLinks DecisionPolicyVersion[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([policyId, effectiveDate])
+  @@index([effectiveDate])
+}
+
+// ============================================================================
+// PROCEDURES
+// ============================================================================
+
+model SpmProcedure {
+  procedureId String       @id @db.Text // e.g. SPM-PROC-002
+  name        String
+  status      RecordStatus @default(active)
+
+  triggers String[] // e.g. ["pay_cycle_close"]
+
+  // Relations
+  states      ProcedureState[]
+  transitions ProcedureTransition[]
+  policyLinks ProcedurePolicy[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+  @@index([status])
+}
+
+model ProcedureState {
+  id          String @id @default(cuid())
+  procedureId String @db.Text
+
+  stateKey String   // e.g. "validate"
+  outputs  String[] // e.g. ["validation_report"]
+  sortOrder Int?
+
+  procedure SpmProcedure @relation(fields: [procedureId], references: [procedureId], onDelete: Cascade)
+
+  @@unique([procedureId, stateKey])
+  @@index([procedureId, sortOrder])
+}
+
+model ProcedureTransition {
+  id          String @id @default(cuid())
+  procedureId String @db.Text
+
+  fromStateKey String
+  toStateKey   String
+  conditions   String[] // e.g. ["snapshot_complete"]
+
+  procedure SpmProcedure @relation(fields: [procedureId], references: [procedureId], onDelete: Cascade)
+
+  @@index([procedureId, fromStateKey])
+  @@index([procedureId, toStateKey])
+}
+
+model ProcedurePolicy {
+  id          String @id @default(cuid())
+  procedureId String @db.Text
+  policyId    String @db.Text
+
+  procedure SpmProcedure @relation(fields: [procedureId], references: [procedureId], onDelete: Cascade)
+  policy    SpmPolicy    @relation(fields: [policyId], references: [policyId], onDelete: Cascade)
+
+  @@unique([procedureId, policyId])
+  @@index([policyId])
+}
+
+// ============================================================================
+// CONTROLS
+// ============================================================================
+
+model SpmControl {
+  controlId     String          @id @db.Text // e.g. SPM-CTRL-003
+  name          String
+  severity      ControlSeverity
+  controlType   ControlType
+  testProcedure String
+
+  status RecordStatus @default(active)
+
+  // Relations
+  policyLinks      ControlPolicy[]
+  evidenceTypeReqs ControlEvidenceTypeRequirement[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([severity])
+  @@index([controlType])
+  @@index([status])
+}
+
+model ControlPolicy {
+  id        String @id @default(cuid())
+  controlId String @db.Text
+  policyId  String @db.Text
+
+  control SpmControl @relation(fields: [controlId], references: [controlId], onDelete: Cascade)
+  policy  SpmPolicy  @relation(fields: [policyId], references: [policyId], onDelete: Cascade)
+
+  @@unique([controlId, policyId])
+  @@index([policyId])
+}
+
+// ============================================================================
+// EVIDENCE TYPES AND ITEMS
+// ============================================================================
+
+model EvidenceType {
+  evidenceTypeId   String   @id @db.Text // e.g. EVT-PLAN_DOC
+  name             String   // "Plan Document"
+  allowedFormats   String[] // ["pdf","docx","md"]
+  requiredMetadata String[] // ["policy_id","plan_code",...]
+
+  status RecordStatus @default(active)
+
+  evidenceItems EvidenceItem[]
+  controlReqs   ControlEvidenceTypeRequirement[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ControlEvidenceTypeRequirement {
+  id             String @id @default(cuid())
+  controlId      String @db.Text
+  evidenceTypeId String @db.Text
+
+  control      SpmControl   @relation(fields: [controlId], references: [controlId], onDelete: Cascade)
+  evidenceType EvidenceType @relation(fields: [evidenceTypeId], references: [evidenceTypeId], onDelete: Cascade)
+
+  @@unique([controlId, evidenceTypeId])
+  @@index([evidenceTypeId])
+}
+
+model EvidenceItem {
+  evidenceId     String @id @db.Text // e.g. SPM-EV-003
+  evidenceTypeId String @db.Text
+
+  title          String
+  hash           String?        @db.Text // sha256:...
+  retentionClass RetentionClass @default(governance_record)
+
+  metadata Json // plan_code, run_id, timestamps, policy refs, etc.
+
+  // Relations
+  evidenceType  EvidenceType     @relation(fields: [evidenceTypeId], references: [evidenceTypeId])
+  caseLinks     CaseEvidence[]
+  decisionLinks DecisionEvidence[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([evidenceTypeId])
+  @@index([retentionClass])
+}
+
+// ============================================================================
+// CASES (EXCEPTIONS + DISPUTES)
+// ============================================================================
+
+model SpmCase {
+  caseId   String     @id @db.Text // e.g. SPM-CASE-EXC-001
+  caseType CaseType
+  status   CaseStatus @default(open)
+
+  openedAt DateTime
+  closedAt DateTime?
+
+  summary    String
+  resolution Json? // outcome, triage_path, conditions, etc.
+
+  // Relations
+  policyVersions CasePolicyVersion[]
+  evidence       CaseEvidence[]
+  precedentTags  CasePrecedentTag[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([caseType, status])
+  @@index([status, openedAt])
+  @@index([openedAt])
+}
+
+model CasePolicyVersion {
+  id              String @id @default(cuid())
+  caseId          String @db.Text
+  policyVersionId String @db.Text
+
+  case          SpmCase          @relation(fields: [caseId], references: [caseId], onDelete: Cascade)
+  policyVersion SpmPolicyVersion @relation(fields: [policyVersionId], references: [policyVersionId], onDelete: Restrict)
+
+  @@unique([caseId, policyVersionId])
+  @@index([policyVersionId])
+}
+
+model CaseEvidence {
+  id         String @id @default(cuid())
+  caseId     String @db.Text
+  evidenceId String @db.Text
+
+  case     SpmCase      @relation(fields: [caseId], references: [caseId], onDelete: Cascade)
+  evidence EvidenceItem @relation(fields: [evidenceId], references: [evidenceId], onDelete: Restrict)
+
+  @@unique([caseId, evidenceId])
+  @@index([evidenceId])
+}
+
+model CasePrecedentTag {
+  id     String @id @default(cuid())
+  caseId String @db.Text
+  tagId  String @db.Text
+
+  case SpmCase      @relation(fields: [caseId], references: [caseId], onDelete: Cascade)
+  tag  PrecedentTag @relation(fields: [tagId], references: [tagId], onDelete: Restrict)
+
+  @@unique([caseId, tagId])
+  @@index([tagId])
+}
+
+// ============================================================================
+// DECISIONS
+// ============================================================================
+
+model SpmDecision {
+  decisionId   String          @id @db.Text // e.g. SPM-DEC-004
+  decisionType String          // plan_publish, dispute_decision, etc.
+  decisionBody String?         // CRB, Revenue Governance Council, etc.
+  outcome      DecisionOutcome
+
+  timestamp  DateTime
+  summary    String
+  conditions String[] // structured conditions
+
+  // Relations
+  policyVersions DecisionPolicyVersion[]
+  evidence       DecisionEvidence[]
+  precedentTags  DecisionPrecedentTag[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([timestamp])
+  @@index([decisionType, outcome])
+}
+
+model DecisionPolicyVersion {
+  id              String @id @default(cuid())
+  decisionId      String @db.Text
+  policyVersionId String @db.Text
+
+  decision      SpmDecision      @relation(fields: [decisionId], references: [decisionId], onDelete: Cascade)
+  policyVersion SpmPolicyVersion @relation(fields: [policyVersionId], references: [policyVersionId], onDelete: Restrict)
+
+  @@unique([decisionId, policyVersionId])
+  @@index([policyVersionId])
+}
+
+model DecisionEvidence {
+  id         String @id @default(cuid())
+  decisionId String @db.Text
+  evidenceId String @db.Text
+
+  decision SpmDecision  @relation(fields: [decisionId], references: [decisionId], onDelete: Cascade)
+  evidence EvidenceItem @relation(fields: [evidenceId], references: [evidenceId], onDelete: Restrict)
+
+  @@unique([decisionId, evidenceId])
+  @@index([evidenceId])
+}
+
+model DecisionPrecedentTag {
+  id         String @id @default(cuid())
+  decisionId String @db.Text
+  tagId      String @db.Text
+
+  decision SpmDecision  @relation(fields: [decisionId], references: [decisionId], onDelete: Cascade)
+  tag      PrecedentTag @relation(fields: [tagId], references: [tagId], onDelete: Restrict)
+
+  @@unique([decisionId, tagId])
+  @@index([tagId])
+}

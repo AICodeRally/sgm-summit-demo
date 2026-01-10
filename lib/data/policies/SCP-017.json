@@ -1,0 +1,81 @@
+{
+  "code": "SCP-017",
+  "name": "International Requirements Policy",
+  "category": "Legal Compliance",
+  "frameworkArea": "International Requirements",
+  "status": "TEMPLATE",
+  "version": "0.1.0",
+  "effectiveDate": "2024-01-01T00:00:00Z",
+  "legalReviewRequired": false,
+  "purpose": {
+    "summary": "Policy governing international requirements.",
+    "objectives": [
+      "Establish framework for international requirements",
+      "Ensure compliance and consistency",
+      "Provide clear governance structure"
+    ]
+  },
+  "scope": {
+    "appliesTo": [
+      "All applicable roles and divisions"
+    ],
+    "exclusions": [],
+    "geographic": []
+  },
+  "definitions": [],
+  "provisions": [
+    {
+      "id": "prov-001",
+      "title": "Policy Requirements",
+      "content": "See full policy document for detailed provisions.",
+      "priority": "HIGH",
+      "subProvisions": [],
+      "tables": []
+    }
+  ],
+  "compliance": {
+    "federalLaws": [],
+    "stateLaws": [],
+    "industryStandards": [],
+    "keywords": [
+      "international requirements policy",
+      "international",
+      "requirements",
+      "policy"
+    ]
+  },
+  "relatedPolicies": [
+    "SCP-001",
+    "SCP-016",
+    "SCP-007",
+    "SCP-011",
+    "SCP-013",
+    "SCP-012",
+    "SCP-002",
+    "SCP-003",
+    "SCP-004",
+    "SCP-005",
+    "SCP-006",
+    "SCP-008",
+    "SCP-009",
+    "SCP-010",
+    "SCP-014",
+    "SCP-015"
+  ],
+  "metadata": {
+    "createdAt": "2025-11-01T00:00:00Z",
+    "updatedAt": "2025-11-01T00:00:00Z",
+    "createdBy": "policy-team",
+    "approvedBy": "Pending Legal & Executive Review",
+    "sourceFile": "lib/data/policies/SCP-017.md",
+    "wordCount": 2767,
+    "changeLog": [
+      {
+        "version": "0.1.0",
+        "date": "2025-11-01",
+        "author": "Sales Compensation Governance Committee",
+        "description": "Initial draft created from Gap Analysis requirements"
+      }
+    ]
+  }
+}

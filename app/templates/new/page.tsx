@@ -10,8 +10,8 @@ import {
   ChevronUpIcon,
   ChevronDownIcon,
   CheckIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+  Cross2Icon,
+} from '@radix-ui/react-icons';
 import type { CreatePlanTemplate } from '@/lib/contracts/plan-template.contract';
 import type { CreateTemplateSection } from '@/lib/contracts/template-section.contract';
 
@@ -265,7 +265,7 @@ export default function NewTemplatePage() {
                         onClick={() => removeTag(tag)}
                         className="hover:bg-purple-200 rounded-full p-0.5"
                       >
-                        <XMarkIcon className="h-4 w-4" />
+                        <Cross2Icon className="h-4 w-4" />
                       </button>
                     </span>
                   ))}

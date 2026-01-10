@@ -1,0 +1,484 @@
+{
+  "code": "SCP-001",
+  "name": "Clawback and Recovery Policy",
+  "category": "Financial Controls",
+  "frameworkArea": "Clawback/Recovery",
+  "status": "DRAFT",
+  "version": "0.1.0",
+  "effectiveDate": "2024-01-01T00:00:00Z",
+  "legalReviewRequired": true,
+
+  "purpose": {
+    "summary": "This policy establishes the framework for recovering sales compensation payments that were made in error, based on inaccurate data, or where the underlying business transaction has been reversed or cancelled. This policy ensures Henry Schein maintains appropriate financial controls and protects against improper payments while maintaining fairness and transparency with sales team members.",
+    "objectives": [
+      "Establish clear framework for recovering overpaid compensation",
+      "Maintain appropriate financial controls and protect against improper payments",
+      "Ensure fairness and transparency with sales team members",
+      "Comply with state wage law requirements",
+      "Provide structured approval authority based on clawback amounts"
+    ]
+  },
+
+  "scope": {
+    "appliesTo": [
+      "All sales compensation plans including commissions, bonuses, and incentive payments",
+      "All sales team members eligible for variable compensation",
+      "All Henry Schein divisions and business units in the United States",
+      "All clawback situations regardless of the amount (subject to minimum thresholds defined below)"
+    ],
+    "exclusions": [],
+    "geographic": ["United States"]
+  },
+
+  "definitions": [
+    {
+      "term": "Clawback",
+      "definition": "The recovery of previously paid sales compensation due to an error, reversal, cancellation, or other qualifying event as defined in this policy.",
+      "examples": []
+    },
+    {
+      "term": "Gross Profit (GP)",
+      "definition": "The difference between revenue and cost of goods sold for a transaction.",
+      "examples": []
+    },
+    {
+      "term": "Material Reversal",
+      "definition": "A sales transaction reversal that results in a gross profit adjustment exceeding $50,000.",
+      "examples": []
+    },
+    {
+      "term": "Recovery Period",
+      "definition": "The timeframe during which Henry Schein may pursue recovery of overpaid compensation, typically not exceeding 24 months from the original payment date.",
+      "examples": []
+    },
+    {
+      "term": "Triggering Event",
+      "definition": "An occurrence that initiates the clawback process as defined in Section 4 of this policy.",
+      "examples": []
+    }
+  ],
+
+  "provisions": [
+    {
+      "id": "prov-001",
+      "title": "Clawback Triggering Events",
+      "content": "Clawbacks may be initiated when one or more of the following events occur:",
+      "priority": "CRITICAL",
+      "subProvisions": [
+        {
+          "id": "prov-001-1",
+          "title": "Revenue Reversals and Cancellations",
+          "content": "When a sales transaction is reversed, cancelled, or returned, resulting in a gross profit adjustment of $50,000 or more.",
+          "items": [
+            "Customer order cancellations after commission payment",
+            "Product returns that reduce the original transaction value",
+            "Credit memos issued for quality, pricing, or delivery issues",
+            "Contract terminations or rescissions"
+          ]
+        },
+        {
+          "id": "prov-001-2",
+          "title": "Data or Calculation Errors",
+          "content": "When compensation was paid based on incorrect data or miscalculations, including:",
+          "items": [
+            "System errors in commission calculation engines",
+            "Incorrect crediting or double-crediting of sales",
+            "Manual processing errors",
+            "Incorrect application of commission rates or plan rules"
+          ]
+        },
+        {
+          "id": "prov-001-3",
+          "title": "Compliance Violations",
+          "content": "When compensation was earned through actions that violate company policy or legal requirements:",
+          "items": [
+            "Sales obtained through fraudulent means",
+            "Violations of company code of conduct",
+            "Breach of sales crediting policies",
+            "Conflict of interest violations"
+          ]
+        },
+        {
+          "id": "prov-001-4",
+          "title": "Bad Debt and Non-Payment",
+          "content": "When customer payment is not received within 180 days of invoice date, or when accounts are written off as uncollectible. Clawback provisions apply when:",
+          "items": [
+            "Invoice remains unpaid after 180 days",
+            "Account is sent to collections",
+            "Bad debt reserve is applied",
+            "Customer enters bankruptcy proceedings"
+          ]
+        }
+      ],
+      "tables": []
+    },
+    {
+      "id": "prov-002",
+      "title": "Approval Authority and Thresholds",
+      "content": "Clawback approvals require different levels of authority based on the amount:",
+      "priority": "CRITICAL",
+      "subProvisions": [],
+      "tables": [
+        {
+          "id": "table-002-1",
+          "caption": "Approval Authority by Clawback Amount",
+          "headers": ["Clawback Amount", "Approval Authority", "Additional Review"],
+          "rows": [
+            ["Under $5,000", "Sales Compensation Manager", "None required"],
+            ["$5,000 - $25,000", "Director of Sales Compensation", "Finance review"],
+            ["$25,000 - $50,000", "VP of Sales Compensation + Finance", "Legal notification"],
+            ["Over $50,000", "VP of Sales Compensation + CFO + Legal", "Compensation Review Board review"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prov-003",
+      "title": "Recovery Mechanisms",
+      "content": "Henry Schein will use the following methods to recover overpaid compensation, listed in order of preference:",
+      "priority": "HIGH",
+      "subProvisions": [
+        {
+          "id": "prov-003-1",
+          "title": "Payroll Deduction (Primary Method)",
+          "content": "For active employees, recovery through payroll deduction is the preferred method. Key provisions:",
+          "items": [
+            "Maximum deduction per pay period: 25% of net variable compensation",
+            "Minimum deduction amount: $500 per pay period (if balance exceeds $2,000)",
+            "Employee will receive 60-day advance written notice before deductions begin",
+            "Recovery plan must be completed within 12 months unless special circumstances exist",
+            "State wage law requirements will be followed for all deductions"
+          ]
+        },
+        {
+          "id": "prov-003-2",
+          "title": "Voluntary Repayment Agreement",
+          "content": "Employees may opt for a voluntary repayment schedule as an alternative to payroll deduction:",
+          "items": [
+            "Written repayment agreement signed by employee and company",
+            "Payment schedule negotiated based on amount owed and employee circumstances",
+            "Minimum monthly payment of $500 or 10% of outstanding balance, whichever is greater",
+            "Interest may be charged at company's cost of capital rate on balances exceeding $10,000"
+          ]
+        },
+        {
+          "id": "prov-003-3",
+          "title": "Offset Against Future Payments",
+          "content": "Recovery may be achieved by reducing future commission or bonus payments:",
+          "items": [
+            "Applied when current period has insufficient compensation for payroll deduction",
+            "May be used in combination with payroll deduction",
+            "Employee must be notified in writing before offset is applied"
+          ]
+        },
+        {
+          "id": "prov-003-4",
+          "title": "Final Paycheck Recovery",
+          "content": "For terminated employees, recovery from final compensation payments:",
+          "items": [
+            "Subject to state law requirements regarding final pay deductions",
+            "Requires written authorization in states that mandate employee consent",
+            "May not reduce final pay below minimum wage requirements"
+          ]
+        },
+        {
+          "id": "prov-003-5",
+          "title": "Direct Payment Request",
+          "content": "When other methods are not available or practical:",
+          "items": [
+            "Written demand for payment sent via certified mail",
+            "30-day payment deadline from date of notice",
+            "May pursue legal action if payment is not received"
+          ]
+        }
+      ],
+      "tables": []
+    },
+    {
+      "id": "prov-004",
+      "title": "Notification and Communication Requirements",
+      "content": "Comprehensive communication protocol to ensure transparency and fairness.",
+      "priority": "HIGH",
+      "subProvisions": [
+        {
+          "id": "prov-004-1",
+          "title": "Initial Notice (60-Day Advance)",
+          "content": "When a clawback is identified, the employee must receive written notice including:",
+          "items": [
+            "Detailed explanation of the triggering event",
+            "Specific amount subject to recovery",
+            "Calculation methodology showing how the amount was determined",
+            "Proposed recovery method and schedule",
+            "Employee's right to appeal",
+            "Contact information for questions"
+          ]
+        },
+        {
+          "id": "prov-004-2",
+          "title": "Recovery Commencement Notice",
+          "content": "At least 15 days before recovery begins, employee receives confirmation stating:",
+          "items": [
+            "Start date of recovery",
+            "Amount per pay period (if payroll deduction)",
+            "Expected completion date",
+            "Running balance tracking method"
+          ]
+        },
+        {
+          "id": "prov-004-3",
+          "title": "Ongoing Communication",
+          "content": "Continuous updates throughout recovery process:",
+          "items": [
+            "Monthly statements showing remaining balance",
+            "Itemized deduction details on pay stubs",
+            "Confirmation letter when recovery is complete"
+          ]
+        }
+      ],
+      "tables": []
+    },
+    {
+      "id": "prov-005",
+      "title": "Tracking and Documentation Requirements",
+      "content": "The Sales Compensation team must maintain comprehensive records of all clawbacks.",
+      "priority": "HIGH",
+      "subProvisions": [
+        {
+          "id": "prov-005-1",
+          "title": "Clawback Register",
+          "content": "A centralized tracking system that includes:",
+          "items": [
+            "Unique clawback case ID",
+            "Employee name and ID",
+            "Date clawback identified",
+            "Triggering event category",
+            "Original payment date and amount",
+            "Amount subject to recovery",
+            "Approval chain and dates",
+            "Recovery method and schedule",
+            "Amount recovered to date",
+            "Outstanding balance",
+            "Status (Active, Complete, Appealed, Forgiven)"
+          ]
+        },
+        {
+          "id": "prov-005-2",
+          "title": "Supporting Documentation",
+          "content": "Each clawback case file must contain:",
+          "items": [
+            "Original transaction documentation",
+            "Calculation worksheets",
+            "All employee notifications (with delivery confirmation)",
+            "Approval signatures",
+            "Legal review documentation (if applicable)",
+            "Appeal documents (if applicable)",
+            "Recovery confirmation"
+          ]
+        },
+        {
+          "id": "prov-005-3",
+          "title": "Retention Period",
+          "content": "All clawback documentation must be retained for seven (7) years following the date of final recovery or case closure, in accordance with Henry Schein's data retention policy and applicable legal requirements.",
+          "items": []
+        }
+      ],
+      "tables": []
+    },
+    {
+      "id": "prov-006",
+      "title": "Appeals Process",
+      "content": "Employees have the right to appeal any clawback decision. The appeals process provides a fair mechanism to address disputed clawbacks.",
+      "priority": "MEDIUM",
+      "subProvisions": [
+        {
+          "id": "prov-006-1",
+          "title": "Filing an Appeal",
+          "content": "Requirements and timeline for submitting an appeal:",
+          "items": [
+            "Employee must submit written appeal within 30 days of initial notification",
+            "Appeal must include specific reasons for disputing the clawback",
+            "Supporting documentation must be provided",
+            "Recovery is typically suspended during the appeal process"
+          ]
+        },
+        {
+          "id": "prov-006-2",
+          "title": "Appeal Review Process",
+          "content": "Appeals are reviewed by a three-person committee consisting of: Director of Sales Compensation (or designee), HR Business Partner, and Finance Representative. The committee will:",
+          "items": [
+            "Review all documentation within 15 business days",
+            "Conduct employee interview if requested",
+            "Issue written decision with rationale",
+            "Recommend affirmation, modification, or reversal of clawback"
+          ]
+        },
+        {
+          "id": "prov-006-3",
+          "title": "Final Appeal",
+          "content": "If the employee disagrees with the committee's decision, a final appeal may be made to the Compensation Review Board within 15 days. The Board's decision is final.",
+          "items": []
+        }
+      ],
+      "tables": []
+    },
+    {
+      "id": "prov-007",
+      "title": "Special Circumstances and Exceptions",
+      "content": "Provisions for handling exceptional cases and hardship situations.",
+      "priority": "MEDIUM",
+      "subProvisions": [
+        {
+          "id": "prov-007-1",
+          "title": "Hardship Consideration",
+          "content": "In cases of demonstrated financial hardship, employees may request:",
+          "items": [
+            "Extended repayment period (up to 24 months)",
+            "Reduced payment amounts",
+            "Temporary suspension of recovery (up to 90 days)"
+          ]
+        },
+        {
+          "id": "prov-007-2",
+          "title": "Small Balance Write-Offs",
+          "content": "Clawback amounts under $100 may be written off at the discretion of the Sales Compensation Manager when the cost of recovery exceeds the amount owed.",
+          "items": []
+        },
+        {
+          "id": "prov-007-3",
+          "title": "Deceased or Disabled Employees",
+          "content": "Special provisions apply in cases of employee death or permanent disability. Legal counsel must be consulted before pursuing recovery in these situations.",
+          "items": []
+        },
+        {
+          "id": "prov-007-4",
+          "title": "Statute of Limitations",
+          "content": "Henry Schein will not pursue clawbacks more than 24 months from the original payment date, except in cases of fraud or intentional misconduct where longer statutory periods may apply.",
+          "items": []
+        }
+      ],
+      "tables": []
+    },
+    {
+      "id": "prov-008",
+      "title": "Roles and Responsibilities",
+      "content": "Clearly defined roles for all parties involved in the clawback process.",
+      "priority": "MEDIUM",
+      "subProvisions": [
+        {
+          "id": "prov-008-1",
+          "title": "Sales Compensation Team",
+          "content": "Primary responsibilities:",
+          "items": [
+            "Identify clawback triggering events through monthly data reviews",
+            "Calculate accurate recovery amounts",
+            "Prepare clawback notifications and documentation",
+            "Maintain clawback register and tracking system",
+            "Process appeals and coordinate with review committees",
+            "Ensure compliance with notification timelines"
+          ]
+        },
+        {
+          "id": "prov-008-2",
+          "title": "Finance Department",
+          "content": "Financial oversight and processing:",
+          "items": [
+            "Review and validate financial data supporting clawbacks over $5,000",
+            "Provide approval for clawbacks exceeding $25,000",
+            "Process payroll deductions and track recovery progress",
+            "Reconcile recovered amounts to general ledger"
+          ]
+        },
+        {
+          "id": "prov-008-3",
+          "title": "Legal Department",
+          "content": "Legal compliance and review:",
+          "items": [
+            "Review clawback actions exceeding $25,000",
+            "Ensure compliance with state wage laws",
+            "Approve clawback language in employment agreements",
+            "Advise on complex cases involving terminated employees or legal disputes"
+          ]
+        },
+        {
+          "id": "prov-008-4",
+          "title": "Human Resources",
+          "content": "Employee relations support:",
+          "items": [
+            "Participate in appeals review committee",
+            "Evaluate hardship requests",
+            "Ensure fair and consistent application of policy",
+            "Address employee relations concerns"
+          ]
+        },
+        {
+          "id": "prov-008-5",
+          "title": "Sales Management",
+          "content": "Front-line support and communication:",
+          "items": [
+            "Communicate policy to sales teams",
+            "Notify Sales Compensation of potential triggering events",
+            "Support employees through the clawback process",
+            "Provide context for appeals when appropriate"
+          ]
+        }
+      ],
+      "tables": []
+    },
+    {
+      "id": "prov-009",
+      "title": "Policy Review and Updates",
+      "content": "This policy will be reviewed annually by the Sales Compensation Governance Committee and updated as needed to reflect changes in business practices, legal requirements, or organizational structure. All substantive changes require approval by Legal, Finance, and HR leadership.",
+      "priority": "LOW",
+      "subProvisions": [],
+      "tables": []
+    }
+  ],
+
+  "compliance": {
+    "federalLaws": [
+      "FLSA (Fair Labor Standards Act)",
+      "Federal minimum wage requirements"
+    ],
+    "stateLaws": [
+      "State wage law deduction requirements",
+      "State final paycheck laws",
+      "State consent requirements for deductions"
+    ],
+    "industryStandards": [],
+    "keywords": [
+      "clawback",
+      "recovery",
+      "overpayment",
+      "repayment",
+      "reversal",
+      "cancellation",
+      "bad debt",
+      "payroll deduction",
+      "gross profit adjustment",
+      "commission recovery",
+      "compensation recovery"
+    ]
+  },
+
+  "relatedPolicies": [
+    "SCP-005",
+    "SCP-013"
+  ],
+
+  "metadata": {
+    "createdAt": "2025-11-01T00:00:00Z",
+    "updatedAt": "2025-11-01T00:00:00Z",
+    "createdBy": "policy-team",
+    "approvedBy": "Pending Legal & Executive Review",
+    "sourceFile": "lib/data/policies/SCP-001.md",
+    "wordCount": 1976,
+    "changeLog": [
+      {
+        "version": "0.1.0",
+        "date": "2025-11-01",
+        "author": "Sales Compensation Governance Committee",
+        "description": "Initial draft created from Gap Analysis requirements"
+      }
+    ]
+  }
+}

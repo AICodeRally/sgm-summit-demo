@@ -1,0 +1,64 @@
+{
+  "code": "SCP-011",
+  "name": "Payment Timing Policy",
+  "category": "Payroll",
+  "frameworkArea": "Payment Timing",
+  "status": "TEMPLATE",
+  "version": "0.1.0",
+  "effectiveDate": "2024-01-01T00:00:00Z",
+  "legalReviewRequired": false,
+  "purpose": {
+    "summary": "Policy governing payment timing.",
+    "objectives": [
+      "Establish framework for payment timing",
+      "Ensure compliance and consistency",
+      "Provide clear governance structure"
+    ]
+  },
+  "scope": {
+    "appliesTo": [
+      "All applicable roles and divisions"
+    ],
+    "exclusions": [],
+    "geographic": []
+  },
+  "definitions": [],
+  "provisions": [
+    {
+      "id": "prov-001",
+      "title": "Policy Requirements",
+      "content": "See full policy document for detailed provisions.",
+      "priority": "HIGH",
+      "subProvisions": [],
+      "tables": []
+    }
+  ],
+  "compliance": {
+    "federalLaws": [],
+    "stateLaws": [],
+    "industryStandards": [],
+    "keywords": [
+      "payment timing policy",
+      "payment",
+      "timing",
+      "policy"
+    ]
+  },
+  "relatedPolicies": [],
+  "metadata": {
+    "createdAt": "2025-11-01T00:00:00Z",
+    "updatedAt": "2025-11-01T00:00:00Z",
+    "createdBy": "policy-team",
+    "approvedBy": "Pending Legal & Executive Review",
+    "sourceFile": "lib/data/policies/SCP-011.md",
+    "wordCount": 1693,
+    "changeLog": [
+      {
+        "version": "0.1.0",
+        "date": "2025-11-01",
+        "author": "Sales Compensation Governance Committee",
+        "description": "Initial draft created from Gap Analysis requirements"
+      }
+    ]
+  }
+}

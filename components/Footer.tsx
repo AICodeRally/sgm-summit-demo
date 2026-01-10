@@ -1,6 +1,17 @@
 'use client';
 
+import Link from 'next/link';
+import { OperationalMode } from '@/types/operational-mode';
+import { MODE_CONFIGS } from '@/lib/auth/mode-permissions';
+
 export function Footer() {
+  const modes = [
+    OperationalMode.DESIGN,
+    OperationalMode.OPERATE,
+    OperationalMode.DISPUTE,
+    OperationalMode.OVERSEE,
+  ];
+
   return (
     <footer className="bg-white shadow-sm border-t-4 border-transparent fixed bottom-0 left-0 right-0 z-40" style={{
       borderImage: 'linear-gradient(to right, rgb(37, 99, 235), rgb(147, 51, 234)) 1'
@@ -16,6 +27,22 @@ export function Footer() {
           {/* Center - Footer Info */}
           <div className="text-center flex-1 mx-8">
             <div className="space-y-2">
+              {/* Mode Quick Links */}
+              <div className="flex items-center justify-center gap-6 mb-2">
+                {modes.map((mode) => {
+                  const config = MODE_CONFIGS[mode];
+                  return (
+                    <Link
+                      key={mode}
+                      href={`/${mode.toLowerCase()}` as any}
+                      className="text-base hover:underline transition-all font-bold px-3 py-1 rounded hover:bg-white/50"
+                      style={{ color: config.color.hex }}
+                    >
+                      {config.label}
+                    </Link>
+                  );
+                })}
+              </div>
               <div className="flex items-center justify-center gap-6 text-xs text-gray-600">
                 <span>© 2026 BHG Consulting</span>
                 <span>•</span>

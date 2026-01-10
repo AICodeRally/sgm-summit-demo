@@ -1,12 +1,14 @@
 /**
  * Policy Library Loader
  *
- * Loads all governance policy templates from markdown files.
- * Supports both HenrySchein policies (SCP-xxx.md) and Jamf policies.
+ * Loads all governance policy templates from JSON files.
+ * JSON format eliminates markdown artifacts and enables structured queries.
+ * Supports both HenrySchein policies (SCP-xxx.json) and legacy Jamf policies.
  */
 
 import fs from 'fs';
 import path from 'path';
+import type { PolicyJSON } from '@/lib/contracts/policy-json.contract';
 
 export interface PolicyTemplate {
   code: string;
@@ -15,7 +17,8 @@ export interface PolicyTemplate {
   frameworkArea: string;
   status: 'DRAFT' | 'TEMPLATE' | 'APPROVED';
   legalReviewRequired: boolean;
-  content: string;
+  content: string; // Deprecated: kept for backward compatibility
+  contentJSON?: PolicyJSON; // NEW: Structured policy data
   wordCount: number;
   source: 'HenrySchein' | 'Jamf';
 }
@@ -60,7 +63,10 @@ export function loadAllPolicies(): PolicyTemplate[] {
 }
 
 /**
- * Load HenrySchein policies (SCP-xxx.md format)
+ * Load HenrySchein policies (SCP-xxx.json format)
+ *
+ * Reads structured JSON files instead of markdown to eliminate artifacts.
+ * Falls back to markdown if JSON not available (for backward compatibility).
  */
 function loadHenryScheinPolicies(): PolicyTemplate[] {
   const policies: PolicyTemplate[] = [];
@@ -75,14 +81,35 @@ function loadHenryScheinPolicies(): PolicyTemplate[] {
   const index = JSON.parse(fs.readFileSync(indexPath, 'utf-8'));
 
   for (const policyMeta of index.policies || []) {
-    const filePath = path.join(process.cwd(), policyMeta.file_path);
+    // Try to load JSON file first
+    const jsonPath = path.join(POLICIES_DIR, `${policyMeta.code}.json`);
+    const mdPath = path.join(process.cwd(), policyMeta.file_path);
 
-    if (!fs.existsSync(filePath)) {
-      console.warn('Policy file not found:', filePath);
-      continue;
+    let policyJSON: PolicyJSON | undefined;
+    let content: string = '';
+
+    if (fs.existsSync(jsonPath)) {
+      // Load JSON file (preferred)
+      try {
+        policyJSON = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+
+        // Generate clean content string from JSON for backward compatibility
+        content = generateContentFromJSON(policyJSON);
+      } catch (error) {
+        console.error(`Error loading JSON for ${policyMeta.code}:`, error);
+      }
     }
 
-    const content = fs.readFileSync(filePath, 'utf-8');
+    // Fall back to markdown if JSON not available
+    if (!policyJSON && fs.existsSync(mdPath)) {
+      console.warn(`JSON not found for ${policyMeta.code}, falling back to markdown`);
+      content = fs.readFileSync(mdPath, 'utf-8');
+    }
+
+    if (!content && !policyJSON) {
+      console.warn('Policy file not found:', policyMeta.code);
+      continue;
+    }
 
     policies.push({
       code: policyMeta.code,
@@ -92,12 +119,127 @@ function loadHenryScheinPolicies(): PolicyTemplate[] {
       status: policyMeta.status === 'DRAFT' ? 'DRAFT' : 'TEMPLATE',
       legalReviewRequired: policyMeta.legal_review_required,
       content,
+      contentJSON: policyJSON,
       wordCount: policyMeta.word_count,
       source: 'HenrySchein',
     });
   }
 
   return policies;
+}
+
+/**
+ * Generate clean content string from PolicyJSON
+ *
+ * Converts structured JSON to plain text for backward compatibility.
+ * This eliminates markdown artifacts while providing readable text.
+ */
+function generateContentFromJSON(policy: PolicyJSON): string {
+  const lines: string[] = [];
+
+  // Header
+  lines.push(policy.name);
+  lines.push('='.repeat(policy.name.length));
+  lines.push('');
+  lines.push(`Policy Code: ${policy.code}`);
+  lines.push(`Category: ${policy.category}`);
+  lines.push(`Framework Area: ${policy.frameworkArea}`);
+  lines.push(`Status: ${policy.status}`);
+  lines.push(`Version: ${policy.version}`);
+  lines.push('');
+
+  // Purpose
+  lines.push('PURPOSE');
+  lines.push('-'.repeat(50));
+  lines.push(policy.purpose.summary);
+  lines.push('');
+
+  if (policy.purpose.objectives.length > 0) {
+    lines.push('Objectives:');
+    policy.purpose.objectives.forEach((obj) => {
+      lines.push(`  • ${obj}`);
+    });
+    lines.push('');
+  }
+
+  // Scope
+  if (policy.scope && policy.scope.appliesTo.length > 0) {
+    lines.push('SCOPE');
+    lines.push('-'.repeat(50));
+    lines.push('Applies to:');
+    policy.scope.appliesTo.forEach((item) => {
+      lines.push(`  • ${item}`);
+    });
+    lines.push('');
+  }
+
+  // Definitions
+  if (policy.definitions && policy.definitions.length > 0) {
+    lines.push('DEFINITIONS');
+    lines.push('-'.repeat(50));
+    policy.definitions.forEach((def) => {
+      lines.push(`${def.term}: ${def.definition}`);
+      lines.push('');
+    });
+  }
+
+  // Provisions
+  if (policy.provisions && policy.provisions.length > 0) {
+    lines.push('KEY PROVISIONS');
+    lines.push('-'.repeat(50));
+    policy.provisions.forEach((prov, index) => {
+      lines.push(`${index + 1}. ${prov.title}`);
+      lines.push(`   ${prov.content}`);
+      lines.push('');
+
+      // Sub-provisions
+      if (prov.subProvisions && prov.subProvisions.length > 0) {
+        prov.subProvisions.forEach((sub) => {
+          lines.push(`   ${sub.title}`);
+          if (sub.items && sub.items.length > 0) {
+            sub.items.forEach((item) => {
+              lines.push(`     • ${item}`);
+            });
+          }
+          lines.push('');
+        });
+      }
+    });
+  }
+
+  // Compliance
+  if (policy.compliance) {
+    lines.push('COMPLIANCE REFERENCES');
+    lines.push('-'.repeat(50));
+
+    if (policy.compliance.federalLaws.length > 0) {
+      lines.push('Federal Laws:');
+      policy.compliance.federalLaws.forEach((law) => {
+        lines.push(`  • ${law}`);
+      });
+      lines.push('');
+    }
+
+    if (policy.compliance.stateLaws.length > 0) {
+      lines.push('State Laws:');
+      policy.compliance.stateLaws.forEach((law) => {
+        lines.push(`  • ${law}`);
+      });
+      lines.push('');
+    }
+  }
+
+  // Related policies
+  if (policy.relatedPolicies && policy.relatedPolicies.length > 0) {
+    lines.push('RELATED POLICIES');
+    lines.push('-'.repeat(50));
+    policy.relatedPolicies.forEach((code) => {
+      lines.push(`  • ${code}`);
+    });
+    lines.push('');
+  }
+
+  return lines.join('\n');
 }
 
 /**
@@ -246,5 +388,81 @@ export function getPolicyLibraryStats() {
       jamf: policies.filter(p => p.source === 'Jamf').length,
     },
     frameworkAreas: Array.from(new Set(policies.map(p => p.frameworkArea))).sort(),
+    withJSON: policies.filter(p => p.contentJSON !== undefined).length,
   };
+}
+
+/**
+ * Get policy by code
+ *
+ * @param code - Policy code (e.g., "SCP-001")
+ * @returns Policy template or null if not found
+ */
+export function getPolicyByCode(code: string): PolicyTemplate | null {
+  const policies = loadAllPolicies();
+  return policies.find(p => p.code === code) || null;
+}
+
+/**
+ * Get policy as JSON
+ *
+ * Returns structured PolicyJSON if available, otherwise null.
+ * Use this for gap analysis, AI processing, and structured queries.
+ *
+ * @param code - Policy code (e.g., "SCP-001")
+ * @returns PolicyJSON or null
+ */
+export function getPolicyAsJSON(code: string): PolicyJSON | null {
+  const policy = getPolicyByCode(code);
+  return policy?.contentJSON || null;
+}
+
+/**
+ * Get all policies as JSON
+ *
+ * Returns only policies that have been converted to JSON format.
+ * Useful for bulk operations like gap analysis.
+ *
+ * @returns Array of PolicyJSON objects
+ */
+export function getAllPoliciesAsJSON(): PolicyJSON[] {
+  const policies = loadAllPolicies();
+  return policies
+    .filter(p => p.contentJSON !== undefined)
+    .map(p => p.contentJSON!);
+}
+
+/**
+ * Search policies by keywords
+ *
+ * Uses the keywords from policy compliance metadata for fuzzy matching.
+ * Works with JSON policies only.
+ *
+ * @param keyword - Keyword to search for
+ * @returns Array of matching policies
+ */
+export function searchPoliciesByKeyword(keyword: string): PolicyTemplate[] {
+  const policies = loadAllPolicies();
+  const normalized = keyword.toLowerCase().trim();
+
+  return policies.filter(p => {
+    if (!p.contentJSON) return false;
+
+    // Search in keywords
+    const keywords = p.contentJSON.compliance.keywords || [];
+    if (keywords.some(k => k.toLowerCase().includes(normalized))) {
+      return true;
+    }
+
+    // Search in name and framework area
+    if (p.name.toLowerCase().includes(normalized)) {
+      return true;
+    }
+
+    if (p.frameworkArea.toLowerCase().includes(normalized)) {
+      return true;
+    }
+
+    return false;
+  });
 }

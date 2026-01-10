@@ -1,0 +1,70 @@
+{
+  "code": "SCP-006",
+  "name": "State Wage Law Compliance Policy",
+  "category": "Legal Compliance",
+  "frameworkArea": "Compliance (409A, State Wage)",
+  "status": "DRAFT",
+  "version": "0.1.0",
+  "effectiveDate": "2024-01-01T00:00:00Z",
+  "legalReviewRequired": true,
+  "purpose": {
+    "summary": "This policy establishes compliance standards for state wage and hour laws affecting sales compensation across Henry Schein's multi-state operations. State laws impose varying requirements for commission agreements, payment timing, final pay, and recordkeeping. This policy ensures Henry Schein complies with all applicable state requirements while maintaining consistent compensation practices.",
+    "objectives": [
+      "Establish framework for compliance (409a, state wage)",
+      "Ensure compliance and consistency",
+      "Provide clear governance structure"
+    ]
+  },
+  "scope": {
+    "appliesTo": [
+      "All sales compensation arrangements for employees working in the United States",
+      "Commission, bonus, and incentive payments subject to state wage laws",
+      "Final payment obligations upon termination",
+      "Written commission agreement requirements",
+      "State-specific recordkeeping and disclosure obligations"
+    ],
+    "exclusions": [],
+    "geographic": []
+  },
+  "definitions": [],
+  "provisions": [
+    {
+      "id": "prov-001",
+      "title": "Policy Requirements",
+      "content": "See full policy document for detailed provisions.",
+      "priority": "HIGH",
+      "subProvisions": [],
+      "tables": []
+    }
+  ],
+  "compliance": {
+    "federalLaws": [],
+    "stateLaws": [],
+    "industryStandards": [],
+    "keywords": [
+      "state wage law compliance policy",
+      "state",
+      "compliance",
+      "policy",
+      "(409a,",
+      "wage)"
+    ]
+  },
+  "relatedPolicies": [],
+  "metadata": {
+    "createdAt": "2025-11-01T00:00:00Z",
+    "updatedAt": "2025-11-01T00:00:00Z",
+    "createdBy": "policy-team",
+    "approvedBy": "Pending Legal & Executive Review",
+    "sourceFile": "lib/data/policies/SCP-006.md",
+    "wordCount": 2425,
+    "changeLog": [
+      {
+        "version": "0.1.0",
+        "date": "2025-11-01",
+        "author": "Sales Compensation Governance Committee",
+        "description": "Initial draft created from Gap Analysis requirements"
+      }
+    ]
+  }
+}

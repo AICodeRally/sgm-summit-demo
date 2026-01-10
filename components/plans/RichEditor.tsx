@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import {
-  EyeIcon,
-  PencilIcon,
+  EyeOpenIcon,
+  Pencil1Icon,
   CheckIcon,
-  BoldIcon,
-  ItalicIcon,
+  FontBoldIcon,
+  FontItalicIcon,
   ListBulletIcon,
-} from '@heroicons/react/24/outline';
+} from '@radix-ui/react-icons';
 import type { PlanSection } from '@/lib/contracts/plan-section.contract';
 
 interface RichEditorProps {
@@ -138,7 +138,7 @@ export default function RichEditor({
                 : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
-            <PencilIcon className="h-4 w-4" />
+            <Pencil1Icon className="h-4 w-4" />
             Write
           </button>
           <button
@@ -149,7 +149,7 @@ export default function RichEditor({
                 : 'text-gray-600 hover:bg-gray-100'
             }`}
           >
-            <EyeIcon className="h-4 w-4" />
+            <EyeOpenIcon className="h-4 w-4" />
             Preview
           </button>
           <button

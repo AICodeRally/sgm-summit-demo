@@ -1,6 +1,6 @@
 'use client';
 
-import { useRallySession } from '@rally/auth';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
@@ -8,7 +8,7 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export default function NewTenantPage() {
-  const session = useRallySession()?.data;
+  const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

@@ -1,0 +1,231 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SPM Governance Kernel Seed Dataset",
+  "description": "Complete seed data for SPM Governance Pack v1.0.0",
+  "version": "1.0.0",
+  "pack_id": "spm-governance-pack",
+  "effective_date": "2026-01-01",
+
+  "precedent_tags": [
+    {
+      "tag_id": "PRECEDENT-CREDITING-SPLIT",
+      "name": "Crediting Split Precedent",
+      "category": "Crediting",
+      "description": "Precedent for split credit decisions between multiple reps"
+    },
+    {
+      "tag_id": "PRECEDENT-QUOTA-RELIEF",
+      "name": "Quota Relief Precedent",
+      "category": "Quota",
+      "description": "Precedent for quota relief decisions in special circumstances"
+    },
+    {
+      "tag_id": "PRECEDENT-RETRO-CHANGE",
+      "name": "Retroactive Change Precedent",
+      "category": "Change Control",
+      "description": "Precedent for handling retroactive plan/policy changes"
+    },
+    {
+      "tag_id": "PRECEDENT-TERMINATION",
+      "name": "Termination Payout Precedent",
+      "category": "Termination",
+      "description": "Precedent for final payout calculations on termination"
+    },
+    {
+      "tag_id": "PRECEDENT-WINDFALL",
+      "name": "Windfall Deal Precedent",
+      "category": "Large Deals",
+      "description": "Precedent for handling windfall/large deal governance"
+    }
+  ],
+
+  "policies": [
+    { "policy_id": "SPM-POL-001", "name": "Exception Intake", "category": "Exception Management", "cadence": "continuous", "decision_body": "SalesOps", "status": "active", "owner_roles": ["sales_comp"], "approver_roles": ["salesops", "finance"] },
+    { "policy_id": "SPM-POL-002", "name": "Exception Triage & Classification", "category": "Exception Management", "cadence": "continuous", "decision_body": "SalesOps", "status": "active", "owner_roles": ["sales_comp"], "approver_roles": ["salesops"] },
+    { "policy_id": "SPM-POL-003", "name": "Exception Approval Workflow", "category": "Exception Management", "cadence": "continuous", "decision_body": "Per Severity", "status": "active", "owner_roles": ["sales_comp"], "approver_roles": ["manager", "director", "vp", "finance", "crb"] },
+    { "policy_id": "SPM-POL-004", "name": "Dispute Intake", "category": "Dispute Resolution", "cadence": "continuous", "decision_body": "SalesOps", "status": "active", "owner_roles": ["sales_comp"], "approver_roles": ["salesops"] },
+    { "policy_id": "SPM-POL-005", "name": "Dispute Investigation", "category": "Dispute Resolution", "cadence": "continuous", "decision_body": "SalesOps", "status": "active", "owner_roles": ["sales_comp"], "approver_roles": ["salesops"] },
+    { "policy_id": "SPM-POL-006", "name": "Dispute Ruling", "category": "Dispute Resolution", "cadence": "continuous", "decision_body": "SalesOps/CRB", "status": "active", "owner_roles": ["sales_comp"], "approver_roles": ["salesops", "finance", "crb"] },
+    { "policy_id": "SPM-POL-007", "name": "Change Request Submission", "category": "Change Control", "cadence": "continuous", "decision_body": "RevOps", "status": "active", "owner_roles": ["revops"], "approver_roles": ["salesops", "finance"] },
+    { "policy_id": "SPM-POL-008", "name": "Change Impact Assessment", "category": "Change Control", "cadence": "continuous", "decision_body": "Finance", "status": "active", "owner_roles": ["finance"], "approver_roles": ["finance", "compliance"] },
+    { "policy_id": "SPM-POL-009", "name": "Change Approval & Implementation", "category": "Change Control", "cadence": "continuous", "decision_body": "CRB", "status": "active", "owner_roles": ["revops"], "approver_roles": ["vp_sales", "finance_director", "crb"] },
+    { "policy_id": "SPM-POL-010", "name": "Version Control & Audit Trail", "category": "Governance Controls", "cadence": "continuous", "decision_body": "System", "status": "active", "owner_roles": ["salesops"], "approver_roles": [] },
+    { "policy_id": "SPM-POL-011", "name": "Segregation of Duties", "category": "Governance Controls", "cadence": "continuous", "decision_body": "System", "status": "active", "owner_roles": ["internal_audit"], "approver_roles": [] },
+    { "policy_id": "SPM-POL-012", "name": "Evidence Standards", "category": "Governance Controls", "cadence": "continuous", "decision_body": "Compliance", "status": "active", "owner_roles": ["compliance"], "approver_roles": [] },
+    { "policy_id": "SPM-POL-013", "name": "Precedent Management", "category": "Decision Framework", "cadence": "as_needed", "decision_body": "CRB", "status": "active", "owner_roles": ["salesops"], "approver_roles": ["legal", "crb"] },
+    { "policy_id": "SPM-POL-014", "name": "Communication Requirements", "category": "Communications", "cadence": "continuous", "decision_body": "SalesOps", "status": "active", "owner_roles": ["salesops", "hr"], "approver_roles": [] },
+    { "policy_id": "SPM-POL-015", "name": "Governance Gap Escalation", "category": "Governance Framework", "cadence": "continuous", "decision_body": "CRB", "status": "active", "owner_roles": ["salesops"], "approver_roles": ["legal", "crb"] }
+  ],
+
+  "policy_versions": [
+    { "policy_version_id": "SPM-POL-001@v1.0", "policy_id": "SPM-POL-001", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["exception_request_form", "business_justification"], "rules": { "sla_hours": 24, "enforcement": "Block" } },
+    { "policy_version_id": "SPM-POL-002@v1.0", "policy_id": "SPM-POL-002", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["classification_assessment"], "rules": { "sla_hours": 4, "enforcement": "Block" } },
+    { "policy_version_id": "SPM-POL-003@v1.0", "policy_id": "SPM-POL-003", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["approval_decision", "approver_rationale"], "rules": { "sla_hours": 48, "enforcement": "Block" } },
+    { "policy_version_id": "SPM-POL-004@v1.0", "policy_id": "SPM-POL-004", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["dispute_form", "transaction_records"], "rules": { "sla_hours": 8, "submission_window_days": 30, "enforcement": "Block" } },
+    { "policy_version_id": "SPM-POL-005@v1.0", "policy_id": "SPM-POL-005", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["investigation_report", "system_evidence"], "rules": { "sla_hours": 72, "enforcement": "Warn" } },
+    { "policy_version_id": "SPM-POL-006@v1.0", "policy_id": "SPM-POL-006", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["ruling_document", "policy_citations", "evidence_summary"], "rules": { "sla_hours": 24, "enforcement": "Block" } },
+    { "policy_version_id": "SPM-POL-007@v1.0", "policy_id": "SPM-POL-007", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["change_request_form", "impact_assessment"], "rules": { "sla_hours": 24, "enforcement": "Block" } },
+    { "policy_version_id": "SPM-POL-008@v1.0", "policy_id": "SPM-POL-008", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["financial_model", "population_analysis", "compliance_checklist"], "rules": { "sla_hours": 48, "enforcement": "Block" } },
+    { "policy_version_id": "SPM-POL-009@v1.0", "policy_id": "SPM-POL-009", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["approval_record", "communication_log", "acknowledgment_tracker"], "rules": { "sla_hours": 120, "enforcement": "Block" } },
+    { "policy_version_id": "SPM-POL-010@v1.0", "policy_id": "SPM-POL-010", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["version_history", "audit_log"], "rules": { "sla_hours": 1, "enforcement": "Block" } },
+    { "policy_version_id": "SPM-POL-011@v1.0", "policy_id": "SPM-POL-011", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["sod_validation_log"], "rules": { "sla_hours": 0, "enforcement": "Block" } },
+    { "policy_version_id": "SPM-POL-012@v1.0", "policy_id": "SPM-POL-012", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["system_of_record_data", "timestamps", "record_identifiers"], "rules": { "sla_hours": 0, "enforcement": "Block" } },
+    { "policy_version_id": "SPM-POL-013@v1.0", "policy_id": "SPM-POL-013", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["decision_record", "precedent_justification"], "rules": { "sla_hours": 72, "enforcement": "LogOnly" } },
+    { "policy_version_id": "SPM-POL-014@v1.0", "policy_id": "SPM-POL-014", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["communication_record", "delivery_confirmation"], "rules": { "sla_hours": 24, "enforcement": "Warn" } },
+    { "policy_version_id": "SPM-POL-015@v1.0", "policy_id": "SPM-POL-015", "version_label": "v1.0", "effective_date": "2026-01-01", "supersedes_id": null, "required_artifacts": ["gap_description", "interim_guidance", "resolution_path"], "rules": { "sla_hours": 48, "enforcement": "Block" } }
+  ],
+
+  "procedures": [
+    { "procedure_id": "SPM-PROC-001", "name": "Exception Approval Workflow", "status": "active", "triggers": ["exception_request_submitted", "policy_deviation_detected"], "policy_links": ["SPM-POL-001", "SPM-POL-002", "SPM-POL-003"] },
+    { "procedure_id": "SPM-PROC-002", "name": "Dispute Resolution Workflow", "status": "active", "triggers": ["dispute_submitted", "payout_challenged"], "policy_links": ["SPM-POL-004", "SPM-POL-005", "SPM-POL-006"] },
+    { "procedure_id": "SPM-PROC-003", "name": "Change Control Workflow", "status": "active", "triggers": ["plan_change_requested", "retroactive_change_proposed"], "policy_links": ["SPM-POL-007", "SPM-POL-008", "SPM-POL-009"] },
+    { "procedure_id": "SPM-PROC-004", "name": "Pay Cycle Close Workflow", "status": "active", "triggers": ["pay_cycle_close", "period_end"], "policy_links": ["SPM-POL-010", "SPM-POL-011", "SPM-POL-012"] }
+  ],
+
+  "controls": [
+    { "control_id": "SPM-CTRL-001", "name": "Exception Approval Chain Enforcement", "severity": "high", "control_type": "preventive", "test_procedure": "Verify no exception executed without all required approvals", "policy_links": ["SPM-POL-001", "SPM-POL-002", "SPM-POL-003"] },
+    { "control_id": "SPM-CTRL-002", "name": "Segregation of Duties - Self-Approval Prevention", "severity": "critical", "control_type": "preventive", "test_procedure": "Verify system blocks approval when requester_id matches approver_id", "policy_links": ["SPM-POL-011"] },
+    { "control_id": "SPM-CTRL-003", "name": "Dispute 30-Day Submission Window", "severity": "medium", "control_type": "preventive", "test_procedure": "Verify disputes outside window are rejected or require exception", "policy_links": ["SPM-POL-004"] },
+    { "control_id": "SPM-CTRL-004", "name": "Evidence Chain of Custody", "severity": "high", "control_type": "detective", "test_procedure": "Verify all evidence has timestamps, source systems, and record IDs", "policy_links": ["SPM-POL-012"] },
+    { "control_id": "SPM-CTRL-005", "name": "Version Control Immutability", "severity": "high", "control_type": "preventive", "test_procedure": "Verify published versions cannot be modified", "policy_links": ["SPM-POL-010"] },
+    { "control_id": "SPM-CTRL-006", "name": "Change Impact Assessment Completion", "severity": "high", "control_type": "preventive", "test_procedure": "Verify changes cannot proceed without impact assessment", "policy_links": ["SPM-POL-007", "SPM-POL-008"] },
+    { "control_id": "SPM-CTRL-007", "name": "Pay Cycle Dual Approval", "severity": "critical", "control_type": "preventive", "test_procedure": "Verify payroll cannot release without Finance + SalesOps approval", "policy_links": ["SPM-POL-011"] },
+    { "control_id": "SPM-CTRL-008", "name": "Reconciliation Completion Gate", "severity": "high", "control_type": "preventive", "test_procedure": "Verify open discrepancies block approval state", "policy_links": ["SPM-POL-012"] },
+    { "control_id": "SPM-CTRL-009", "name": "Decision Authority Citation Requirement", "severity": "medium", "control_type": "preventive", "test_procedure": "Verify decisions cannot publish without authority_basis populated", "policy_links": ["SPM-POL-006", "SPM-POL-012"] },
+    { "control_id": "SPM-CTRL-010", "name": "Audit Package Retention", "severity": "high", "control_type": "detective", "test_procedure": "Verify audit packages exist for all closed pay cycles", "policy_links": ["SPM-POL-010"] }
+  ],
+
+  "evidence": [
+    { "evidence_id": "SPM-EV-001", "type": "Plan Document", "title": "FY2026 Sales Compensation Plan v3.0", "hash": "sha256:abc123...", "metadata": { "plan_code": "COMP-2026-SALES", "plan_year": 2026, "version": "3.0", "effective_date": "2026-01-01", "policy_refs": ["B-001", "B-002", "C-001"] } },
+    { "evidence_id": "SPM-EV-002", "type": "Calculation Run Log", "title": "Q4 2025 Commission Calculation Run", "hash": "sha256:def456...", "metadata": { "run_id": "RUN-2025-Q4-FINAL", "run_timestamp": "2026-01-05T02:00:00Z", "period": "2025-Q4", "record_count": 2847 } },
+    { "evidence_id": "SPM-EV-003", "type": "Reconciliation Report", "title": "Q4 2025 CRM-ICM Reconciliation", "hash": "sha256:ghi789...", "metadata": { "recon_period": "2025-Q4", "source_systems": ["Salesforce", "Xactly", "Workday"], "discrepancy_count": 12, "resolution_status": "resolved" } },
+    { "evidence_id": "SPM-EV-004", "type": "Approval Record", "title": "CRB Approval - FY2026 Plan Publish", "hash": "sha256:jkl012...", "metadata": { "approval_type": "plan_publish", "approver_role": "CRB Chair", "timestamp": "2025-12-15T14:30:00Z", "decision": "approved" } },
+    { "evidence_id": "SPM-EV-005", "type": "Exception/Dispute Evidence Bundle", "title": "Exception Case SPM-CASE-EXC-001 Evidence Bundle", "hash": "sha256:mno345...", "metadata": { "case_id": "SPM-CASE-EXC-001", "case_type": "exception", "evidence_list": ["booking_record", "territory_map", "manager_attestation"] } },
+    { "evidence_id": "SPM-EV-006", "type": "Territory/Quota Change Impact Analysis", "title": "Territory Realignment Impact Analysis Q1 2026", "hash": "sha256:pqr678...", "metadata": { "change_request_id": "CHG-2026-001", "affected_population_count": 45, "financial_impact_estimate": 125000 } }
+  ],
+
+  "cases": [
+    {
+      "case_id": "SPM-CASE-EXC-001",
+      "case_type": "exception",
+      "status": "closed",
+      "opened_at": "2026-01-05T10:00:00Z",
+      "closed_at": "2026-01-08T16:00:00Z",
+      "summary": "Quota relief exception for territory transition - mid-period move from West to Central",
+      "policy_versions_in_scope": ["SPM-POL-001@v1.0", "SPM-POL-002@v1.0", "SPM-POL-003@v1.0"],
+      "linked_evidence_ids": ["SPM-EV-005", "SPM-EV-006"],
+      "precedent_tags": ["PRECEDENT-QUOTA-RELIEF"],
+      "resolution": { "outcome": "approved", "triage_path": "Manager → VP Sales → Finance", "conditions": ["Pro-rated quota adjustment", "Pipeline transfer documented"] }
+    },
+    {
+      "case_id": "SPM-CASE-EXC-002",
+      "case_type": "exception",
+      "status": "open",
+      "opened_at": "2026-01-08T14:00:00Z",
+      "closed_at": null,
+      "summary": "Accelerator cap override request for windfall deal - $2M single transaction",
+      "policy_versions_in_scope": ["SPM-POL-001@v1.0", "SPM-POL-002@v1.0", "SPM-POL-003@v1.0"],
+      "linked_evidence_ids": [],
+      "precedent_tags": ["PRECEDENT-WINDFALL"],
+      "resolution": null
+    },
+    {
+      "case_id": "SPM-CASE-DIS-001",
+      "case_type": "dispute",
+      "status": "decided",
+      "opened_at": "2026-01-06T09:00:00Z",
+      "closed_at": "2026-01-09T11:00:00Z",
+      "summary": "Crediting split dispute - rep claims 60/40 instead of system-calculated 50/50",
+      "policy_versions_in_scope": ["SPM-POL-004@v1.0", "SPM-POL-005@v1.0", "SPM-POL-006@v1.0"],
+      "linked_evidence_ids": ["SPM-EV-002"],
+      "precedent_tags": ["PRECEDENT-CREDITING-SPLIT"],
+      "resolution": { "outcome": "denied", "triage_path": "SalesOps Analyst → SalesOps Director", "conditions": ["Split locked at booking per B-001 §4.2", "No documentation of 60/40 agreement"] }
+    },
+    {
+      "case_id": "SPM-CASE-DIS-002",
+      "case_type": "dispute",
+      "status": "in_review",
+      "opened_at": "2026-01-09T08:30:00Z",
+      "closed_at": null,
+      "summary": "Payout timing dispute - rep claims commission due immediately upon booking, not at invoice",
+      "policy_versions_in_scope": ["SPM-POL-004@v1.0", "SPM-POL-005@v1.0"],
+      "linked_evidence_ids": ["SPM-EV-001"],
+      "precedent_tags": [],
+      "resolution": null
+    }
+  ],
+
+  "decisions": [
+    {
+      "decision_id": "SPM-DEC-001",
+      "decision_type": "plan_publish",
+      "decision_body": "CRB",
+      "outcome": "approved",
+      "timestamp": "2025-12-15T14:30:00Z",
+      "summary": "FY2026 Sales Compensation Plan approved for publication",
+      "policy_versions_in_scope": ["SPM-POL-009@v1.0", "SPM-POL-010@v1.0"],
+      "linked_evidence_ids": ["SPM-EV-001", "SPM-EV-004"],
+      "precedent_tags": [],
+      "conditions": ["30-day communication period required", "Rep acknowledgments tracked"]
+    },
+    {
+      "decision_id": "SPM-DEC-002",
+      "decision_type": "commission_run_release",
+      "decision_body": "Finance + SalesOps",
+      "outcome": "approved",
+      "timestamp": "2026-01-05T16:00:00Z",
+      "summary": "Q4 2025 commission run released for payroll processing",
+      "policy_versions_in_scope": ["SPM-POL-011@v1.0", "SPM-POL-012@v1.0"],
+      "linked_evidence_ids": ["SPM-EV-002", "SPM-EV-003"],
+      "precedent_tags": [],
+      "conditions": ["All reconciliation discrepancies resolved", "Dual approval obtained"]
+    },
+    {
+      "decision_id": "SPM-DEC-003",
+      "decision_type": "exception_approval",
+      "decision_body": "VP Sales + Finance",
+      "outcome": "approved_with_conditions",
+      "timestamp": "2026-01-08T15:30:00Z",
+      "summary": "Quota relief exception approved for territory transition case SPM-CASE-EXC-001",
+      "policy_versions_in_scope": ["SPM-POL-003@v1.0"],
+      "linked_evidence_ids": ["SPM-EV-005", "SPM-EV-006"],
+      "precedent_tags": ["PRECEDENT-QUOTA-RELIEF"],
+      "conditions": ["Pro-rated at 75% for transition period", "Documented in governance log"]
+    },
+    {
+      "decision_id": "SPM-DEC-004",
+      "decision_type": "dispute_ruling",
+      "decision_body": "SalesOps Director",
+      "outcome": "denied",
+      "timestamp": "2026-01-09T11:00:00Z",
+      "summary": "Crediting split dispute denied - insufficient evidence for 60/40 claim",
+      "policy_versions_in_scope": ["SPM-POL-006@v1.0"],
+      "linked_evidence_ids": ["SPM-EV-002"],
+      "precedent_tags": ["PRECEDENT-CREDITING-SPLIT"],
+      "conditions": ["Split remains 50/50 per system of record", "Rep may appeal within 30 days"]
+    },
+    {
+      "decision_id": "SPM-DEC-005",
+      "decision_type": "precedent_establishment",
+      "decision_body": "CRB",
+      "outcome": "informational",
+      "timestamp": "2026-01-09T14:00:00Z",
+      "summary": "Territory transition quota relief pattern established as precedent",
+      "policy_versions_in_scope": ["SPM-POL-013@v1.0"],
+      "linked_evidence_ids": ["SPM-EV-005", "SPM-EV-006"],
+      "precedent_tags": ["PRECEDENT-QUOTA-RELIEF"],
+      "conditions": ["Advisory only - does not override policy", "Applies to company-initiated transitions only"]
+    }
+  ],
+
+  "expected_counts": {
+    "precedent_tags": 5,
+    "policies": 15,
+    "policy_versions": 15,
+    "procedures": 4,
+    "controls": 10,
+    "evidence": 6,
+    "cases": 4,
+    "decisions": 5
+  }
+}

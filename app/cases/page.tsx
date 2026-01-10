@@ -22,6 +22,7 @@ import { ThreePaneWorkspace } from '@/components/workspace/ThreePaneWorkspace';
 import { CASE_ITEMS, CASE_STATS, CASE_TYPE_INFO, CaseItem } from '@/lib/data/synthetic/cases.data';
 import { DemoBadge, DemoHighlight } from '@/components/demo/DemoBadge';
 import { DemoToggle, DemoFilter, DemoWarningBanner } from '@/components/demo/DemoToggle';
+import { ModeContextBadge } from '@/components/modes/ModeBadge';
 
 export default function CasesPage() {
   const [selectedCase, setSelectedCase] = useState<CaseItem | null>(null);
@@ -332,12 +333,15 @@ export default function CasesPage() {
       {/* Toolbar */}
       <div className="flex-none bg-white/90 backdrop-blur-sm border-b border-purple-200 p-6">
         <div className="flex items-center justify-between mb-4">
-          <DemoToggle
-            value={demoFilter}
-            onChange={setDemoFilter}
-            counts={demoCounts}
-            mode="compact"
-          />
+          <div className="flex items-center gap-3">
+            <ModeContextBadge size="sm" />
+            <DemoToggle
+              value={demoFilter}
+              onChange={setDemoFilter}
+              counts={demoCounts}
+              mode="compact"
+            />
+          </div>
           <button className="px-4 py-2 bg-pink-600 text-white rounded-md text-sm font-medium hover:bg-pink-700 transition-colors flex items-center gap-2">
             <FileTextIcon className="w-4 h-4" />
             New Case

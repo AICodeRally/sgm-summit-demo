@@ -2,16 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import {
-  SparklesIcon,
-  CheckCircleIcon,
-  XMarkIcon,
-  ClipboardDocumentIcon,
-  LightBulbIcon,
-  ShieldCheckIcon,
-  PencilSquareIcon,
-  EyeIcon,
-  BookOpenIcon,
-} from '@heroicons/react/24/outline';
+  StarIcon,
+  CheckCircledIcon,
+  Cross2Icon,
+  ClipboardIcon,
+  LightningBoltIcon,
+  LockClosedIcon,
+  Pencil2Icon,
+  EyeOpenIcon,
+  ReaderIcon,
+} from '@radix-ui/react-icons';
 import { AgentOrchestrator } from '@/lib/ai/agents/orchestrator';
 import type { AgentSuggestion, AgentContext } from '@/lib/ai/agents/orchestrator';
 import type { Plan } from '@/lib/contracts/plan.contract';
@@ -25,10 +25,10 @@ interface AgentSuggestionPanelProps {
 }
 
 const agentIcons = {
-  POLICY_EXPERT: ShieldCheckIcon,
-  DESIGN: PencilSquareIcon,
-  UIUX: EyeIcon,
-  KNOWLEDGE_BASE: BookOpenIcon,
+  POLICY_EXPERT: LockClosedIcon,
+  DESIGN: Pencil2Icon,
+  UIUX: EyeOpenIcon,
+  KNOWLEDGE_BASE: ReaderIcon,
 };
 
 const agentColors = {
@@ -115,7 +115,7 @@ export default function AgentSuggestionPanel({
       <div className="p-6 border-b border-purple-200 bg-white/90">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <SparklesIcon className="h-6 w-6 text-purple-600" />
+            <LightningBoltIcon className="h-6 w-6 text-purple-600" />
             <h3 className="text-lg font-semibold text-gray-800">AI Suggestions</h3>
           </div>
           <button
@@ -157,7 +157,7 @@ export default function AgentSuggestionPanel({
         {loading && (
           <div className="flex items-center justify-center py-8">
             <div className="flex items-center gap-2 text-purple-600">
-              <SparklesIcon className="h-5 w-5 animate-spin" />
+              <LightningBoltIcon className="h-5 w-5 animate-spin" />
               <span className="text-sm">Analyzing content...</span>
             </div>
           </div>
@@ -165,7 +165,7 @@ export default function AgentSuggestionPanel({
 
         {!loading && visibleSuggestions.length === 0 && section && (
           <div className="text-center py-8">
-            <CheckCircleIcon className="h-12 w-12 text-green-500 mx-auto mb-3" />
+            <CheckCircledIcon className="h-12 w-12 text-green-500 mx-auto mb-3" />
             <p className="text-sm text-gray-600">
               {content.length > 50
                 ? "Looking good! No suggestions at the moment."
@@ -176,7 +176,7 @@ export default function AgentSuggestionPanel({
 
         {!loading && !section && (
           <div className="text-center py-8">
-            <LightBulbIcon className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+            <StarIcon className="h-12 w-12 text-gray-300 mx-auto mb-3" />
             <p className="text-sm text-gray-500">
               Select a section to get AI suggestions
             </p>
@@ -239,7 +239,7 @@ function SuggestionCard({
               onClick={onDismiss}
               className="p-1 hover:bg-black/5 rounded transition-colors"
             >
-              <XMarkIcon className="h-4 w-4" />
+              <Cross2Icon className="h-4 w-4" />
             </button>
           </div>
         </div>
@@ -274,7 +274,7 @@ function SuggestionCard({
             onClick={onApply}
             className="mt-3 px-4 py-2 bg-current text-white rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2 text-sm font-medium w-full justify-center"
           >
-            <ClipboardDocumentIcon className="h-4 w-4" />
+            <ClipboardIcon className="h-4 w-4" />
             Apply This Content
           </button>
         </div>

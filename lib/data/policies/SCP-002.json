@@ -1,0 +1,477 @@
+{
+  "code": "SCP-002",
+  "name": "Quota Management Policy",
+  "category": "Performance Management",
+  "frameworkArea": "Quota Management",
+  "status": "DRAFT",
+  "version": "0.1.0",
+  "effectiveDate": "2024-01-01T00:00:00Z",
+  "legalReviewRequired": true,
+
+  "purpose": {
+    "summary": "This policy establishes a standardized framework for setting, managing, and adjusting sales quotas across Henry Schein. The policy ensures quotas are fair, achievable, aligned with business objectives, and consistently applied while providing appropriate governance over mid-year adjustments.",
+    "objectives": [
+      "Establish standardized framework for setting sales quotas",
+      "Ensure quotas are fair, achievable, and aligned with business objectives",
+      "Provide governance framework for mid-year quota adjustments",
+      "Maintain consistency in quota administration across the organization",
+      "Enable data-driven quota setting methodology"
+    ]
+  },
+
+  "scope": {
+    "appliesTo": [
+      "All sales roles with defined quota targets",
+      "All divisions and business units within Henry Schein",
+      "Annual quota setting and mid-year quota adjustments",
+      "Both individual and team-based quotas"
+    ],
+    "exclusions": [],
+    "geographic": []
+  },
+
+  "definitions": [
+    {
+      "term": "Quota",
+      "definition": "The sales target assigned to an individual, team, or territory representing expected performance over a defined period.",
+      "examples": []
+    },
+    {
+      "term": "Base Quota",
+      "definition": "The initial quota assigned at the beginning of the performance period based on historical performance, territory potential, and business objectives.",
+      "examples": []
+    },
+    {
+      "term": "Adjusted Quota",
+      "definition": "A quota that has been modified during the performance period due to qualifying circumstances as defined in this policy.",
+      "examples": []
+    },
+    {
+      "term": "Quota Attainment",
+      "definition": "The percentage of quota achieved, calculated as actual results divided by assigned quota.",
+      "examples": []
+    },
+    {
+      "term": "Territory Potential",
+      "definition": "The estimated total addressable market or revenue opportunity within a defined sales territory.",
+      "examples": []
+    },
+    {
+      "term": "Quota Relief",
+      "definition": "A reduction in quota due to circumstances outside the sales representative's control.",
+      "examples": []
+    },
+    {
+      "term": "Quota Capacity",
+      "definition": "The theoretical maximum sales that can be achieved given available resources and market conditions.",
+      "examples": []
+    }
+  ],
+
+  "provisions": [
+    {
+      "id": "prov-001",
+      "title": "Quota Setting Principles and Methodology",
+      "content": "Henry Schein's quota setting process is guided by core principles and a balanced methodology.",
+      "priority": "CRITICAL",
+      "subProvisions": [
+        {
+          "id": "prov-001-1",
+          "title": "Core Principles",
+          "content": "Quota setting follows these guiding principles:",
+          "items": [
+            "Alignment: Quotas align with corporate financial goals and strategic objectives",
+            "Fairness: Similar roles in similar territories receive comparable quota treatment",
+            "Achievability: Quotas are challenging yet attainable with strong performance",
+            "Transparency: Methodology and factors are clearly communicated",
+            "Consistency: Similar situations are treated consistently across the organization",
+            "Data-Driven: Quotas are based on objective data and analysis"
+          ]
+        },
+        {
+          "id": "prov-001-2",
+          "title": "Quota Setting Methodology",
+          "content": "Quotas are established using a balanced approach with weighted factors:",
+          "items": [
+            "Historical Performance (40% weight): Prior 3-year average sales performance, year-over-year growth trends, seasonality patterns",
+            "Territory Potential (30% weight): Market size and penetration analysis, customer base size and growth potential, competitive landscape, geographic and demographic factors",
+            "Strategic Priorities (20% weight): Corporate growth targets, product/service mix objectives, new market penetration goals, strategic account development",
+            "Resource Allocation (10% weight): Territory size and account count, support staff availability, marketing and lead generation support"
+          ]
+        },
+        {
+          "id": "prov-001-3",
+          "title": "Target Attainment Expectations",
+          "content": "Quotas are set with the following attainment distribution:",
+          "items": [
+            "50-60% of team: Expected to achieve 90-110% of quota (on-target performance)",
+            "20-25% of team: Expected to exceed 110% of quota (high performers)",
+            "15-25% of team: May achieve 70-90% of quota (developing or challenging territories)",
+            "Overall team attainment target: 95-105% of aggregate quota"
+          ]
+        }
+      ],
+      "tables": []
+    },
+    {
+      "id": "prov-002",
+      "title": "Annual Quota Setting Process",
+      "content": "Structured process and timeline for annual quota setting with defined approval requirements.",
+      "priority": "HIGH",
+      "subProvisions": [
+        {
+          "id": "prov-002-1",
+          "title": "Timeline",
+          "content": "The annual quota setting process follows a structured timeline from September through January.",
+          "items": []
+        },
+        {
+          "id": "prov-002-2",
+          "title": "Approval Requirements",
+          "content": "Annual quotas require hierarchical approvals:",
+          "items": [
+            "Territory/Individual Quotas: Regional Sales Manager",
+            "Regional Aggregated Quotas: Divisional VP of Sales",
+            "Divisional Quotas: SVP of Sales + CFO",
+            "Corporate Consolidated Quotas: CEO + Board of Directors"
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "id": "table-002-1",
+          "caption": "Annual Quota Setting Timeline",
+          "headers": ["Timeframe", "Activity"],
+          "rows": [
+            ["September", "Finance provides corporate revenue targets to divisions"],
+            ["October", "Divisional leadership allocates targets to territories"],
+            ["Early November", "Sales Compensation develops preliminary quota recommendations"],
+            ["Mid-November", "Review with Sales Leadership and Finance"],
+            ["Late November", "Quota Review Board approval"],
+            ["Early December", "Final executive approval"],
+            ["Mid-December", "Quota communication to sales teams"],
+            ["January 1", "Quotas effective for new fiscal year"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prov-003",
+      "title": "Mid-Year Quota Adjustments",
+      "content": "Mid-year quota adjustments are discouraged and require strong justification. This provision establishes clear triggers and approval thresholds.",
+      "priority": "CRITICAL",
+      "subProvisions": [
+        {
+          "id": "prov-003-1",
+          "title": "Qualifying Triggers for Quota Adjustment",
+          "content": "Quota adjustments may be approved only for the following circumstances:",
+          "items": [
+            "Territory Changes: Significant addition or removal of accounts (>20% of territory), geographic territory expansion or contraction, territory splits or mergers",
+            "Market Conditions: Major customer bankruptcy or business closure (>$1M impact), regulatory changes affecting product availability, natural disaster or force majeure events, significant competitive displacement (documented loss of >15% territory value)",
+            "Internal Changes: Role change with different responsibilities, significant product line additions or discontinuations, corporate restructuring or acquisitions, extended leave of absence (>60 consecutive days)",
+            "Performance Period Changes: New hire starting mid-year (proration), promotion or transfer (quota transition)"
+          ]
+        },
+        {
+          "id": "prov-003-2",
+          "title": "Non-Qualifying Reasons",
+          "content": "Quota adjustments will NOT be approved for:",
+          "items": [
+            "Below-target performance or difficulty achieving quota",
+            "General market softness affecting all territories equally",
+            "Temporary sales slowdowns (<2 consecutive quarters)",
+            "Personal circumstances unrelated to territory potential",
+            "Desire to increase earnings potential"
+          ]
+        },
+        {
+          "id": "prov-003-3",
+          "title": "Timing of Adjustments",
+          "content": "Quota adjustments must meet timing requirements:",
+          "items": [
+            "Requested within 30 days of the triggering event",
+            "Effective prospectively from the date of approval (no retroactive adjustments)",
+            "Limited to once per quarter per individual (except for role changes)",
+            "Finalized by the 15th of the month to take effect that same month"
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "id": "table-003-1",
+          "caption": "Adjustment Thresholds and Approval Levels",
+          "headers": ["Adjustment Size", "Approval Authority", "Required Documentation"],
+          "rows": [
+            ["Under 10%", "Regional Sales Manager + Sales Comp Director", "Justification memo + supporting data"],
+            ["10-25%", "VP of Sales + VP Sales Compensation + Finance", "Business case + financial impact analysis"],
+            ["25-50%", "SVP Sales + CFO + Comp Review Board", "Comprehensive analysis + executive justification"],
+            ["Over 50%", "CEO + Comp Review Board", "Full business case + alternative analysis"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prov-004",
+      "title": "Territory Changes and Quota Impact",
+      "content": "Specific rules for quota adjustments when territories change.",
+      "priority": "HIGH",
+      "subProvisions": [
+        {
+          "id": "prov-004-1",
+          "title": "Territory Addition Quota Treatment",
+          "content": "When accounts or geography are added to a territory:",
+          "items": [
+            "Quota increases proportionally based on historical performance of added accounts",
+            "90-day ramp period applied for new account familiarization",
+            "Minimum addition threshold: Accounts representing >5% of current quota"
+          ]
+        },
+        {
+          "id": "prov-004-2",
+          "title": "Territory Reduction Quota Treatment",
+          "content": "When accounts or geography are removed from a territory:",
+          "items": [
+            "Quota decreases based on trailing 12-month performance of removed accounts",
+            "Adjustment is effective immediately upon account transfer",
+            "In-flight opportunities may be retained if >50% sales cycle complete"
+          ]
+        },
+        {
+          "id": "prov-004-3",
+          "title": "Territory Split Methodology",
+          "content": "When a territory is divided between multiple representatives:",
+          "items": [
+            "Total quota for split territories equals 100-105% of original quota",
+            "Each new territory receives quota based on account distribution and historical performance",
+            "5% increase accounts for additional coverage and focus"
+          ]
+        }
+      ],
+      "tables": []
+    },
+    {
+      "id": "prov-005",
+      "title": "New Business vs. Renewal/Retention Quotas",
+      "content": "Different quota types based on role responsibilities.",
+      "priority": "MEDIUM",
+      "subProvisions": [
+        {
+          "id": "prov-005-1",
+          "title": "Hunter Roles (New Business Focus)",
+          "content": "New customer acquisition focused roles:",
+          "items": [
+            "80-100% of quota from new customer acquisition",
+            "Quota based on average deal size × expected close rate × number of opportunities",
+            "Sales cycle length factored into quota calculations"
+          ]
+        },
+        {
+          "id": "prov-005-2",
+          "title": "Farmer Roles (Account Management Focus)",
+          "content": "Existing customer management roles:",
+          "items": [
+            "70-90% of quota from existing customer base",
+            "Quota based on retention rate × growth targets",
+            "Churn risk factored into quota setting"
+          ]
+        },
+        {
+          "id": "prov-005-3",
+          "title": "Hybrid Roles",
+          "content": "Mixed responsibility roles:",
+          "items": [
+            "Split quotas: e.g., 60% retention + 40% new business",
+            "Each component tracked and measured separately",
+            "Separate attainment calculations for each quota component"
+          ]
+        }
+      ],
+      "tables": []
+    },
+    {
+      "id": "prov-006",
+      "title": "Documentation Requirements",
+      "content": "Comprehensive documentation requirements for quota assignments and changes.",
+      "priority": "HIGH",
+      "subProvisions": [
+        {
+          "id": "prov-006-1",
+          "title": "Quota Assignment Documentation",
+          "content": "Each quota assignment must include:",
+          "items": [
+            "Individual or territory identifier",
+            "Quota amount(s) by measure (revenue, GP, units, etc.)",
+            "Performance period",
+            "Account/territory scope",
+            "Commission plan reference",
+            "Approval signatures and dates"
+          ]
+        },
+        {
+          "id": "prov-006-2",
+          "title": "Quota Adjustment Request Form",
+          "content": "All adjustment requests must include:",
+          "items": [
+            "Current quota and proposed new quota",
+            "Percentage change",
+            "Triggering event with dates and specifics",
+            "Impact analysis (financial and performance)",
+            "Supporting documentation (territory changes, market data, etc.)",
+            "Year-to-date performance context",
+            "Recommendation from direct manager"
+          ]
+        },
+        {
+          "id": "prov-006-3",
+          "title": "Quota Change Log",
+          "content": "Sales Compensation maintains a comprehensive quota change log capturing all adjustments with required fields.",
+          "items": [
+            "Employee name and ID",
+            "Original quota",
+            "Adjusted quota",
+            "Change reason and category",
+            "Approval chain",
+            "Effective date",
+            "Supporting documentation reference"
+          ]
+        }
+      ],
+      "tables": []
+    },
+    {
+      "id": "prov-007",
+      "title": "Fairness Review and Appeals Process",
+      "content": "Process for ensuring fair quota assignments and handling appeals.",
+      "priority": "MEDIUM",
+      "subProvisions": [
+        {
+          "id": "prov-007-1",
+          "title": "Quota Fairness Review",
+          "content": "Prior to finalizing annual quotas, Sales Compensation conducts a fairness analysis:",
+          "items": [
+            "Quota per account comparisons across similar territories",
+            "Quota growth rate analysis (ensure consistency)",
+            "Territory potential vs. quota alignment checks",
+            "Outlier identification and justification"
+          ]
+        },
+        {
+          "id": "prov-007-2",
+          "title": "Quota Appeal Process",
+          "content": "Sales representatives may appeal their annual quota assignment through a three-step process:",
+          "items": [
+            "Step 1: Initial Review with Manager - Rep discusses concerns with direct manager within 15 days of quota notification",
+            "Step 2: Formal Appeal - If unsatisfied, rep submits written appeal to Sales Compensation within 30 days with specific data-driven rationale",
+            "Step 3: Final Review - Unresolved appeals escalate to Quota Review Committee whose decision is final"
+          ]
+        }
+      ],
+      "tables": []
+    },
+    {
+      "id": "prov-008",
+      "title": "Roles and Responsibilities",
+      "content": "Clearly defined roles for all parties involved in quota management.",
+      "priority": "MEDIUM",
+      "subProvisions": [
+        {
+          "id": "prov-008-1",
+          "title": "Finance Department",
+          "content": "Financial planning and oversight:",
+          "items": [
+            "Provide corporate revenue and profitability targets",
+            "Validate quota allocations align with financial plan",
+            "Approve divisional quota distributions",
+            "Monitor quota attainment vs. financial targets"
+          ]
+        },
+        {
+          "id": "prov-008-2",
+          "title": "Sales Leadership",
+          "content": "Sales management responsibilities:",
+          "items": [
+            "Translate financial targets into territory quotas",
+            "Assess territory potential and resource allocation",
+            "Review and approve regional quota distributions",
+            "Advocate for fair and achievable quota assignments"
+          ]
+        },
+        {
+          "id": "prov-008-3",
+          "title": "Sales Compensation Team",
+          "content": "Administration and governance:",
+          "items": [
+            "Develop quota methodology and recommendations",
+            "Conduct fairness analysis across territories",
+            "Process adjustment requests and maintain documentation",
+            "Administer quota appeal process",
+            "Maintain quota change log and audit trail"
+          ]
+        },
+        {
+          "id": "prov-008-4",
+          "title": "Regional Sales Managers",
+          "content": "Front-line quota management:",
+          "items": [
+            "Review and approve territory-level quotas",
+            "Submit quota adjustment requests with justification",
+            "Communicate quotas to sales teams",
+            "Support reps through appeals process when appropriate"
+          ]
+        },
+        {
+          "id": "prov-008-5",
+          "title": "Compensation Review Board",
+          "content": "Executive oversight:",
+          "items": [
+            "Review and approve quotas requiring executive oversight",
+            "Evaluate large quota adjustments (>25%)",
+            "Serve as final appeal authority",
+            "Ensure consistency with governance policies"
+          ]
+        }
+      ],
+      "tables": []
+    }
+  ],
+
+  "compliance": {
+    "federalLaws": [],
+    "stateLaws": [],
+    "industryStandards": [],
+    "keywords": [
+      "quota",
+      "quota management",
+      "quota adjustment",
+      "territory",
+      "quota setting",
+      "quota relief",
+      "quota attainment",
+      "performance target",
+      "sales target",
+      "territory potential",
+      "mid-year adjustment"
+    ]
+  },
+
+  "relatedPolicies": [
+    "SCP-013"
+  ],
+
+  "metadata": {
+    "createdAt": "2025-11-01T00:00:00Z",
+    "updatedAt": "2025-11-01T00:00:00Z",
+    "createdBy": "policy-team",
+    "approvedBy": "Pending Legal & Executive Review",
+    "sourceFile": "lib/data/policies/SCP-002.md",
+    "wordCount": 1842,
+    "changeLog": [
+      {
+        "version": "0.1.0",
+        "date": "2025-11-01",
+        "author": "Sales Compensation Governance Committee",
+        "description": "Initial draft created from Gap Analysis requirements - addresses Critical Gap #2"
+      }
+    ]
+  }
+}

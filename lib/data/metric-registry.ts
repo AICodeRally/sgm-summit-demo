@@ -3,6 +3,8 @@
  * Each group contains multiple metrics that cycle on click
  */
 
+import { OperationalMode } from '@/types/operational-mode';
+
 export type MetricStatus = 'normal' | 'warning' | 'critical';
 
 export interface Metric {
@@ -20,6 +22,7 @@ export interface MetricGroup {
   name: string;
   icon: string; // Radix icon name
   color: string; // Tailwind color class base (e.g., 'blue')
+  mode: OperationalMode; // Which operational mode this metric belongs to
   metrics: Metric[];
 }
 
@@ -28,7 +31,8 @@ export const METRIC_GROUPS: MetricGroup[] = [
     id: 'documents',
     name: 'Documents',
     icon: 'FileTextIcon',
-    color: 'blue',
+    color: 'blue', // OPERATE mode - Blue
+    mode: OperationalMode.OPERATE,
     metrics: [
       {
         id: 'total-documents',
@@ -76,7 +80,8 @@ export const METRIC_GROUPS: MetricGroup[] = [
     id: 'approvals',
     name: 'Approvals',
     icon: 'CheckCircledIcon',
-    color: 'orange',
+    color: 'blue', // OPERATE mode - Blue
+    mode: OperationalMode.OPERATE,
     metrics: [
       {
         id: 'pending-approvals',
@@ -126,7 +131,8 @@ export const METRIC_GROUPS: MetricGroup[] = [
     id: 'cases',
     name: 'Cases',
     icon: 'ExclamationTriangleIcon',
-    color: 'pink',
+    color: 'indigo', // DISPUTE mode - Indigo
+    mode: OperationalMode.DISPUTE,
     metrics: [
       {
         id: 'active-cases',
@@ -175,7 +181,8 @@ export const METRIC_GROUPS: MetricGroup[] = [
     id: 'policies',
     name: 'Policies',
     icon: 'ArchiveIcon',
-    color: 'green',
+    color: 'cyan', // DESIGN mode - Cyan
+    mode: OperationalMode.DESIGN,
     metrics: [
       {
         id: 'active-policies',
@@ -224,7 +231,8 @@ export const METRIC_GROUPS: MetricGroup[] = [
     id: 'governance',
     name: 'Governance',
     icon: 'AvatarIcon',
-    color: 'purple',
+    color: 'purple', // OVERSEE mode - Violet/Purple
+    mode: OperationalMode.OVERSEE,
     metrics: [
       {
         id: 'committees',
@@ -333,4 +341,11 @@ export function getGroupColors(color: string) {
   };
 
   return colorMap[color] || colorMap.blue;
+}
+
+/**
+ * Get metric groups for a specific operational mode
+ */
+export function getMetricGroupsByMode(mode: OperationalMode): MetricGroup[] {
+  return METRIC_GROUPS.filter((group) => group.mode === mode);
 }

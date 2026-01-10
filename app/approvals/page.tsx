@@ -19,6 +19,7 @@ import { ThreePaneWorkspace } from '@/components/workspace/ThreePaneWorkspace';
 import { APPROVAL_ITEMS, APPROVAL_STATS, CRB_WINDFALL_DECISIONS, type ApprovalItem } from '@/lib/data/synthetic/governance-approvals.data';
 import { DemoBadge, DemoHighlight } from '@/components/demo/DemoBadge';
 import { DemoToggle, DemoFilter, DemoWarningBanner } from '@/components/demo/DemoToggle';
+import { ModeContextBadge } from '@/components/modes/ModeBadge';
 
 export default function ApprovalsPage() {
   const [selectedApproval, setSelectedApproval] = useState<ApprovalItem | null>(null);
@@ -160,6 +161,7 @@ export default function ApprovalsPage() {
       <div className="flex-none bg-white/90 backdrop-blur-sm border-b border-purple-200 px-4 py-3">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-4 text-xs text-gray-500">
+            <ModeContextBadge size="sm" />
             <span>{filteredApprovals.length} item{filteredApprovals.length !== 1 ? 's' : ''}</span>
             {filterStatus !== 'all' && <span>• Status: {filterStatus.replace(/_/g, ' ')}</span>}
             {filterCommittee !== 'all' && <span>• Committee: {filterCommittee}</span>}

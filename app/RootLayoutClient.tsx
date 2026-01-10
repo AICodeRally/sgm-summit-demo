@@ -1,6 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { SessionProvider } from "next-auth/react";
+import { ModeProvider, useMode } from "@/lib/auth/mode-context";
+import { OperationalMode } from "@/types/operational-mode";
 // import { AppShell } from "@rally/app-shell"; // Rally package not yet installed
 import { aiManifest } from "../ai.manifest";
 import { CommandPalette } from "@/components/CommandPalette";
@@ -9,48 +12,95 @@ import { AskDock } from "@/components/ai/AskDock";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageTitleProvider } from "@/components/PageTitle";
+import { WhatsNewModal } from "@/components/modals/WhatsNewModal";
 
 interface RootLayoutClientProps {
   children: React.ReactNode;
 }
 
 /**
- * Client-side root layout wrapper
- * Handles AI components initialization
+ * Inner layout component with access to mode context
  */
-export function RootLayoutClient({ children }: RootLayoutClientProps) {
-  // Command Palette state
-  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+function LayoutWithModeContext({ children, commandPaletteOpen, setCommandPaletteOpen }: {
+  children: React.ReactNode;
+  commandPaletteOpen: boolean;
+  setCommandPaletteOpen: (open: boolean) => void;
+}) {
+  const { switchMode, canSwitchMode } = useMode();
 
-  // Global keyboard shortcut for Command Palette (Cmd+K or Ctrl+K)
+  // Global keyboard shortcuts
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = async (e: KeyboardEvent) => {
+      // Command Palette: Cmd+K / Ctrl+K
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
-        setCommandPaletteOpen(prev => !prev);
+        setCommandPaletteOpen(!commandPaletteOpen);
+      }
+
+      // Mode switching: Cmd+1 through Cmd+4 / Ctrl+1 through Ctrl+4
+      if ((e.metaKey || e.ctrlKey) && canSwitchMode) {
+        const modeMap: Record<string, OperationalMode> = {
+          '1': OperationalMode.DESIGN,
+          '2': OperationalMode.OPERATE,
+          '3': OperationalMode.DISPUTE,
+          '4': OperationalMode.OVERSEE,
+        };
+
+        if (e.key in modeMap) {
+          e.preventDefault();
+          try {
+            await switchMode(modeMap[e.key]);
+          } catch (error) {
+            console.error('Failed to switch mode:', error);
+          }
+        }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [canSwitchMode, switchMode, commandPaletteOpen, setCommandPaletteOpen]);
 
   return (
-    <PageTitleProvider>
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-1 pb-24">
-          {children}
-        </main>
-        <Footer />
-        <CommandPalette
-          isOpen={commandPaletteOpen}
-          onClose={() => setCommandPaletteOpen(false)}
-        />
-        {/* AI Widgets */}
-        <OpsChiefOrb appName="SGM SPARCC" enabled={true} />
-        <AskDock appName="SGM" enabled={true} />
-      </div>
-    </PageTitleProvider>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-1 pb-24">
+        {children}
+      </main>
+      <Footer />
+      <CommandPalette
+        isOpen={commandPaletteOpen}
+        onClose={() => setCommandPaletteOpen(false)}
+      />
+      {/* What's New Modal */}
+      <WhatsNewModal />
+      {/* AI Widgets */}
+      <OpsChiefOrb appName="SGM SPARCC" enabled={true} />
+      <AskDock appName="SGM" enabled={true} />
+    </div>
+  );
+}
+
+/**
+ * Client-side root layout wrapper
+ * Handles AI components and keyboard shortcuts initialization
+ */
+export function RootLayoutClient({ children }: RootLayoutClientProps) {
+  // Command Palette state
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+
+  return (
+    <SessionProvider>
+      <ModeProvider>
+        <PageTitleProvider>
+          <LayoutWithModeContext
+            commandPaletteOpen={commandPaletteOpen}
+            setCommandPaletteOpen={setCommandPaletteOpen}
+          >
+            {children}
+          </LayoutWithModeContext>
+        </PageTitleProvider>
+      </ModeProvider>
+    </SessionProvider>
   );
 }

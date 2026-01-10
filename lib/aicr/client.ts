@@ -1,0 +1,213 @@
+/**
+ * AICR Platform Client
+ *
+ * Calls AICR Platform API for AI services instead of running local LLM.
+ * Supports the expert hierarchy: SGM → SPARCC/SPM → Summit → Platform
+ *
+ * LLM Strategy: Local-first with gateway fallback
+ * - Primary: Ollama (local, free)
+ * - Fallback 1: Claude (best quality)
+ * - Fallback 2: OpenAI
+ * - Fallback 3: Gemini (emergency)
+ */
+
+const AICR_API = process.env.AICR_API_URL || 'http://localhost:3000';
+const AICR_TENANT_ID = process.env.AICR_TENANT_ID || 'henry-schein';
+
+export interface AskSGMRequest {
+  message: string;
+  domain?: 'sgm' | 'spm' | 'enterprise' | 'platform';
+  intent?: 'governance_ruling' | 'dispute_kit' | 'exception_packet' | 'governance_gap';
+  context?: {
+    planId?: string;
+    transactionId?: string;
+    repId?: string;
+    planYear?: number;
+    jurisdiction?: string;
+    cycleState?: string;
+    currentPage?: string;
+  };
+  tenantId?: string;
+  escalate?: boolean;  // Force escalation to parent expert
+}
+
+export interface AskSGMResponse {
+  answer: string;
+  citations?: Array<{
+    policyVersionId: string;
+    excerpt: string;
+    score: number;
+  }>;
+  suggestedActions?: string[];
+  deliverableType?: 'RULING' | 'EXCEPTION_PACKET' | 'DISPUTE_KIT' | 'CHANGE_CONTROL_MEMO' | 'GOVERNANCE_GAP';
+  confidence?: number;
+  escalatedFrom?: string;  // If escalated from child expert
+  expert?: {
+    slug: string;
+    name: string;
+    domain: string;
+  };
+  tokensUsed?: {
+    input: number;
+    output: number;
+    total: number;
+  };
+  cached?: boolean;
+}
+
+export interface AICRClientConfig {
+  apiUrl?: string;
+  tenantId?: string;
+  timeout?: number;
+  debug?: boolean;
+}
+
+/**
+ * AICR Platform Client
+ */
+export class AICRClient {
+  private apiUrl: string;
+  private tenantId: string;
+  private timeout: number;
+  private debug: boolean;
+
+  constructor(config: AICRClientConfig = {}) {
+    this.apiUrl = config.apiUrl || AICR_API;
+    this.tenantId = config.tenantId || AICR_TENANT_ID;
+    this.timeout = config.timeout || 120000; // 2 minutes
+    this.debug = config.debug || false;
+  }
+
+  /**
+   * Call SGM governance expert via AICR platform
+   */
+  async askSGM(request: AskSGMRequest): Promise<AskSGMResponse> {
+    const tenantId = request.tenantId || this.tenantId;
+    const domain = request.domain || 'sgm';
+
+    if (this.debug) {
+      console.log(`[AICR Client] Calling ${domain} expert for tenant ${tenantId}`);
+    }
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+
+    try {
+      const response = await fetch(`${this.apiUrl}/${tenantId}/api/ask/invoke`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Auth headers required by AICR ask/invoke endpoint
+          'x-role': 'admin',
+          'x-actor-type': 'admin',
+          'x-actor-id': 'sgm-prototype',
+        },
+        body: JSON.stringify({
+          domain,
+          intent: request.intent,
+          message: request.message,
+          context: request.context,
+          escalate: request.escalate,
+        }),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`AICR API error (${response.status}): ${errorText.slice(0, 200)}`);
+      }
+
+      const data = await response.json();
+
+      if (this.debug) {
+        console.log(`[AICR Client] Response from ${data.expert?.slug || domain}:`, {
+          confidence: data.confidence,
+          deliverableType: data.deliverableType,
+          tokensUsed: data.tokensUsed,
+          cached: data.cached,
+        });
+      }
+
+      return data as AskSGMResponse;
+    } catch (error) {
+      clearTimeout(timeoutId);
+
+      if (error instanceof Error && error.name === 'AbortError') {
+        throw new Error(`AICR API timeout after ${this.timeout}ms`);
+      }
+      throw error;
+    }
+  }
+
+  /**
+   * Check if AICR platform is available
+   */
+  async healthCheck(): Promise<boolean> {
+    try {
+      const response = await fetch(`${this.apiUrl}/api/health`, {
+        method: 'GET',
+        signal: AbortSignal.timeout(5000),
+      });
+      return response.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Get available experts for a tenant
+   */
+  async getExperts(tenantId?: string): Promise<Array<{ slug: string; name: string; domain: string }>> {
+    const tid = tenantId || this.tenantId;
+    try {
+      const response = await fetch(`${this.apiUrl}/${tid}/api/ask/experts`, {
+        method: 'GET',
+      });
+      if (!response.ok) return [];
+      const data = await response.json();
+      return data.experts || [];
+    } catch {
+      return [];
+    }
+  }
+}
+
+// Singleton instance
+let aicrClient: AICRClient | null = null;
+
+/**
+ * Get or create AICR client singleton
+ */
+export function getAICRClient(config?: AICRClientConfig): AICRClient {
+  if (!aicrClient) {
+    aicrClient = new AICRClient(config);
+  }
+  return aicrClient;
+}
+
+/**
+ * Check if AICR is configured
+ */
+export function isAICRConfigured(): boolean {
+  return !!process.env.AICR_API_URL;
+}
+
+/**
+ * Convenience function for SGM governance queries
+ */
+export async function askGovernance(
+  message: string,
+  context?: AskSGMRequest['context'],
+  options?: { intent?: AskSGMRequest['intent']; escalate?: boolean }
+): Promise<AskSGMResponse> {
+  const client = getAICRClient();
+  return client.askSGM({
+    message,
+    domain: 'sgm',
+    intent: options?.intent,
+    context,
+    escalate: options?.escalate,
+  });
+}

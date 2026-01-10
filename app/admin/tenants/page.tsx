@@ -1,6 +1,6 @@
 'use client';
 
-import { useRallySession } from '@rally/auth';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -24,9 +24,7 @@ interface Tenant {
 }
 
 export default function TenantsPage() {
-  const sessionData = useRallySession();
-  const session = sessionData?.data;
-  const status = sessionData?.status;
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [tenants, setTenants] = useState<Tenant[]>([]);
   const [loading, setLoading] = useState(true);

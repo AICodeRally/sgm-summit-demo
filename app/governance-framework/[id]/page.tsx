@@ -4,12 +4,12 @@ import { use, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   ArrowLeftIcon,
-  ShieldCheckIcon,
-  DocumentTextIcon,
+  LockClosedIcon,
+  FileTextIcon,
   ExclamationTriangleIcon,
-  CheckBadgeIcon,
-  BookOpenIcon,
-} from '@heroicons/react/24/outline';
+  CheckCircledIcon,
+  ReaderIcon,
+} from '@radix-ui/react-icons';
 import Link from 'next/link';
 import type { GovernanceFramework } from '@/lib/contracts/governance-framework.contract';
 
@@ -45,15 +45,15 @@ export default function FrameworkViewerPage({ params }: FrameworkViewerPageProps
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'METHODOLOGY':
-        return <BookOpenIcon className="h-6 w-6" />;
+        return <ReaderIcon className="h-6 w-6" />;
       case 'STANDARDS':
-        return <CheckBadgeIcon className="h-6 w-6" />;
+        return <CheckCircledIcon className="h-6 w-6" />;
       case 'COMPLIANCE':
-        return <ShieldCheckIcon className="h-6 w-6" />;
+        return <LockClosedIcon className="h-6 w-6" />;
       case 'REGULATORY':
         return <ExclamationTriangleIcon className="h-6 w-6" />;
       default:
-        return <DocumentTextIcon className="h-6 w-6" />;
+        return <FileTextIcon className="h-6 w-6" />;
     }
   };
 
@@ -119,7 +119,7 @@ export default function FrameworkViewerPage({ params }: FrameworkViewerPageProps
     return (
       <div className="h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50">
         <div className="text-center">
-          <DocumentTextIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+          <FileTextIcon className="h-16 w-16 text-gray-300 mx-auto mb-4" />
           <p className="text-red-500">Framework not found</p>
         </div>
       </div>

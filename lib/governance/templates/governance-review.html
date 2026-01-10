@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{planName}} - Governance Review</title>
+    <style>
+        /* ============================================================
+           PAGE SETUP & PRINT CONTROLS
+           ============================================================ */
+        @page {
+            size: letter;
+            margin: 0.75in 0.75in 1in 0.75in;
+
+            @top-center {
+                content: "{{organizationName}} - Confidential";
+                font-family: 'Helvetica Neue', Arial, sans-serif;
+                font-size: 9pt;
+                color: #718096;
+            }
+
+            @bottom-left {
+                content: "{{planName}}";
+                font-family: 'Helvetica Neue', Arial, sans-serif;
+                font-size: 8pt;
+                color: #718096;
+            }
+
+            @bottom-right {
+                content: "Page " counter(page) " of " counter(pages);
+                font-family: 'Helvetica Neue', Arial, sans-serif;
+                font-size: 9pt;
+                color: #718096;
+            }
+        }
+
+        @page :first {
+            @top-center { content: none; }
+            @bottom-left { content: none; }
+        }
+
+        /* ============================================================
+           BASE STYLES
+           ============================================================ */
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: #2d3748;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ============================================================
+           COLOR SYSTEM
+           ============================================================ */
+        :root {
+            --navy: #0F2A43;
+            --steel-blue: #2B5C88;
+            --slate: #334155;
+            --border: #D8E1EA;
+            --bg: #F6F8FB;
+            --row-alt: #EFF4F9;
+
+            --immediate: #8B2C2C;
+            --immediate-tint: #F7EAEA;
+            --priority: #8A5B00;
+            --priority-tint: #FFF2D9;
+            --monitor: #4B5563;
+            --monitor-tint: #EEF2F7;
+            --closed: #1F6F5B;
+            --closed-tint: #E8F4F0;
+
+            --finding-evidenced: #1F6F5B;
+            --finding-partial: #2B5C88;
+            --finding-not-evidenced: #111827;
+        }
+
+        /* ============================================================
+           COVER PAGE
+           ============================================================ */
+        .cover-page {
+            page-break-after: always;
+            text-align: center;
+            padding-top: 1.5in;
+        }
+
+        .cover-title {
+            color: var(--navy);
+            font-size: 28pt;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            line-height: 1.2;
+        }
+
+        .cover-subtitle {
+            color: var(--steel-blue);
+            font-size: 16pt;
+            font-weight: 400;
+            margin: 0 0 50px 0;
+        }
+
+        .cover-meta {
+            margin-top: 60px;
+            text-align: left;
+            max-width: 420px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cover-meta table { width: 100%; border: none; }
+        .cover-meta td { padding: 6px 10px; border: none; font-size: 10pt; color: var(--slate); }
+        .cover-meta td:first-child { font-weight: 600; color: var(--navy); width: 140px; }
+
+        .confidential-banner {
+            background-color: var(--navy);
+            color: white;
+            padding: 10px 20px;
+            font-size: 9pt;
+            margin-top: 60px;
+        }
+
+        /* ============================================================
+           HEADINGS & SECTIONS
+           ============================================================ */
+        .section-start {
+            page-break-before: always;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--steel-blue) 100%);
+            color: white;
+            padding: 20px 25px;
+            margin: 0 -0.75in 20px -0.75in;
+            width: calc(100% + 1.5in);
+            page-break-after: avoid;
+        }
+
+        .section-id { font-size: 12pt; font-weight: 400; opacity: 0.9; margin-bottom: 5px; }
+        .section-name { font-size: 20pt; font-weight: 700; margin: 0; }
+
+        h1 {
+            color: var(--navy);
+            font-size: 18pt;
+            font-weight: 700;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--steel-blue);
+        }
+
+        h2 { color: var(--steel-blue); font-size: 14pt; font-weight: 600; margin-top: 25px; margin-bottom: 10px; }
+        h3 { color: var(--slate); font-size: 11pt; font-weight: 600; margin-top: 18px; margin-bottom: 8px; }
+
+        /* ============================================================
+           TABLES
+           ============================================================ */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 9pt;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--steel-blue) 100%);
+            color: white;
+            font-weight: 600;
+            text-align: left;
+            padding: 10px 8px;
+            border: 1px solid var(--navy);
+        }
+
+        td {
+            padding: 8px;
+            border: 1px solid var(--border);
+            vertical-align: top;
+            color: var(--slate);
+        }
+
+        tr:nth-child(even) { background-color: var(--row-alt); }
+
+        /* ============================================================
+           FINDING BADGES
+           ============================================================ */
+        .finding-evidenced {
+            background-color: var(--finding-evidenced);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 8pt;
+            display: inline-block;
+        }
+
+        .finding-partial {
+            background-color: var(--finding-partial);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 8pt;
+            display: inline-block;
+        }
+
+        .finding-not-evidenced {
+            background-color: var(--finding-not-evidenced);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 8pt;
+            display: inline-block;
+        }
+
+        /* ============================================================
+           SEVERITY BADGES
+           ============================================================ */
+        .severity-critical {
+            color: var(--immediate);
+            font-weight: 700;
+            background-color: var(--immediate-tint);
+            border: 1px solid var(--immediate);
+            padding: 3px 8px;
+            border-radius: 3px;
+            display: inline-block;
+            font-size: 8pt;
+        }
+        .severity-high {
+            color: var(--priority);
+            font-weight: 700;
+            background-color: var(--priority-tint);
+            border: 1px solid var(--priority);
+            padding: 3px 8px;
+            border-radius: 3px;
+            display: inline-block;
+            font-size: 8pt;
+        }
+        .severity-medium {
+            color: var(--monitor);
+            font-weight: 600;
+            background-color: var(--monitor-tint);
+            border: 1px solid var(--monitor);
+            padding: 3px 8px;
+            border-radius: 3px;
+            display: inline-block;
+            font-size: 8pt;
+        }
+        .severity-low {
+            color: var(--closed);
+            font-weight: 600;
+            background-color: var(--closed-tint);
+            border: 1px solid var(--closed);
+            padding: 3px 8px;
+            border-radius: 3px;
+            display: inline-block;
+            font-size: 8pt;
+        }
+
+        /* ============================================================
+           POLICY CARD
+           ============================================================ */
+        .policy-card {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin: 20px 0;
+            page-break-inside: avoid;
+        }
+
+        .policy-header {
+            background-color: var(--bg);
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .policy-code { font-size: 11pt; font-weight: 700; color: var(--navy); }
+        .policy-name { font-size: 11pt; color: var(--slate); }
+        .policy-body { padding: 15px; }
+
+        /* ============================================================
+           CALLOUT BOXES
+           ============================================================ */
+        .callout {
+            border-left: 4px solid var(--steel-blue);
+            background-color: var(--bg);
+            padding: 12px 15px;
+            margin: 15px 0;
+            font-size: 9pt;
+        }
+
+        .callout-warning {
+            border-left-color: var(--priority);
+            background-color: var(--priority-tint);
+        }
+
+        .callout-ai {
+            border-left-color: #6366f1;
+            background-color: #eef2ff;
+        }
+
+        .callout-title { font-weight: 600; margin-bottom: 5px; color: var(--navy); }
+
+        /* ============================================================
+           METRICS
+           ============================================================ */
+        .metrics-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            gap: 15px;
+        }
+
+        .metric-box {
+            flex: 1;
+            background: linear-gradient(135deg, var(--steel-blue) 0%, var(--navy) 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .metric-value { font-size: 22pt; font-weight: 700; }
+        .metric-label { font-size: 8pt; opacity: 0.9; margin-top: 5px; }
+
+        /* ============================================================
+           AI VALIDATION SECTION
+           ============================================================ */
+        .ai-badge {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 8pt;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .ai-confirmed { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); }
+        .ai-false-positive { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
+
+        /* ============================================================
+           UTILITIES
+           ============================================================ */
+        .page-break { page-break-before: always; }
+        .no-break { page-break-inside: avoid; }
+        .text-center { text-align: center; }
+        .mt-0 { margin-top: 0; }
+
+        .document-footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid var(--steel-blue);
+            text-align: center;
+            font-size: 9pt;
+            color: var(--monitor);
+        }
+
+        .document-footer strong { color: var(--navy); }
+    </style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover-page">
+    <h1 class="cover-title">Compensation Plan<br>Governance Review</h1>
+    <p class="cover-subtitle">{{planName}}</p>
+
+    <div class="cover-meta">
+        <table>
+            <tr><td>Organization:</td><td>{{organizationName}}</td></tr>
+            <tr><td>Jurisdiction:</td><td>{{jurisdiction}}</td></tr>
+            <tr><td>Review Date:</td><td>{{reviewDate}}</td></tr>
+            <tr><td>Framework:</td><td>SPM Governance Framework (21 Policies)</td></tr>
+            <tr><td>AI Validated:</td><td>{{aiValidated}}</td></tr>
+        </table>
+    </div>
+
+    <div class="confidential-banner">
+        CONFIDENTIAL - For Internal Use Only
+    </div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<div class="section-start">
+    <h1 class="mt-0">Executive Summary</h1>
+
+    <div class="metrics-row">
+        <div class="metric-box">
+            <div class="metric-value">{{coverageScore}}%</div>
+            <div class="metric-label">Coverage<br>Score</div>
+        </div>
+        <div class="metric-box">
+            <div class="metric-value">{{evidenced}}</div>
+            <div class="metric-label">Policies<br>Evidenced</div>
+        </div>
+        <div class="metric-box">
+            <div class="metric-value">{{partial}}</div>
+            <div class="metric-label">Partially<br>Evidenced</div>
+        </div>
+        <div class="metric-box">
+            <div class="metric-value">{{notEvidenced}}</div>
+            <div class="metric-label">Not<br>Evidenced</div>
+        </div>
+    </div>
+
+    {{#if aiValidationSummary}}
+    <div class="callout callout-ai">
+        <div class="callout-title">AI Validation Summary</div>
+        <p>{{aiConfirmedGaps}} gaps confirmed by AI analysis | {{aiFalsePositives}} identified as false positives | Average confidence: {{avgAiConfidence}}%</p>
+    </div>
+    {{/if}}
+
+    <h2>Gap Summary by Severity</h2>
+    <table>
+        <tr>
+            <th>Severity</th>
+            <th>Count</th>
+            <th>Action Required</th>
+        </tr>
+        <tr>
+            <td><span class="severity-critical">CRITICAL</span></td>
+            <td>{{criticalCount}}</td>
+            <td>Immediate remediation required</td>
+        </tr>
+        <tr>
+            <td><span class="severity-high">HIGH</span></td>
+            <td>{{highCount}}</td>
+            <td>Address within 30 days</td>
+        </tr>
+        <tr>
+            <td><span class="severity-medium">MEDIUM</span></td>
+            <td>{{mediumCount}}</td>
+            <td>Review and prioritize</td>
+        </tr>
+        <tr>
+            <td><span class="severity-low">LOW</span></td>
+            <td>{{lowCount}}</td>
+            <td>Monitor during governance cycle</td>
+        </tr>
+    </table>
+</div>
+
+<!-- GAP DETAILS BY POLICY -->
+<div class="section-start">
+    <h1 class="mt-0">Gap Analysis Details</h1>
+
+    {{#each gaps}}
+    <div class="policy-card">
+        <div class="policy-header">
+            <div>
+                <span class="policy-code">{{policyCode}}</span>
+                <span class="policy-name">{{policyName}}</span>
+            </div>
+            <div>
+                <span class="finding-{{findingClass}}">{{finding}}</span>
+                <span class="severity-{{severityClass}}">{{severity}}</span>
+                {{#if aiValidated}}
+                <span class="ai-badge {{aiClass}}">AI: {{aiStatus}}</span>
+                {{/if}}
+            </div>
+        </div>
+        <div class="policy-body">
+            {{#if evidence}}
+            <h3>Evidence Found</h3>
+            <ul>
+                {{#each evidence}}
+                <li>{{this}}</li>
+                {{/each}}
+            </ul>
+            {{/if}}
+
+            {{#if missingElements}}
+            <h3>Missing Elements</h3>
+            <ul>
+                {{#each missingElements}}
+                <li>{{this}}</li>
+                {{/each}}
+            </ul>
+            {{/if}}
+
+            {{#if aiReasoning}}
+            <div class="callout callout-ai">
+                <div class="callout-title">AI Analysis ({{aiConfidence}}% confidence)</div>
+                <p>{{aiReasoning}}</p>
+            </div>
+            {{/if}}
+
+            {{#if remediationText}}
+            <h3>Recommended Remediation</h3>
+            <div class="callout">
+                <p>{{remediationText}}</p>
+                {{#if remediationInsertionPoint}}
+                <p><strong>Insert at:</strong> {{remediationInsertionPoint}}</p>
+                {{/if}}
+            </div>
+            {{/if}}
+        </div>
+    </div>
+    {{/each}}
+</div>
+
+<!-- SIGN-OFF -->
+<div class="section-start">
+    <h1 class="mt-0">Review Sign-Off</h1>
+
+    <p>I have reviewed this Governance Review report and acknowledge the findings and recommendations.</p>
+
+    <table style="margin-top: 40px;">
+        <tr>
+            <td style="width: 50%; border: none; padding: 20px;">
+                <p><strong>Reviewer Name:</strong></p>
+                <p style="border-bottom: 1px solid #333; height: 30px;"></p>
+            </td>
+            <td style="width: 50%; border: none; padding: 20px;">
+                <p><strong>Date:</strong></p>
+                <p style="border-bottom: 1px solid #333; height: 30px;"></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: none; padding: 20px;">
+                <p><strong>Title:</strong></p>
+                <p style="border-bottom: 1px solid #333; height: 30px;"></p>
+            </td>
+            <td style="border: none; padding: 20px;">
+                <p><strong>Signature:</strong></p>
+                <p style="border-bottom: 1px solid #333; height: 30px;"></p>
+            </td>
+        </tr>
+    </table>
+
+    <div class="document-footer">
+        <p><strong>SGM - Sales Governance Module</strong></p>
+        <p>AI-Powered Compensation Plan Governance</p>
+        <p>Generated: {{generatedAt}}</p>
+    </div>
+</div>
+
+</body>
+</html>

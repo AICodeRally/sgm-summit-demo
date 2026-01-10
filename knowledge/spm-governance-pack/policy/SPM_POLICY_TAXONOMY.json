@@ -1,0 +1,757 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SPM Governance Policy Taxonomy",
+  "description": "15 SPM Governance Pack policies (SPM-POL-001 to SPM-POL-015) - Complementary to the 21 Henry Schein Framework policies (A-001 to F-003)",
+  "version": "1.0.0",
+  "effective_date": "2026-01-01",
+  "policy_count": 15,
+  "relationship_to_hs_framework": {
+    "description": "These 15 policies complement the 21 Henry Schein Framework policies by focusing on governance procedures, controls, and operational processes rather than plan language requirements",
+    "hs_policies": "A-001 to F-003 (21 policies) - Plan language and compliance requirements",
+    "spm_policies": "SPM-POL-001 to SPM-POL-015 (15 policies) - Governance procedures and controls"
+  },
+  "policies": [
+    {
+      "policy_id": "spm-pol-001",
+      "policy_code": "SPM-POL-001",
+      "title": "Exception Intake",
+      "category": "Exception Management",
+      "section": "Exception & Dispute Resolution",
+      "order": 1,
+      "domain_tags": ["SGM", "Exception", "Intake", "Workflow"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "HIGH",
+      "scope": {
+        "roles": ["Rep", "Manager", "SalesOps", "Finance", "Admin"],
+        "entities": ["Exception", "Approval"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "All exception requests must be submitted through the formal intake process with complete supporting documentation before review.",
+      "rule_logic": {
+        "conditions": [
+          "request_type = 'exception'",
+          "documentation_complete = true"
+        ],
+        "actions": [
+          "create_exception_case",
+          "assign_owner",
+          "notify_approvers"
+        ],
+        "constraints": [
+          "must_have_business_justification",
+          "must_specify_policy_reference",
+          "must_include_financial_impact"
+        ],
+        "enforcement": "Block"
+      },
+      "exceptions_allowed": false,
+      "required_evidence": [
+        "exception_request_form",
+        "business_justification",
+        "financial_impact_estimate",
+        "manager_endorsement"
+      ],
+      "approval_chain": ["Direct Manager", "SalesOps", "Finance Approver"],
+      "sla_hours": 24,
+      "references": [
+        {
+          "doc_id": "D-003",
+          "anchor": "Exception Process",
+          "excerpt": "All exceptions must follow formal intake process"
+        }
+      ],
+      "related_policies": ["SPM-POL-002", "SPM-POL-003", "D-003"],
+      "detection_patterns": ["exception request", "approval request", "policy deviation"],
+      "required_elements": [
+        "Intake form completed",
+        "Policy reference cited",
+        "Business justification provided",
+        "Financial impact quantified"
+      ]
+    },
+    {
+      "policy_id": "spm-pol-002",
+      "policy_code": "SPM-POL-002",
+      "title": "Exception Triage & Classification",
+      "category": "Exception Management",
+      "section": "Exception & Dispute Resolution",
+      "order": 2,
+      "domain_tags": ["SGM", "Exception", "Triage", "Classification"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "HIGH",
+      "scope": {
+        "roles": ["SalesOps", "Finance", "Admin"],
+        "entities": ["Exception", "Classification"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "All exception requests must be classified by type, severity, and financial impact within SLA to determine appropriate approval routing.",
+      "rule_logic": {
+        "conditions": [
+          "exception_submitted = true",
+          "classification_pending = true"
+        ],
+        "actions": [
+          "classify_exception_type",
+          "assess_severity",
+          "calculate_financial_impact",
+          "determine_approval_level"
+        ],
+        "constraints": [
+          "classification_within_4_hours",
+          "severity_determines_routing",
+          "financial_threshold_determines_approver_level"
+        ],
+        "enforcement": "Block"
+      },
+      "exceptions_allowed": false,
+      "required_evidence": [
+        "classification_assessment",
+        "severity_determination",
+        "routing_decision"
+      ],
+      "approval_chain": ["SalesOps Analyst"],
+      "sla_hours": 4,
+      "references": [
+        {
+          "doc_id": "D-003",
+          "anchor": "Exception Classification",
+          "excerpt": "Exceptions must be classified before routing"
+        }
+      ],
+      "related_policies": ["SPM-POL-001", "SPM-POL-003", "D-003"],
+      "severity_matrix": {
+        "low": { "financial_threshold": 5000, "approval_level": "Manager" },
+        "medium": { "financial_threshold": 25000, "approval_level": "Director" },
+        "high": { "financial_threshold": 100000, "approval_level": "VP" },
+        "critical": { "financial_threshold": "unlimited", "approval_level": "CRB" }
+      }
+    },
+    {
+      "policy_id": "spm-pol-003",
+      "policy_code": "SPM-POL-003",
+      "title": "Exception Approval Workflow",
+      "category": "Exception Management",
+      "section": "Exception & Dispute Resolution",
+      "order": 3,
+      "domain_tags": ["SGM", "Exception", "Approval", "Workflow"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "HIGH",
+      "scope": {
+        "roles": ["Manager", "Director", "VP", "Finance", "CRB"],
+        "entities": ["Exception", "Approval"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "Exception approvals must follow the designated approval chain based on classification, with documented rationale at each step.",
+      "rule_logic": {
+        "conditions": [
+          "exception_classified = true",
+          "routing_determined = true"
+        ],
+        "actions": [
+          "route_to_first_approver",
+          "capture_approval_decision",
+          "escalate_if_required",
+          "log_decision"
+        ],
+        "constraints": [
+          "sequential_approval_required",
+          "all_approvers_must_decide",
+          "rationale_required_for_each_decision"
+        ],
+        "enforcement": "Block"
+      },
+      "exceptions_allowed": false,
+      "required_evidence": [
+        "approval_decision",
+        "approver_rationale",
+        "timestamp"
+      ],
+      "approval_chain": ["Per Classification Matrix"],
+      "sla_hours": 48,
+      "related_policies": ["SPM-POL-001", "SPM-POL-002", "D-003"]
+    },
+    {
+      "policy_id": "spm-pol-004",
+      "policy_code": "SPM-POL-004",
+      "title": "Dispute Intake",
+      "category": "Dispute Resolution",
+      "section": "Exception & Dispute Resolution",
+      "order": 4,
+      "domain_tags": ["SGM", "Dispute", "Intake", "Rep"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "HIGH",
+      "scope": {
+        "roles": ["Rep", "Manager", "SalesOps"],
+        "entities": ["Dispute", "Crediting", "Payout"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "All compensation disputes must be submitted through the formal dispute intake process with required evidence within 30 days of the transaction in question.",
+      "rule_logic": {
+        "conditions": [
+          "dispute_type IN ('crediting', 'payout', 'quota', 'territory')",
+          "submission_within_30_days = true"
+        ],
+        "actions": [
+          "create_dispute_case",
+          "validate_evidence",
+          "assign_investigator",
+          "acknowledge_receipt"
+        ],
+        "constraints": [
+          "30_day_submission_window",
+          "evidence_must_be_attached",
+          "rep_must_acknowledge_process"
+        ],
+        "enforcement": "Block"
+      },
+      "exceptions_allowed": true,
+      "exception_process": "SPM-POL-001",
+      "required_evidence": [
+        "dispute_form",
+        "transaction_records",
+        "supporting_documentation",
+        "rep_statement"
+      ],
+      "approval_chain": ["SalesOps Analyst"],
+      "sla_hours": 8,
+      "related_policies": ["SPM-POL-005", "SPM-POL-006", "D-003", "B-001"]
+    },
+    {
+      "policy_id": "spm-pol-005",
+      "policy_code": "SPM-POL-005",
+      "title": "Dispute Investigation",
+      "category": "Dispute Resolution",
+      "section": "Exception & Dispute Resolution",
+      "order": 5,
+      "domain_tags": ["SGM", "Dispute", "Investigation", "Evidence"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "HIGH",
+      "scope": {
+        "roles": ["SalesOps", "Finance", "Admin"],
+        "entities": ["Dispute", "Evidence", "Investigation"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "Dispute investigations must follow documented methodology, gather evidence from all systems of record, and complete within SLA.",
+      "rule_logic": {
+        "conditions": [
+          "dispute_acknowledged = true",
+          "investigator_assigned = true"
+        ],
+        "actions": [
+          "gather_system_evidence",
+          "interview_parties",
+          "document_findings",
+          "prepare_recommendation"
+        ],
+        "constraints": [
+          "all_systems_of_record_checked",
+          "chain_of_custody_maintained",
+          "findings_documented"
+        ],
+        "enforcement": "Warn"
+      },
+      "exceptions_allowed": false,
+      "required_evidence": [
+        "crm_records",
+        "icm_calculations",
+        "booking_records",
+        "communication_records"
+      ],
+      "approval_chain": ["SalesOps Manager"],
+      "sla_hours": 72,
+      "related_policies": ["SPM-POL-004", "SPM-POL-006", "D-003", "F-002"]
+    },
+    {
+      "policy_id": "spm-pol-006",
+      "policy_code": "SPM-POL-006",
+      "title": "Dispute Ruling",
+      "category": "Dispute Resolution",
+      "section": "Exception & Dispute Resolution",
+      "order": 6,
+      "domain_tags": ["SGM", "Dispute", "Ruling", "Decision"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "HIGH",
+      "scope": {
+        "roles": ["SalesOps", "Finance", "CRB"],
+        "entities": ["Dispute", "Ruling", "Appeal"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "Dispute rulings must cite policy authority, evidence basis, and provide appeal path. All rulings are logged in the decision register.",
+      "rule_logic": {
+        "conditions": [
+          "investigation_complete = true",
+          "recommendation_prepared = true"
+        ],
+        "actions": [
+          "issue_ruling",
+          "cite_authority",
+          "document_evidence",
+          "provide_appeal_path",
+          "log_decision"
+        ],
+        "constraints": [
+          "authority_must_be_cited",
+          "evidence_must_support_ruling",
+          "appeal_path_required"
+        ],
+        "enforcement": "Block"
+      },
+      "exceptions_allowed": false,
+      "required_evidence": [
+        "investigation_report",
+        "policy_citations",
+        "evidence_summary",
+        "ruling_rationale"
+      ],
+      "approval_chain": ["SalesOps Director", "Finance Approver"],
+      "sla_hours": 24,
+      "related_policies": ["SPM-POL-004", "SPM-POL-005", "D-003"]
+    },
+    {
+      "policy_id": "spm-pol-007",
+      "policy_code": "SPM-POL-007",
+      "title": "Change Request Submission",
+      "category": "Change Control",
+      "section": "Plan Change Management",
+      "order": 7,
+      "domain_tags": ["SGM", "ChangeControl", "Submission", "Retro"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "HIGH",
+      "scope": {
+        "roles": ["SalesOps", "Finance", "HR"],
+        "entities": ["ChangeControl", "Plan", "Policy"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "All plan or policy changes must be submitted through the change control process with impact assessment and stakeholder analysis.",
+      "rule_logic": {
+        "conditions": [
+          "change_type IN ('plan', 'policy', 'process', 'rate_table')",
+          "impact_assessment_complete = true"
+        ],
+        "actions": [
+          "create_change_request",
+          "assess_impact",
+          "identify_stakeholders",
+          "determine_retroactivity"
+        ],
+        "constraints": [
+          "impact_assessment_required",
+          "retroactivity_flag_if_applicable",
+          "stakeholder_notification_required"
+        ],
+        "enforcement": "Block"
+      },
+      "exceptions_allowed": false,
+      "required_evidence": [
+        "change_request_form",
+        "impact_assessment",
+        "stakeholder_list",
+        "business_justification"
+      ],
+      "approval_chain": ["SalesOps Director", "Finance Director"],
+      "sla_hours": 24,
+      "related_policies": ["SPM-POL-008", "SPM-POL-009", "D-001"]
+    },
+    {
+      "policy_id": "spm-pol-008",
+      "policy_code": "SPM-POL-008",
+      "title": "Change Impact Assessment",
+      "category": "Change Control",
+      "section": "Plan Change Management",
+      "order": 8,
+      "domain_tags": ["SGM", "ChangeControl", "Impact", "Analysis"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "HIGH",
+      "scope": {
+        "roles": ["SalesOps", "Finance", "HR"],
+        "entities": ["ChangeControl", "Impact", "Analysis"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "All plan changes must include financial impact modeling, affected population analysis, and compliance review before approval routing.",
+      "rule_logic": {
+        "conditions": [
+          "change_request_submitted = true",
+          "impact_assessment_required = true"
+        ],
+        "actions": [
+          "model_financial_impact",
+          "identify_affected_population",
+          "review_compliance_implications",
+          "prepare_impact_report"
+        ],
+        "constraints": [
+          "financial_modeling_required",
+          "population_impact_documented",
+          "compliance_review_complete"
+        ],
+        "enforcement": "Block"
+      },
+      "exceptions_allowed": false,
+      "required_evidence": [
+        "financial_model",
+        "population_analysis",
+        "compliance_checklist",
+        "impact_summary"
+      ],
+      "approval_chain": ["Finance Analyst", "Compliance Officer"],
+      "sla_hours": 48,
+      "related_policies": ["SPM-POL-007", "SPM-POL-009", "D-001", "C-003"]
+    },
+    {
+      "policy_id": "spm-pol-009",
+      "policy_code": "SPM-POL-009",
+      "title": "Change Approval & Implementation",
+      "category": "Change Control",
+      "section": "Plan Change Management",
+      "order": 9,
+      "domain_tags": ["SGM", "ChangeControl", "Approval", "Implementation"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "CRITICAL",
+      "scope": {
+        "roles": ["VP Sales", "Finance Director", "HR Director", "CRB"],
+        "entities": ["ChangeControl", "Approval", "Communication"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "Plan changes require executive approval based on impact level. Implementation includes mandatory communication period and acknowledgment collection.",
+      "rule_logic": {
+        "conditions": [
+          "impact_assessment_complete = true",
+          "approval_routing_determined = true"
+        ],
+        "actions": [
+          "route_to_approvers",
+          "collect_approvals",
+          "schedule_communication",
+          "collect_acknowledgments",
+          "implement_change"
+        ],
+        "constraints": [
+          "all_approvers_must_approve",
+          "communication_period_required",
+          "acknowledgments_tracked"
+        ],
+        "enforcement": "Block"
+      },
+      "exceptions_allowed": false,
+      "required_evidence": [
+        "approval_record",
+        "communication_log",
+        "acknowledgment_tracker",
+        "implementation_checklist"
+      ],
+      "approval_chain": ["VP Sales", "Finance Director", "CRB if material"],
+      "sla_hours": 120,
+      "related_policies": ["SPM-POL-007", "SPM-POL-008", "D-001", "A-003"]
+    },
+    {
+      "policy_id": "spm-pol-010",
+      "policy_code": "SPM-POL-010",
+      "title": "Version Control & Audit Trail",
+      "category": "Controls",
+      "section": "Governance Controls",
+      "order": 10,
+      "domain_tags": ["SGM", "VersionControl", "Audit", "Compliance"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "HIGH",
+      "scope": {
+        "roles": ["SalesOps", "Finance", "Admin", "Auditor"],
+        "entities": ["Version", "Audit", "Document"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "All plan documents and policy changes must be versioned with immutable audit trail. Prior versions must be retained and accessible.",
+      "rule_logic": {
+        "conditions": [
+          "document_modified = true"
+        ],
+        "actions": [
+          "increment_version",
+          "create_audit_entry",
+          "archive_prior_version",
+          "update_effective_dates"
+        ],
+        "constraints": [
+          "versions_immutable",
+          "audit_trail_complete",
+          "prior_versions_accessible"
+        ],
+        "enforcement": "Block"
+      },
+      "exceptions_allowed": false,
+      "required_evidence": [
+        "version_history",
+        "audit_log",
+        "archived_documents"
+      ],
+      "sla_hours": 1,
+      "related_policies": ["A-003", "F-002"]
+    },
+    {
+      "policy_id": "spm-pol-011",
+      "policy_code": "SPM-POL-011",
+      "title": "Segregation of Duties",
+      "category": "Controls",
+      "section": "Governance Controls",
+      "order": 11,
+      "domain_tags": ["SGM", "SoD", "Controls", "Compliance"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "CRITICAL",
+      "scope": {
+        "roles": ["All"],
+        "entities": ["Approval", "Execution", "Review"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "No individual may both request and approve their own exception, dispute, or change. Approval chains must include independent review.",
+      "rule_logic": {
+        "conditions": [
+          "action_type IN ('exception', 'dispute', 'change', 'payment')"
+        ],
+        "actions": [
+          "validate_sod_compliance",
+          "block_self_approval",
+          "require_independent_review"
+        ],
+        "constraints": [
+          "requester_cannot_approve",
+          "independent_review_required",
+          "manager_cannot_approve_own_team_self_serving"
+        ],
+        "enforcement": "Block"
+      },
+      "exceptions_allowed": false,
+      "required_evidence": [
+        "sod_validation_log",
+        "approval_chain_audit"
+      ],
+      "sla_hours": 0,
+      "related_policies": ["F-002", "SPM-POL-003", "SPM-POL-009"]
+    },
+    {
+      "policy_id": "spm-pol-012",
+      "policy_code": "SPM-POL-012",
+      "title": "Evidence Standards",
+      "category": "Controls",
+      "section": "Governance Controls",
+      "order": 12,
+      "domain_tags": ["SGM", "Evidence", "Documentation", "Audit"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "HIGH",
+      "scope": {
+        "roles": ["All"],
+        "entities": ["Evidence", "Documentation"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "All governance decisions must be supported by evidence from systems of record. Evidence must include timestamps, record IDs, and chain of custody.",
+      "rule_logic": {
+        "conditions": [
+          "decision_being_made = true"
+        ],
+        "actions": [
+          "collect_evidence",
+          "validate_source_system",
+          "document_chain_of_custody",
+          "attach_to_decision"
+        ],
+        "constraints": [
+          "evidence_from_system_of_record",
+          "timestamps_required",
+          "record_ids_required"
+        ],
+        "enforcement": "Block"
+      },
+      "exceptions_allowed": false,
+      "required_evidence": [
+        "system_of_record_data",
+        "timestamps",
+        "record_identifiers"
+      ],
+      "sla_hours": 0,
+      "related_policies": ["F-002", "SPM-POL-005", "SPM-POL-006"]
+    },
+    {
+      "policy_id": "spm-pol-013",
+      "policy_code": "SPM-POL-013",
+      "title": "Precedent Management",
+      "category": "Decision Framework",
+      "section": "Governance Controls",
+      "order": 13,
+      "domain_tags": ["SGM", "Precedent", "Decision", "Consistency"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "MEDIUM",
+      "scope": {
+        "roles": ["SalesOps", "Finance", "Legal", "CRB"],
+        "entities": ["Precedent", "Decision", "Ruling"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "Significant decisions may be tagged as precedent for future reference. Precedent is advisory only and does not override policy.",
+      "rule_logic": {
+        "conditions": [
+          "decision_significant = true",
+          "precedent_flag_requested = true"
+        ],
+        "actions": [
+          "evaluate_precedent_criteria",
+          "tag_if_approved",
+          "add_to_precedent_register"
+        ],
+        "constraints": [
+          "precedent_is_advisory_only",
+          "policy_overrides_precedent",
+          "crb_approval_for_precedent_tag"
+        ],
+        "enforcement": "LogOnly"
+      },
+      "exceptions_allowed": true,
+      "exception_process": "SPM-POL-001",
+      "required_evidence": [
+        "decision_record",
+        "precedent_justification"
+      ],
+      "approval_chain": ["SalesOps Director", "Legal Review"],
+      "sla_hours": 72,
+      "related_policies": ["SPM-POL-006", "D-003"]
+    },
+    {
+      "policy_id": "spm-pol-014",
+      "policy_code": "SPM-POL-014",
+      "title": "Communication Requirements",
+      "category": "Operational",
+      "section": "Communications",
+      "order": 14,
+      "domain_tags": ["SGM", "Communication", "Notification", "Transparency"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "MEDIUM",
+      "scope": {
+        "roles": ["SalesOps", "HR", "Finance"],
+        "entities": ["Communication", "Change", "Notification"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "All plan changes, dispute resolutions, and exception outcomes must be communicated to affected parties within SLA with appropriate detail level.",
+      "rule_logic": {
+        "conditions": [
+          "decision_finalized = true",
+          "affected_parties_identified = true"
+        ],
+        "actions": [
+          "prepare_communication",
+          "determine_detail_level",
+          "send_notification",
+          "log_delivery"
+        ],
+        "constraints": [
+          "communication_within_sla",
+          "appropriate_detail_for_audience",
+          "delivery_tracked"
+        ],
+        "enforcement": "Warn"
+      },
+      "exceptions_allowed": false,
+      "required_evidence": [
+        "communication_record",
+        "delivery_confirmation"
+      ],
+      "sla_hours": 24,
+      "related_policies": ["SPM-POL-006", "SPM-POL-009", "A-004"]
+    },
+    {
+      "policy_id": "spm-pol-015",
+      "policy_code": "SPM-POL-015",
+      "title": "Governance Gap Escalation",
+      "category": "Governance Framework",
+      "section": "Governance Controls",
+      "order": 15,
+      "domain_tags": ["SGM", "Governance", "Gap", "Escalation"],
+      "authority_tier": "ApprovedPolicy",
+      "severity": "HIGH",
+      "scope": {
+        "roles": ["SalesOps", "Finance", "Legal", "CRB"],
+        "entities": ["Gap", "Policy", "Escalation"]
+      },
+      "effective_start": "2026-01-01",
+      "effective_end": "2026-12-31",
+      "version": "1.0",
+      "rule_text": "When policy is missing, ambiguous, or conflicting, the situation must be escalated as a GOVERNANCE_GAP deliverable with recommendation for resolution.",
+      "rule_logic": {
+        "conditions": [
+          "policy_coverage = 'missing' OR policy_coverage = 'ambiguous' OR policy_coverage = 'conflicting'"
+        ],
+        "actions": [
+          "create_governance_gap_record",
+          "document_gap_description",
+          "propose_interim_guidance",
+          "escalate_for_resolution"
+        ],
+        "constraints": [
+          "gap_must_be_documented",
+          "interim_guidance_required",
+          "escalation_path_defined"
+        ],
+        "enforcement": "Block"
+      },
+      "exceptions_allowed": false,
+      "required_evidence": [
+        "gap_description",
+        "scenario_details",
+        "attempted_resolution",
+        "recommended_action"
+      ],
+      "approval_chain": ["SalesOps Director", "Legal Review", "CRB"],
+      "sla_hours": 48,
+      "related_policies": ["D-003", "A-003", "SPM-POL-013"]
+    }
+  ],
+  "policy_categories": [
+    {
+      "category": "Exception Management",
+      "policies": ["SPM-POL-001", "SPM-POL-002", "SPM-POL-003"],
+      "description": "Formal intake, triage, and approval of policy exceptions"
+    },
+    {
+      "category": "Dispute Resolution",
+      "policies": ["SPM-POL-004", "SPM-POL-005", "SPM-POL-006"],
+      "description": "Formal dispute intake, investigation, and ruling process"
+    },
+    {
+      "category": "Change Control",
+      "policies": ["SPM-POL-007", "SPM-POL-008", "SPM-POL-009"],
+      "description": "Plan and policy change management with impact assessment"
+    },
+    {
+      "category": "Governance Controls",
+      "policies": ["SPM-POL-010", "SPM-POL-011", "SPM-POL-012", "SPM-POL-013", "SPM-POL-015"],
+      "description": "Version control, SoD, evidence standards, precedent, gap escalation"
+    },
+    {
+      "category": "Communications",
+      "policies": ["SPM-POL-014"],
+      "description": "Communication requirements for decisions and changes"
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import {
 import { ThreePaneWorkspace } from '@/components/workspace/ThreePaneWorkspace';
 import { DemoBadge, DemoHighlight, LiveBadge, LiveHighlight } from '@/components/demo/DemoBadge';
 import { DemoToggle, DemoFilter, DemoWarningBanner } from '@/components/demo/DemoToggle';
+import { ModeContextBadge } from '@/components/modes/ModeBadge';
 
 interface Document {
   id: string;
@@ -214,7 +215,8 @@ export default function DocumentsPage() {
       {/* Toolbar */}
       <div className="bg-white/90 backdrop-blur-sm border-b border-purple-200 px-4 py-3">
         <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <ModeContextBadge size="sm" />
             <Link
               href="/documents/upload"
               className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 transition-colors"
