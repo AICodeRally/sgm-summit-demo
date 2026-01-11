@@ -186,11 +186,11 @@ Join tables must have non-zero rows (cases + decisions linked correctly).
 
 ## 7) Script Location
 
-**Target:** `/Users/toddlebaron/dev/aicr-platform-v3/apps/aicr/scripts/seed-spm-governance-pack.ts`
+**Target:** `/Users/toddlebaron/dev/aicr/apps/aicr/scripts/seed-spm-governance-pack.ts`
 
 **Usage:**
 ```bash
-cd /Users/toddlebaron/dev/aicr-platform-v3/apps/aicr
+cd /Users/toddlebaron/dev/aicr/apps/aicr
 DATABASE_URL="..." npx tsx scripts/seed-spm-governance-pack.ts
 ```
 

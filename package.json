@@ -27,7 +27,9 @@
     "electron:build:all": "npm run build && electron-builder --mac --win --linux",
     "docker:build": "docker build -t sgm:latest .",
     "docker:run": "docker run -d -p 3003:3003 -v ~/SGM-Data:/data --name sgm sgm:latest",
-    "portable:build": "node scripts/build-portable.js"
+    "portable:build": "node scripts/build-portable.js",
+    "kb:check": "node scripts/check-kb.js",
+    "kb:report": "node scripts/kbcc-report.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

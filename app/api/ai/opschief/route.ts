@@ -5,6 +5,11 @@ import { APPROVAL_ITEMS } from '@/lib/data/synthetic/governance-approvals.data';
 import { ALL_GOVERNANCE_DOCUMENTS } from '@/lib/data/synthetic/governance-documents.data';
 import { CASE_ITEMS } from '@/lib/data/synthetic/cases.data';
 import { AUDIT_EVENTS } from '@/lib/data/synthetic/audit.data';
+import { requireActor } from '@/lib/security/actor';
+import { requireTenantContext } from '@/lib/security/require-tenant';
+import { rateLimitOrThrow } from '@/lib/security/rate-limit';
+import { AI_GUARDRAILS, createAbortController } from '@/lib/security/guardrails';
+import { isSecurityError } from '@/lib/security/errors';
 
 // Telemetry logging helper
 function logTelemetry(event: Record<string, any>) {
@@ -48,7 +53,16 @@ interface OpsChiefRequest {
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const tenantId = searchParams.get('tenantId') || 'platform';
+    const actor = requireTenantContext(await requireActor());
+    rateLimitOrThrow(
+      `${actor.tenantId}:${actor.userId}:/api/ai/opschief`,
+      {
+        perMinute: Number(process.env.AI_RATE_LIMIT_PER_MINUTE || '30'),
+        perDay: Number(process.env.AI_RATE_LIMIT_PER_DAY || '1000'),
+      }
+    );
+
+    const tenantId = actor.tenantId;
     const department = searchParams.get('department');
     const forceRefresh = searchParams.get('forceRefresh') === 'true';
 
@@ -152,7 +166,7 @@ Generate 3-5 governance insights based on the data above. Be specific with metri
           },
         ],
         {
-          maxTokens: 2048,
+          maxTokens: AI_GUARDRAILS.maxOutputTokens,
           temperature: 0.5,
         }
       );
@@ -212,25 +226,33 @@ Generate 3-5 governance insights based on the data above. Be specific with metri
         // Claude API configured - use it
         console.log(`🔧 [OpsChief/SGM] Using LLM: Claude Opus 4.5 (Fallback)`);
 
-        const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': process.env.ANTHROPIC_API_KEY,
-            'anthropic-version': '2023-06-01',
-          },
-          body: JSON.stringify({
-            model: 'claude-opus-4-5-20251101',
-            max_tokens: 2048,
-            temperature: 0.5,
-            messages: [
-              {
-                role: 'user',
-                content: analysisPrompt,
-              },
-            ],
-          }),
-        });
+        const { signal, cleanup } = createAbortController(AI_GUARDRAILS.requestTimeoutMs);
+        let claudeResponse: Response;
+
+        try {
+          claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': process.env.ANTHROPIC_API_KEY,
+              'anthropic-version': '2023-06-01',
+            },
+            body: JSON.stringify({
+              model: 'claude-opus-4-5-20251101',
+              max_tokens: AI_GUARDRAILS.maxOutputTokens,
+              temperature: 0.5,
+              messages: [
+                {
+                  role: 'user',
+                  content: analysisPrompt,
+                },
+              ],
+            }),
+            signal,
+          });
+        } finally {
+          cleanup();
+        }
 
         if (!claudeResponse.ok) {
           const error = await claudeResponse.text();
@@ -365,6 +387,12 @@ Generate 3-5 governance insights based on the data above. Be specific with metri
       },
     });
   } catch (error) {
+    if (isSecurityError(error)) {
+      return NextResponse.json(
+        { error: error.code, details: error.message },
+        { status: error.status }
+      );
+    }
     console.error('OpsChief/SGM error:', error);
 
     const errorMessage =

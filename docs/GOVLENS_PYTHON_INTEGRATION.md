@@ -47,7 +47,7 @@ The GovLens system now has a complete integration between:
 
 ### 1. Python FastAPI Service ✅
 
-**Location**: `/Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype/`
+**Location**: `<CLIENT_DELIVERY_PACKAGE>/govlens_prototype/`
 
 **New Files**:
 - `api.py` - FastAPI service with 8 endpoints
@@ -77,7 +77,7 @@ The GovLens system now has a complete integration between:
 
 ### 2. TypeScript API Client ✅
 
-**Location**: `/Users/toddlebaron/dev/sgm-sparcc-demo/lib/services/govlens/api-client.ts`
+**Location**: `<REPO_ROOT>/lib/services/govlens/api-client.ts`
 
 **Capabilities**:
 - Call Python API from Next.js
@@ -104,7 +104,7 @@ console.log(`Risk Triggers: ${result.risk_triggers.length}`);
 
 ### 3. Integration Test Script ✅
 
-**Location**: `/Users/toddlebaron/dev/sgm-sparcc-demo/scripts/test-govlens-integration.ts`
+**Location**: `<REPO_ROOT>/scripts/test-govlens-integration.ts`
 
 **Tests**:
 1. API health check
@@ -235,7 +235,7 @@ Body: multipart/form-data
 ### 1. Start Python API
 
 ```bash
-cd /Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype
+cd <CLIENT_DELIVERY_PACKAGE>/govlens_prototype
 
 # Option A: Quick start (creates venv, installs deps)
 ./start-api.sh
@@ -261,7 +261,7 @@ curl http://localhost:8000/api/health
 ### 2. Test Integration from Next.js
 
 ```bash
-cd /Users/toddlebaron/dev/sgm-sparcc-demo
+cd <REPO_ROOT>
 
 # Test API integration
 npx tsx scripts/test-govlens-integration.ts
@@ -494,3 +494,8 @@ curl http://localhost:8000/api/health
 - ✅ 2-3 minutes for batch of 20
 
 **Next**: Build UI to visualize and remediate gaps
+
+## See also
+- `docs/KB_OVERVIEW.md`
+- `docs/KB_PAGE_INDEX.md`
+- Relevant KB routes: /governance/upload, /analytics, /reports

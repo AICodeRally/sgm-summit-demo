@@ -613,3 +613,8 @@ Before deploying:
 
 *Last updated: January 2026*
 *Module System Version: 2.0*
+
+## See also
+- `docs/KB_OVERVIEW.md`
+- `docs/KB_PAGE_INDEX.md`
+- Relevant KB routes: /settings/module, /design, /operate, /dispute, /oversee

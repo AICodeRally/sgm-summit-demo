@@ -28,7 +28,9 @@ export {};
 const prisma = new PrismaClient();
 
 // Configuration
-const HENRY_SCHEIN_ARCHIVE = '/Users/toddlebaron/dev__archive_20251219_1518/clients/HenrySchien/CLIENT_DELIVERY_PACKAGE';
+const ARCHIVE_ROOT =
+  process.env.ARCHIVE_ROOT || path.join(process.cwd(), 'data', 'henryschein-archive');
+const HENRY_SCHEIN_ARCHIVE = path.join(ARCHIVE_ROOT, 'CLIENT_DELIVERY_PACKAGE');
 const TENANT_SLUG = 'henryschein';
 const STORAGE_DIR = path.join(process.cwd(), 'storage');
 

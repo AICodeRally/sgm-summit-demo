@@ -157,7 +157,7 @@ npx prisma db push    # Push schema changes
 
 ## Related Repositories
 
-- **aicr-platform-v3** - Main AICR platform (policies ingested to Spine)
+- **aicr** - Main AICR platform (policies ingested to Spine)
 - **sparcc-spm** - SPARCC SPM reference implementation
 
 ---

@@ -13,6 +13,8 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageTitleProvider } from "@/components/PageTitle";
 import { WhatsNewModal } from "@/components/modals/WhatsNewModal";
+import { PageKbProvider } from "@/components/kb/PageKbProvider";
+import { PageKbPanel } from "@/components/kb/PageKbPanel";
 
 interface RootLayoutClientProps {
   children: React.ReactNode;
@@ -77,6 +79,7 @@ function LayoutWithModeContext({ children, commandPaletteOpen, setCommandPalette
       {/* AI Widgets */}
       <OpsChiefOrb appName="SGM SPARCC" enabled={true} />
       <AskDock appName="SGM" enabled={true} />
+      <PageKbPanel enabled={true} />
     </div>
   );
 }
@@ -93,12 +96,14 @@ export function RootLayoutClient({ children }: RootLayoutClientProps) {
     <SessionProvider>
       <ModeProvider>
         <PageTitleProvider>
-          <LayoutWithModeContext
-            commandPaletteOpen={commandPaletteOpen}
-            setCommandPaletteOpen={setCommandPaletteOpen}
-          >
-            {children}
-          </LayoutWithModeContext>
+          <PageKbProvider>
+            <LayoutWithModeContext
+              commandPaletteOpen={commandPaletteOpen}
+              setCommandPaletteOpen={setCommandPaletteOpen}
+            >
+              {children}
+            </LayoutWithModeContext>
+          </PageKbProvider>
         </PageTitleProvider>
       </ModeProvider>
     </SessionProvider>

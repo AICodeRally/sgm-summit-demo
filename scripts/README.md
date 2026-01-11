@@ -30,7 +30,7 @@ npx tsx scripts/import-henryschein-docs.ts
 
 **Prerequisites:**
 - Henry Schein tenant exists (run `npx tsx prisma/seed-tenants.ts`)
-- Archive directory accessible: `/Users/toddlebaron/dev__archive_20251219_1518/clients/HenrySchien/`
+- Archive directory accessible: `<ARCHIVE_ROOT>/`
 - Database migrated and running
 
 **What it imports:**

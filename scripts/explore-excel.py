@@ -2,9 +2,11 @@
 """Quick script to explore Excel workbook structure"""
 
 import openpyxl
+import os
 from pathlib import Path
 
-EXCEL_FILE = Path("/Users/toddlebaron/dev__archive_20251219_1518/clients/HenrySchien/Analysis/Comp Analysis/workbooks/master/BHG_01_HS_Comp_Plan_Analysis_FINAL.xlsx")
+ARCHIVE_ROOT = Path(os.environ.get("ARCHIVE_ROOT", "data/henryschein-archive"))
+EXCEL_FILE = ARCHIVE_ROOT / "Analysis/Comp Analysis/workbooks/master/BHG_01_HS_Comp_Plan_Analysis_FINAL.xlsx"
 
 wb = openpyxl.load_workbook(EXCEL_FILE, data_only=True)
 

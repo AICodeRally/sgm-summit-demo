@@ -464,3 +464,8 @@ After document processing completes (`status: READY`):
 4. **Create Plan** - `/api/client/[tenantSlug]/documents/[docId]/create-plan`
 
 See [Complete Workflow Documentation](./DOCUMENT_WORKFLOW.md) for full details.
+
+## See also
+- `docs/KB_OVERVIEW.md`
+- `docs/KB_PAGE_INDEX.md`
+- Relevant KB routes: /documents/upload, /governance/upload, /documents

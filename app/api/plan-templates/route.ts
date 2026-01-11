@@ -4,6 +4,10 @@ import {
   PlanTemplateFiltersSchema,
   CreatePlanTemplateSchema,
 } from '@/lib/contracts/plan-template.contract';
+import { requireActor } from '@/lib/security/actor';
+import { requireTenantContext } from '@/lib/security/require-tenant';
+import { requireRole } from '@/lib/security/roles';
+import { isSecurityError } from '@/lib/security/errors';
 
 /**
  * GET /api/plan-templates
@@ -22,6 +26,7 @@ import {
  */
 export async function GET(request: NextRequest) {
   try {
+    const actor = requireTenantContext(await requireActor());
     const searchParams = request.nextUrl.searchParams;
 
     // Parse tags from comma-separated string
@@ -30,7 +35,7 @@ export async function GET(request: NextRequest) {
 
     // Parse filters
     const filters = PlanTemplateFiltersSchema.parse({
-      tenantId: searchParams.get('tenantId') || 'demo-tenant-001',
+      tenantId: actor.tenantId,
       planType: searchParams.get('planType') || undefined,
       status: searchParams.get('status') || undefined,
       isSystemTemplate: searchParams.get('isSystemTemplate')
@@ -48,7 +53,7 @@ export async function GET(request: NextRequest) {
     const templates = await templateProvider.findAll(filters);
 
     // Get counts by status and type
-    const tenantId = filters.tenantId || 'demo-tenant-001';
+    const tenantId = filters.tenantId || actor.tenantId;
     const countsByStatus = await templateProvider.countByStatus(tenantId);
     const countsByType = await templateProvider.countByType(tenantId);
 
@@ -65,6 +70,12 @@ export async function GET(request: NextRequest) {
       { status: 200 }
     );
   } catch (error: any) {
+    if (isSecurityError(error)) {
+      return NextResponse.json(
+        { error: error.code, details: error.message },
+        { status: error.status }
+      );
+    }
     return NextResponse.json(
       {
         error: error.message,
@@ -84,10 +95,17 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
+    const actor = requireTenantContext(await requireActor());
+    requireRole(actor, ['SUPER_ADMIN', 'ADMIN', 'GOVERNANCE']);
     const body = await request.json();
 
     // Validate with Zod
-    const data = CreatePlanTemplateSchema.parse(body);
+    const data = CreatePlanTemplateSchema.parse({
+      ...body,
+      tenantId: actor.tenantId,
+      owner: actor.userId,
+      createdBy: actor.userId,
+    });
 
     const registry = getRegistry();
     const templateProvider = registry.getPlanTemplate();
@@ -104,8 +122,8 @@ export async function POST(request: NextRequest) {
       entityType: 'plan_template',
       entityId: template.id,
       entityName: template.name,
-      actorId: data.createdBy,
-      actorName: data.createdBy,
+      actorId: actor.userId,
+      actorName: actor.userId,
     });
 
     return NextResponse.json(
@@ -115,6 +133,12 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error: any) {
+    if (isSecurityError(error)) {
+      return NextResponse.json(
+        { error: error.code, details: error.message },
+        { status: error.status }
+      );
+    }
     return NextResponse.json(
       {
         error: error.message,

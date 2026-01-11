@@ -222,7 +222,7 @@ Phone: [Contact Information]
 Web: www.bluehorizonsgroup.com
 
 **Deliverables Package Location:**
-`/Users/toddlebaron/dev__archive_20251219_1518/clients/HenrySchien/CLIENT_DELIVERY_PACKAGE/`
+`<ARCHIVE_ROOT>/CLIENT_DELIVERY_PACKAGE/`
 
 **Analysis Date:** December 22, 2025
 **Next Review:** Post-implementation (Q2 2026)

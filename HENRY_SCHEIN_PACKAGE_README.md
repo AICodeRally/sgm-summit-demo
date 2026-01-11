@@ -301,7 +301,7 @@ Contact: Your Compensation Committee Chair or General Counsel
 
 ### Main Deliverables (SGM Project Root)
 ```
-/Users/toddlebaron/dev/sgm-sparcc-demo/
+<REPO_ROOT>/
 ├── Henry_Schein_Policy_Coverage_Matrix.xlsx           (25 KB)
 ├── Henry_Schein_Deliverables_Mapping_CORRECTED.xlsx   (est. 40 KB)
 ├── Henry_Schein_Executive_Summary.md                  (Markdown)
@@ -311,7 +311,7 @@ Contact: Your Compensation Committee Chair or General Counsel
 
 ### Supporting Data Files
 ```
-/Users/toddlebaron/dev/sgm-sparcc-demo/scripts/output/
+<REPO_ROOT>/scripts/output/
 ├── henryschein-plan-data.json          (Excel extract)
 ├── json-plan-analysis.json             (27 plans, authoritative)
 └── draft-policies-summary.json         (6 BHG policies)
@@ -319,7 +319,7 @@ Contact: Your Compensation Committee Chair or General Counsel
 
 ### Archive Source (BHG Delivery Package)
 ```
-/Users/toddlebaron/dev__archive_20251219_1518/clients/HenrySchien/CLIENT_DELIVERY_PACKAGE/
+<ARCHIVE_ROOT>/CLIENT_DELIVERY_PACKAGE/
 ├── 01_FRAMEWORK_DOCUMENTS/             (7 files)
 ├── 02_POLICIES/                        (18 files, including 6 DRAFTS)
 │   └── DRAFT_FOR_REVIEW/               (6 DRAFT policies)

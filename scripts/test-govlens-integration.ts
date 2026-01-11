@@ -27,7 +27,7 @@ async function main() {
     } else {
       console.log('❌ GovLens API is not responding\n');
       console.log('Make sure the API is running:');
-      console.log('  cd /Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype');
+      console.log('  cd <CLIENT_DELIVERY_PACKAGE>/govlens_prototype');
       console.log('  ./start-api.sh\n');
       process.exit(1);
     }

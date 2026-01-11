@@ -313,3 +313,8 @@ Each module will have its own:
 - Tailored branding
 
 **All changes: Zero code required!** Just add to module registry. 🎉
+
+## See also
+- `docs/KB_OVERVIEW.md`
+- `docs/KB_PAGE_INDEX.md`
+- Relevant KB routes: /settings/module, /design, /operate, /dispute, /oversee

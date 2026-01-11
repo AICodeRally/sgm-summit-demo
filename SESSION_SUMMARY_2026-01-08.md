@@ -309,7 +309,7 @@ International Requirements Policy was research-based using 2025-2026 sources:
 
 ### Policy Files
 ```
-/Users/toddlebaron/dev/sgm-sparcc-demo/lib/data/policies/
+<REPO_ROOT>/lib/data/policies/
 ├── SCP-001.md through SCP-017.md
 ├── (9 Jamf policy files)
 ├── index.json

@@ -152,7 +152,7 @@ async function testGovernanceUI() {
     console.log('⚠️  Some tests failed. Check the output above for details.\n');
     if (passedTests === 0) {
       console.log('💡 Make sure the Python API is running:');
-      console.log('   cd /Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype');
+      console.log('   cd <CLIENT_DELIVERY_PACKAGE>/govlens_prototype');
       console.log('   ./start-api.sh\n');
     }
   }

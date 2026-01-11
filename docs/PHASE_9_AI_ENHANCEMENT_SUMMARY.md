@@ -3,7 +3,7 @@
 **Date**: 2026-01-09
 **Status**: ✅ COMPLETE
 **Duration**: ~3 hours
-**Location**: `/Users/toddlebaron/dev/CLIENT_DELIVERY_PACKAGE/govlens_prototype/lib/`
+**Location**: `<CLIENT_DELIVERY_PACKAGE>/govlens_prototype/lib/`
 
 ---
 
@@ -408,3 +408,8 @@ pip install anthropic
 **Documentation**: This summary + code comments + test suite
 **Support**: All components have error handling and graceful degradation
 **Maintenance**: Update `GOVLENS_AI_MODEL` env var to use newer Claude models
+
+## See also
+- `docs/KB_OVERVIEW.md`
+- `docs/KB_PAGE_INDEX.md`
+- Relevant KB routes: /__ai/health, /analytics, /governance/upload

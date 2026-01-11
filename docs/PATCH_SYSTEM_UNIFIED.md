@@ -149,7 +149,13 @@ console.log(checklist); // Markdown checklist
 
 ### Templates (16 YAML files)
 
-Location: `/Users/toddlebaron/dev/Client_Delivery_Package/patch_templates/`
+Location: `<CLIENT_DELIVERY_PACKAGE>/patch_templates/`
+
+### Local Dev Paths
+
+| Variable | Purpose | Default |
+| --- | --- | --- |
+| `PATCH_TEMPLATES_DIR` | Patch template directory | `<REPO_ROOT>/patch_templates` |
 
 | Code | Policy | Requirements | Variants |
 |------|--------|--------------|----------|
@@ -568,3 +574,8 @@ return (
 - ✅ Same content, different delivery
 
 **Next**: Build UI to visualize and apply patches
+
+## See also
+- `docs/KB_OVERVIEW.md`
+- `docs/KB_PAGE_INDEX.md`
+- Relevant KB routes: /governance/upload, /governance-framework, /governance-matrix, /documents/upload, /plans/remediation/[planCode]

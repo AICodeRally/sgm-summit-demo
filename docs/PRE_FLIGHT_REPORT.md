@@ -262,3 +262,8 @@ Keep existing schema.prisma with provider="sqlite" and use local file:
 - [x] Risk assessment complete
 
 Next: Phase 1 - Configuration Foundation
+
+## See also
+- `docs/KB_OVERVIEW.md`
+- `docs/KB_PAGE_INDEX.md`
+- Relevant KB routes: /documents, /plans, /governance-matrix

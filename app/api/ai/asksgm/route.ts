@@ -51,6 +51,17 @@ import {
   searchPolicies,
   getPolicyByCode as getRAGPolicyByCode,
 } from '@/lib/governance/rag-knowledge-loader';
+import { loadPageKbByPath } from '@/lib/ui-kb/loader';
+import { requireActor } from '@/lib/security/actor';
+import { requireTenantContext } from '@/lib/security/require-tenant';
+import { rateLimitOrThrow } from '@/lib/security/rate-limit';
+import {
+  AI_GUARDRAILS,
+  createAbortController,
+  enforceMessageLimits,
+  parseJsonWithLimit,
+} from '@/lib/security/guardrails';
+import { isSecurityError } from '@/lib/security/errors';
 
 // Telemetry logging helper
 function logTelemetry(event: Record<string, any>) {
@@ -101,16 +112,20 @@ interface AskSGMRequest {
  */
 export async function POST(request: NextRequest) {
   try {
-    const body: AskSGMRequest = await request.json();
-    const tenantId = body.tenantId || 'platform';
+    const actor = requireTenantContext(await requireActor());
+    rateLimitOrThrow(
+      `${actor.tenantId}:${actor.userId}:/api/ai/asksgm`,
+      {
+        perMinute: Number(process.env.AI_RATE_LIMIT_PER_MINUTE || '30'),
+        perDay: Number(process.env.AI_RATE_LIMIT_PER_DAY || '1000'),
+      }
+    );
+
+    const body = await parseJsonWithLimit<AskSGMRequest>(request, AI_GUARDRAILS.maxBodyBytes);
+    const tenantId = actor.tenantId;
     const messages = body.messages || [];
 
-    if (!messages.length) {
-      return NextResponse.json(
-        { error: 'No messages provided' },
-        { status: 400 }
-      );
-    }
+    enforceMessageLimits(messages, AI_GUARDRAILS);
 
     // Load unified RAG knowledge base with all policies, procedures, controls, evidence
     const ragKnowledgeBase = loadRAGKnowledgeBase();
@@ -125,6 +140,20 @@ export async function POST(request: NextRequest) {
     const policyLibraryContext = buildPolicyLibraryRAGContext();
     const criticalPoliciesV2 = getCriticalPoliciesV2();
     const highPoliciesV2 = getHighPoliciesV2();
+
+    const pageKb = body.context?.currentPage
+      ? await loadPageKbByPath(body.context.currentPage)
+      : null;
+
+    const pageKbContext = pageKb
+      ? `## UI Page Guide
+- Route: ${pageKb.route}
+- Title: ${pageKb.meta.title || 'Unknown'}
+- Description: ${pageKb.meta.description || 'No description'}
+
+${pageKb.content}`
+      : `## UI Page Guide
+No page guide found for ${body.context?.currentPage || 'current page'}.`;
 
     // Calculate real statistics from unified RAG
     const totalRequirements = GOVERNANCE_POLICIES.reduce((sum, p) => sum + p.requirements.length, 0);
@@ -177,6 +206,8 @@ export async function POST(request: NextRequest) {
 - Risk Triggers: ${RISK_TRIGGERS.length}
 - Library Documents: ${totalDocuments}`,
       policyLibraryContext: `${policyLibraryContext}
+
+${pageKbContext}
 
 ## Unified RAG Knowledge Base (Citation-Ready)
 ${fullRAGContext}
@@ -273,7 +304,7 @@ When citing decisions, use the DecisionId:
         })),
         {
           systemPrompt: systemPrompt,
-          maxTokens: 2048,
+          maxTokens: AI_GUARDRAILS.maxOutputTokens,
           temperature: 0.6,
         }
       );
@@ -286,26 +317,50 @@ When citing decisions, use the DecisionId:
 
     // Priority 3: Fallback to Claude API (cloud)
     if (!aicrResponse && !isRallyLLMConfigured()) {
+      if (!process.env.ANTHROPIC_API_KEY) {
+        console.warn(
+          JSON.stringify({
+            event: 'ai.provider_unavailable',
+            provider: 'anthropic',
+            route: '/api/ai/asksgm',
+            tenantId,
+          })
+        );
+        return NextResponse.json(
+          { error: 'provider_unavailable', details: 'No AI provider configured' },
+          { status: 503 }
+        );
+      }
+
       console.log(`🔧 [AskSGM] Using LLM: Claude Sonnet 4 (Cloud Fallback)`);
 
-      const claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': process.env.ANTHROPIC_API_KEY || '',
-          'anthropic-version': '2023-06-01',
-        },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 2048,
-          temperature: 0.6,
-          system: systemPrompt,
-          messages: messages.map((msg) => ({
-            role: msg.role,
-            content: msg.content,
-          })),
-        }),
-      });
+      const { signal, cleanup } = createAbortController(AI_GUARDRAILS.requestTimeoutMs);
+      const maxTokens = AI_GUARDRAILS.maxOutputTokens;
+
+      let claudeResponse: Response;
+      try {
+        claudeResponse = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': process.env.ANTHROPIC_API_KEY,
+            'anthropic-version': '2023-06-01',
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: maxTokens,
+            temperature: 0.6,
+            system: systemPrompt,
+            messages: messages.map((msg) => ({
+              role: msg.role,
+              content: msg.content,
+            })),
+          }),
+          signal,
+        });
+      } finally {
+        cleanup();
+      }
 
       if (!claudeResponse.ok) {
         const error = await claudeResponse.text();
@@ -446,6 +501,12 @@ When citing decisions, use the DecisionId:
       },
     });
   } catch (error) {
+    if (isSecurityError(error)) {
+      return NextResponse.json(
+        { error: error.code, details: error.message },
+        { status: error.status }
+      );
+    }
     console.error('AskSGM error:', error);
 
     const errorMessage =

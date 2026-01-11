@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { ChatBubbleIcon, Cross2Icon, PaperPlaneIcon, MinusIcon, ReloadIcon } from '@radix-ui/react-icons';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { usePageKb } from '@/components/kb/PageKbProvider';
 
 interface Message {
   id: string;
@@ -24,7 +25,9 @@ export function AskDock({ appName = 'SGM', enabled = true }: AskDockProps) {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPageGuide, setShowPageGuide] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { data: pageKb } = usePageKb();
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -199,6 +202,35 @@ export function AskDock({ appName = 'SGM', enabled = true }: AskDockProps) {
                 </div>
 
                 {/* Quick Questions */}
+                {pageKb?.meta?.title && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs font-medium text-gray-500">
+                        Current page guide
+                      </p>
+                      <button
+                        onClick={() => setShowPageGuide(!showPageGuide)}
+                        className="text-xs text-purple-600 hover:text-purple-700"
+                      >
+                        {showPageGuide ? 'Hide' : 'View'}
+                      </button>
+                    </div>
+                    <div className="rounded-lg border border-purple-200 bg-white p-3 text-xs text-gray-700">
+                      <p className="font-semibold text-gray-900">{pageKb.meta.title}</p>
+                      {pageKb.meta.description && (
+                        <p className="mt-1 text-gray-600">{pageKb.meta.description}</p>
+                      )}
+                      {showPageGuide && (
+                        <div className="mt-3 max-h-56 overflow-y-auto rounded border border-purple-100 bg-purple-50 p-3">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]} className="prose prose-sm max-w-none text-gray-700">
+                            {pageKb.content}
+                          </ReactMarkdown>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 <div className="space-y-2">
                   <p className="text-xs font-medium text-gray-500">Quick questions:</p>
                   {quickQuestions.map((question, idx) => (

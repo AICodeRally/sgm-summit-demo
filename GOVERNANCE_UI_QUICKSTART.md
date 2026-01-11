@@ -241,7 +241,7 @@ Edit `/app/governance/upload/page.tsx`:
 
 **Solution**: Start Python API
 ```bash
-cd /Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype
+cd <CLIENT_DELIVERY_PACKAGE>/govlens_prototype
 ./start-api.sh
 ```
 

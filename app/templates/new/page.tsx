@@ -24,8 +24,9 @@ interface SectionFormData extends Omit<CreateTemplateSection, 'templateId'> {
 export default function NewTemplatePage() {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
+  const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
   const [template, setTemplate] = useState<Partial<CreatePlanTemplate>>({
-    tenantId: 'demo-tenant-001', // TODO: Get from auth
+    tenantId: isDemoMode ? 'demo-tenant-001' : undefined,
     code: '',
     name: '',
     description: '',
@@ -36,8 +37,8 @@ export default function NewTemplatePage() {
     status: 'DRAFT',
     source: 'USER_CREATED',
     isSystemTemplate: false,
-    owner: 'current-user', // TODO: Get from auth
-    createdBy: 'current-user', // TODO: Get from auth
+    owner: isDemoMode ? 'current-user' : undefined,
+    createdBy: isDemoMode ? 'current-user' : undefined,
   });
 
   const [sections, setSections] = useState<SectionFormData[]>([]);

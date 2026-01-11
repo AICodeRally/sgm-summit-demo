@@ -458,3 +458,8 @@ After generating the gap report:
 - CA wage law is strict on these exact issues
 - Missing all foundational compliance controls
 - High wage claim exposure + class action risk
+
+## See also
+- `docs/KB_OVERVIEW.md`
+- `docs/KB_PAGE_INDEX.md`
+- Relevant KB routes: /governance/upload, /governance-framework, /governance-matrix, /documents/upload, /plans/remediation/[planCode]

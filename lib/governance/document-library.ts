@@ -4,7 +4,7 @@
  * Comprehensive catalog of governance documents from the Henry Schein Library 2026.
  * Includes policies, templates, procedures, checklists, and reference materials.
  *
- * Source: /Users/toddlebaron/dev/Client_Delivery_Package/
+ * Source: <CLIENT_DELIVERY_PACKAGE>/
  */
 
 // ============================================================================

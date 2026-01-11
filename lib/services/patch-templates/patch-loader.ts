@@ -81,10 +81,11 @@ export class PatchTemplateLoader {
   private cache: Map<string, PatchTemplate> = new Map();
 
   constructor(templatesPath?: string) {
-    // Default to Client_Delivery_Package/patch_templates
+    // Default to env var or repo-relative patch_templates
     this.templatesPath =
       templatesPath ||
-      '/Users/toddlebaron/dev/Client_Delivery_Package/patch_templates';
+      process.env.PATCH_TEMPLATES_DIR ||
+      path.join(process.cwd(), 'patch_templates');
   }
 
   /**

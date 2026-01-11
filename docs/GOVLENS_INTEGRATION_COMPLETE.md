@@ -84,7 +84,7 @@ generatePatchRecommendation(policy, unmetReqs) → PatchRecommendation
 - `/lib/services/patch-templates/index.ts` - Module exports
 
 **External Templates** (16 YAML files):
-- Location: `/Users/toddlebaron/dev/Client_Delivery_Package/patch_templates/`
+- Location: `<CLIENT_DELIVERY_PACKAGE>/patch_templates/`
 - Files: `SCP-001_clawback_recovery.yaml` through `SCP-016_ethics_compliance.yaml`
 - Total: 55 requirements with remediation language
 
@@ -331,7 +331,7 @@ sgm-sparcc-demo/
     └── GOVLENS_INTEGRATION_COMPLETE.md      ✅ This document
 
 External (Client Delivery Package):
-/Users/toddlebaron/dev/Client_Delivery_Package/
+<CLIENT_DELIVERY_PACKAGE>/
 ├── patch_templates/
 │   ├── SCP-001_clawback_recovery.yaml       ✅ Clawback patches
 │   ├── SCP-002_quota_territory.yaml         ✅ Quota patches
@@ -445,7 +445,7 @@ model PolicyEvidence {
 
 ### Run Governance Analysis Test
 ```bash
-cd /Users/toddlebaron/dev/sgm-sparcc-demo
+cd <REPO_ROOT>
 npx tsx scripts/test-governance-analysis.ts
 ```
 
@@ -601,3 +601,8 @@ The system can now:
 **Blockers**: None - system is fully functional
 
 **Next Priority**: UI components to visualize and apply patches in the plan editor
+
+## See also
+- `docs/KB_OVERVIEW.md`
+- `docs/KB_PAGE_INDEX.md`
+- Relevant KB routes: /governance/upload, /analytics, /reports

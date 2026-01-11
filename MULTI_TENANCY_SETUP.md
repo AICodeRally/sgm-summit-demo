@@ -35,7 +35,7 @@ This guide walks you through setting up SGM with multi-tenancy and authenticatio
 ### Step 1: Install Dependencies
 
 ```bash
-cd /Users/toddlebaron/dev/sgm-sparcc-demo
+cd <REPO_ROOT>
 npm install next-auth@latest @next-auth/prisma-adapter
 ```
 

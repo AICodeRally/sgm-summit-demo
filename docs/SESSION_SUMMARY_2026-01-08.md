@@ -15,7 +15,7 @@
 **Purpose**: Load and parse YAML patch templates
 
 **Key Features**:
-- Loads templates from `/Users/toddlebaron/dev/Client_Delivery_Package/patch_templates/`
+- Loads templates from `<CLIENT_DELIVERY_PACKAGE>/patch_templates/`
 - Supports 16 policies with 55 requirements
 - Extracts full and partial coverage variants
 - Retrieves state-specific notes
@@ -172,7 +172,7 @@ private async generatePatchRecommendation(policy, unmetReqs, coverage) {
 ## External Resources Used
 
 ### Patch Templates (16 YAML files)
-**Location**: `/Users/toddlebaron/dev/Client_Delivery_Package/patch_templates/`
+**Location**: `<CLIENT_DELIVERY_PACKAGE>/patch_templates/`
 
 | File | Policy | Requirements | Severity |
 |------|--------|--------------|----------|
@@ -263,7 +263,7 @@ private async generatePatchRecommendation(policy, unmetReqs, coverage) {
 
 ### Test Governance Analysis with Patch Templates
 ```bash
-cd /Users/toddlebaron/dev/sgm-sparcc-demo
+cd <REPO_ROOT>
 npx tsx scripts/test-governance-analysis.ts
 ```
 
@@ -406,3 +406,8 @@ All new code is fully typed with:
 **After**: "Your plan is missing SCP-001 Clawback Policy. Here's the exact language to add, customized for California, with 120-day cancellation window, 30-day notice, 15-day dispute rights, and 18-month limitation period. [Apply Patch]"
 
 The difference: **Actionable remediation** vs **generic advice**
+
+## See also
+- `docs/KB_OVERVIEW.md`
+- `docs/KB_PAGE_INDEX.md`
+- Relevant KB routes: /

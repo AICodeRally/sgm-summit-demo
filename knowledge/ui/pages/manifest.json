@@ -1,0 +1,270 @@
+[
+  {
+    "route": "/",
+    "file": "knowledge/ui/pages/root.md"
+  },
+  {
+    "route": "/__ai/health",
+    "file": "knowledge/ui/pages/__ai/health/page.md"
+  },
+  {
+    "route": "/admin/tenants",
+    "file": "knowledge/ui/pages/admin/tenants/page.md"
+  },
+  {
+    "route": "/admin/tenants/new",
+    "file": "knowledge/ui/pages/admin/tenants/new/page.md"
+  },
+  {
+    "route": "/analytics",
+    "file": "knowledge/ui/pages/analytics/page.md"
+  },
+  {
+    "route": "/approvals",
+    "file": "knowledge/ui/pages/approvals/page.md"
+  },
+  {
+    "route": "/approvals/[id]",
+    "file": "knowledge/ui/pages/approvals/[id]/page.md"
+  },
+  {
+    "route": "/audit",
+    "file": "knowledge/ui/pages/audit/page.md"
+  },
+  {
+    "route": "/auth/error",
+    "file": "knowledge/ui/pages/auth/error/page.md"
+  },
+  {
+    "route": "/auth/signin",
+    "file": "knowledge/ui/pages/auth/signin/page.md"
+  },
+  {
+    "route": "/auth/signout",
+    "file": "knowledge/ui/pages/auth/signout/page.md"
+  },
+  {
+    "route": "/calendar",
+    "file": "knowledge/ui/pages/calendar/page.md"
+  },
+  {
+    "route": "/cases",
+    "file": "knowledge/ui/pages/cases/page.md"
+  },
+  {
+    "route": "/cases/analytics",
+    "file": "knowledge/ui/pages/cases/analytics/page.md"
+  },
+  {
+    "route": "/cases/sla",
+    "file": "knowledge/ui/pages/cases/sla/page.md"
+  },
+  {
+    "route": "/client/[tenantSlug]",
+    "file": "knowledge/ui/pages/client/[tenantSlug]/page.md"
+  },
+  {
+    "route": "/client/[tenantSlug]/coverage",
+    "file": "knowledge/ui/pages/client/[tenantSlug]/coverage/page.md"
+  },
+  {
+    "route": "/client/[tenantSlug]/gaps",
+    "file": "knowledge/ui/pages/client/[tenantSlug]/gaps/page.md"
+  },
+  {
+    "route": "/client/[tenantSlug]/plans",
+    "file": "knowledge/ui/pages/client/[tenantSlug]/plans/page.md"
+  },
+  {
+    "route": "/client/[tenantSlug]/policies",
+    "file": "knowledge/ui/pages/client/[tenantSlug]/policies/page.md"
+  },
+  {
+    "route": "/client/[tenantSlug]/roadmap",
+    "file": "knowledge/ui/pages/client/[tenantSlug]/roadmap/page.md"
+  },
+  {
+    "route": "/committees",
+    "file": "knowledge/ui/pages/committees/page.md"
+  },
+  {
+    "route": "/compare",
+    "file": "knowledge/ui/pages/compare/page.md"
+  },
+  {
+    "route": "/compliance",
+    "file": "knowledge/ui/pages/compliance/page.md"
+  },
+  {
+    "route": "/decisions",
+    "file": "knowledge/ui/pages/decisions/page.md"
+  },
+  {
+    "route": "/demo-library",
+    "file": "knowledge/ui/pages/demo-library/page.md"
+  },
+  {
+    "route": "/design",
+    "file": "knowledge/ui/pages/design/page.md"
+  },
+  {
+    "route": "/dispute",
+    "file": "knowledge/ui/pages/dispute/page.md"
+  },
+  {
+    "route": "/documents",
+    "file": "knowledge/ui/pages/documents/page.md"
+  },
+  {
+    "route": "/documents/[id]",
+    "file": "knowledge/ui/pages/documents/[id]/page.md"
+  },
+  {
+    "route": "/documents/[id]/versions",
+    "file": "knowledge/ui/pages/documents/[id]/versions/page.md"
+  },
+  {
+    "route": "/documents/library",
+    "file": "knowledge/ui/pages/documents/library/page.md"
+  },
+  {
+    "route": "/documents/new",
+    "file": "knowledge/ui/pages/documents/new/page.md"
+  },
+  {
+    "route": "/documents/upload",
+    "file": "knowledge/ui/pages/documents/upload/page.md"
+  },
+  {
+    "route": "/framework",
+    "file": "knowledge/ui/pages/framework/page.md"
+  },
+  {
+    "route": "/framework/primer",
+    "file": "knowledge/ui/pages/framework/primer/page.md"
+  },
+  {
+    "route": "/governance-framework",
+    "file": "knowledge/ui/pages/governance-framework/page.md"
+  },
+  {
+    "route": "/governance-framework/[id]",
+    "file": "knowledge/ui/pages/governance-framework/[id]/page.md"
+  },
+  {
+    "route": "/governance-framework/primer",
+    "file": "knowledge/ui/pages/governance-framework/primer/page.md"
+  },
+  {
+    "route": "/governance-matrix",
+    "file": "knowledge/ui/pages/governance-matrix/page.md"
+  },
+  {
+    "route": "/governance/upload",
+    "file": "knowledge/ui/pages/governance/upload/page.md"
+  },
+  {
+    "route": "/henryschein",
+    "file": "knowledge/ui/pages/henryschein/page.md"
+  },
+  {
+    "route": "/henryschein/coverage",
+    "file": "knowledge/ui/pages/henryschein/coverage/page.md"
+  },
+  {
+    "route": "/henryschein/gaps",
+    "file": "knowledge/ui/pages/henryschein/gaps/page.md"
+  },
+  {
+    "route": "/henryschein/plans",
+    "file": "knowledge/ui/pages/henryschein/plans/page.md"
+  },
+  {
+    "route": "/henryschein/policies",
+    "file": "knowledge/ui/pages/henryschein/policies/page.md"
+  },
+  {
+    "route": "/henryschein/roadmap",
+    "file": "knowledge/ui/pages/henryschein/roadmap/page.md"
+  },
+  {
+    "route": "/links",
+    "file": "knowledge/ui/pages/links/page.md"
+  },
+  {
+    "route": "/notifications",
+    "file": "knowledge/ui/pages/notifications/page.md"
+  },
+  {
+    "route": "/operate",
+    "file": "knowledge/ui/pages/operate/page.md"
+  },
+  {
+    "route": "/oversee",
+    "file": "knowledge/ui/pages/oversee/page.md"
+  },
+  {
+    "route": "/plans",
+    "file": "knowledge/ui/pages/plans/page.md"
+  },
+  {
+    "route": "/plans/[id]",
+    "file": "knowledge/ui/pages/plans/[id]/page.md"
+  },
+  {
+    "route": "/plans/document/[planCode]",
+    "file": "knowledge/ui/pages/plans/document/[planCode]/page.md"
+  },
+  {
+    "route": "/plans/new",
+    "file": "knowledge/ui/pages/plans/new/page.md"
+  },
+  {
+    "route": "/plans/remediation/[planCode]",
+    "file": "knowledge/ui/pages/plans/remediation/[planCode]/page.md"
+  },
+  {
+    "route": "/policies",
+    "file": "knowledge/ui/pages/policies/page.md"
+  },
+  {
+    "route": "/reports",
+    "file": "knowledge/ui/pages/reports/page.md"
+  },
+  {
+    "route": "/search",
+    "file": "knowledge/ui/pages/search/page.md"
+  },
+  {
+    "route": "/settings/module",
+    "file": "knowledge/ui/pages/settings/module/page.md"
+  },
+  {
+    "route": "/templates",
+    "file": "knowledge/ui/pages/templates/page.md"
+  },
+  {
+    "route": "/templates/[id]",
+    "file": "knowledge/ui/pages/templates/[id]/page.md"
+  },
+  {
+    "route": "/templates/builder",
+    "file": "knowledge/ui/pages/templates/builder/page.md"
+  },
+  {
+    "route": "/templates/new",
+    "file": "knowledge/ui/pages/templates/new/page.md"
+  },
+  {
+    "route": "/test-module",
+    "file": "knowledge/ui/pages/test-module/page.md"
+  },
+  {
+    "route": "/test/content-renderer",
+    "file": "knowledge/ui/pages/test/content-renderer/page.md"
+  },
+  {
+    "route": "/test/governance-upload",
+    "file": "knowledge/ui/pages/test/governance-upload/page.md"
+  }
+]

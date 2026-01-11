@@ -177,7 +177,7 @@
 
 ## 📋 Files Created During This Analysis
 
-### In Project Root: `/Users/toddlebaron/dev/sgm-sparcc-demo/`
+### In Project Root: `<REPO_ROOT>/`
 ```
 Henry_Schein_Policy_Coverage_Matrix.xlsx         [25 KB]  ✅
 Henry_Schein_Deliverables_Mapping_CORRECTED.xlsx [~40 KB] ✅

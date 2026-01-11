@@ -87,7 +87,7 @@ The GovLens Python API service is fully integrated with the Next.js TypeScript a
 ### Start the Python API
 
 ```bash
-cd /Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype
+cd <CLIENT_DELIVERY_PACKAGE>/govlens_prototype
 
 # Option 1: Using the start script
 ./start-api.sh
@@ -106,7 +106,7 @@ curl http://localhost:8000/api/health
 ### Test from TypeScript
 
 ```bash
-cd /Users/toddlebaron/dev/sgm-sparcc-demo
+cd <REPO_ROOT>
 
 # Test the integration
 npx tsx scripts/test-govlens-integration.ts
@@ -167,22 +167,22 @@ console.log(checklist); // Markdown checklist
 ## 📁 Key Files
 
 ### Python API Service
-- `/Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype/api.py` ✅
-- `/Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype/start-api.sh` ✅
-- `/Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype/requirements.txt` ✅
-- `/Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype/Dockerfile` ✅
-- `/Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype/docker-compose.yml` ✅
+- `<CLIENT_DELIVERY_PACKAGE>/govlens_prototype/api.py` ✅
+- `<CLIENT_DELIVERY_PACKAGE>/govlens_prototype/start-api.sh` ✅
+- `<CLIENT_DELIVERY_PACKAGE>/govlens_prototype/requirements.txt` ✅
+- `<CLIENT_DELIVERY_PACKAGE>/govlens_prototype/Dockerfile` ✅
+- `<CLIENT_DELIVERY_PACKAGE>/govlens_prototype/docker-compose.yml` ✅
 
 ### TypeScript Integration
-- `/Users/toddlebaron/dev/sgm-sparcc-demo/lib/services/govlens/api-client.ts` ✅
-- `/Users/toddlebaron/dev/sgm-sparcc-demo/lib/services/patch-templates/patch-loader.ts` ✅
-- `/Users/toddlebaron/dev/sgm-sparcc-demo/lib/services/patch-templates/patch-applicator.ts` ✅
-- `/Users/toddlebaron/dev/sgm-sparcc-demo/scripts/test-govlens-integration.ts` ✅
+- `<REPO_ROOT>/lib/services/govlens/api-client.ts` ✅
+- `<REPO_ROOT>/lib/services/patch-templates/patch-loader.ts` ✅
+- `<REPO_ROOT>/lib/services/patch-templates/patch-applicator.ts` ✅
+- `<REPO_ROOT>/scripts/test-govlens-integration.ts` ✅
 
 ### Documentation
-- `/Users/toddlebaron/dev/sgm-sparcc-demo/docs/PATCH_SYSTEM_UNIFIED.md` ✅
-- `/Users/toddlebaron/dev/sgm-sparcc-demo/docs/GOVLENS_PYTHON_INTEGRATION.md` ✅
-- `/Users/toddlebaron/dev/sgm-sparcc-demo/docs/GOVLENS_INTEGRATION_VERIFIED.md` ✅ (this file)
+- `<REPO_ROOT>/docs/PATCH_SYSTEM_UNIFIED.md` ✅
+- `<REPO_ROOT>/docs/GOVLENS_PYTHON_INTEGRATION.md` ✅
+- `<REPO_ROOT>/docs/GOVLENS_INTEGRATION_VERIFIED.md` ✅ (this file)
 
 ---
 
@@ -252,7 +252,7 @@ curl http://localhost:8000/api/health
 tail -f /tmp/claude/-Users-toddlebaron-dev/tasks/*.output
 
 # Restart
-cd /Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype
+cd <CLIENT_DELIVERY_PACKAGE>/govlens_prototype
 ./start-api.sh
 ```
 
@@ -270,7 +270,7 @@ allow_origins=[
 curl http://localhost:8000/api/health
 
 # Check Next.js environment
-cd /Users/toddlebaron/dev/sgm-sparcc-demo
+cd <REPO_ROOT>
 echo $GOVLENS_API_URL  # Should be http://localhost:8000
 ```
 
@@ -337,10 +337,10 @@ echo $GOVLENS_API_URL  # Should be http://localhost:8000
 **Quick Reference**:
 ```bash
 # Start API
-cd /Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype && ./start-api.sh
+cd <CLIENT_DELIVERY_PACKAGE>/govlens_prototype && ./start-api.sh
 
 # Test integration
-cd /Users/toddlebaron/dev/sgm-sparcc-demo && npx tsx scripts/test-govlens-integration.ts
+cd <REPO_ROOT> && npx tsx scripts/test-govlens-integration.ts
 
 # View Swagger docs
 open http://localhost:8000/api/docs
@@ -351,3 +351,8 @@ open http://localhost:8000/api/docs
 **Last Updated**: 2026-01-08 22:54 PST
 **Verified By**: Claude Code
 **Status**: ✅ Production Ready
+
+## See also
+- `docs/KB_OVERVIEW.md`
+- `docs/KB_PAGE_INDEX.md`
+- Relevant KB routes: /governance/upload, /analytics, /reports

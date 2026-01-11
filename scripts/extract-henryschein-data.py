@@ -23,7 +23,7 @@ from openpyxl import load_workbook
 from openpyxl.worksheet.worksheet import Worksheet
 
 # File paths
-ARCHIVE_ROOT = Path("/Users/toddlebaron/dev__archive_20251219_1518/clients/HenrySchien")
+ARCHIVE_ROOT = Path(os.environ.get("ARCHIVE_ROOT", "data/henryschein-archive"))
 EXCEL_FILE = ARCHIVE_ROOT / "Analysis/Comp Analysis/workbooks/master/BHG_01_HS_Comp_Plan_Analysis_FINAL.xlsx"
 OUTPUT_DIR = Path(__file__).parent / "output"
 OUTPUT_FILE = OUTPUT_DIR / "henryschein-plan-data.json"

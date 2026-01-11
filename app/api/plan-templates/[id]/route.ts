@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRegistry } from '@/lib/bindings';
 import { UpdatePlanTemplateSchema } from '@/lib/contracts/plan-template.contract';
+import { requireActor } from '@/lib/security/actor';
+import { requireTenantContext } from '@/lib/security/require-tenant';
+import { requireRole } from '@/lib/security/roles';
+import { SecurityError, isSecurityError } from '@/lib/security/errors';
 
 /**
  * GET /api/plan-templates/[id]
@@ -12,13 +16,14 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const actor = requireTenantContext(await requireActor());
     const { id } = await params;
     const registry = getRegistry();
     const templateProvider = registry.getPlanTemplate();
 
     const template = await templateProvider.findById(id);
 
-    if (!template) {
+    if (!template || template.tenantId !== actor.tenantId) {
       return NextResponse.json(
         { error: 'Template not found' },
         { status: 404 }
@@ -40,6 +45,12 @@ export async function GET(
       { status: 200 }
     );
   } catch (error: any) {
+    if (isSecurityError(error)) {
+      return NextResponse.json(
+        { error: error.code, details: error.message },
+        { status: error.status }
+      );
+    }
     return NextResponse.json(
       {
         error: error.message,
@@ -62,18 +73,33 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const actor = requireTenantContext(await requireActor());
+    requireRole(actor, ['SUPER_ADMIN', 'ADMIN', 'GOVERNANCE']);
     const { id } = await params;
     const body = await request.json();
+
+    if (body.tenantId && body.tenantId !== actor.tenantId) {
+      throw new SecurityError(403, 'forbidden', 'Tenant mismatch');
+    }
 
     // Validate with Zod
     const data = UpdatePlanTemplateSchema.parse({
       ...body,
       id,
+      tenantId: actor.tenantId,
     });
 
     const registry = getRegistry();
     const templateProvider = registry.getPlanTemplate();
     const auditProvider = registry.getAudit();
+
+    const existing = await templateProvider.findById(id);
+    if (!existing || existing.tenantId !== actor.tenantId) {
+      return NextResponse.json(
+        { error: 'Template not found' },
+        { status: 404 }
+      );
+    }
 
     const template = await templateProvider.update(data);
 
@@ -86,8 +112,8 @@ export async function PUT(
       entityType: 'plan_template',
       entityId: template.id,
       entityName: template.name,
-      actorId: body.updatedBy || 'system',
-      actorName: body.updatedBy || 'system',
+      actorId: actor.userId,
+      actorName: actor.userId,
     });
 
     return NextResponse.json(
@@ -97,6 +123,12 @@ export async function PUT(
       { status: 200 }
     );
   } catch (error: any) {
+    if (isSecurityError(error)) {
+      return NextResponse.json(
+        { error: error.code, details: error.message },
+        { status: error.status }
+      );
+    }
     return NextResponse.json(
       {
         error: error.message,
@@ -120,9 +152,11 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const actor = requireTenantContext(await requireActor());
+    requireRole(actor, ['SUPER_ADMIN', 'ADMIN', 'GOVERNANCE']);
     const { id } = await params;
     const searchParams = request.nextUrl.searchParams;
-    const deletedBy = searchParams.get('deletedBy') || 'system';
+    const deletedBy = searchParams.get('deletedBy') || actor.userId;
 
     const registry = getRegistry();
     const templateProvider = registry.getPlanTemplate();
@@ -131,7 +165,7 @@ export async function DELETE(
     // Get template before deletion for audit log
     const template = await templateProvider.findById(id);
 
-    if (!template) {
+    if (!template || template.tenantId !== actor.tenantId) {
       return NextResponse.json(
         { error: 'Template not found' },
         { status: 404 }
@@ -161,6 +195,12 @@ export async function DELETE(
       { status: 200 }
     );
   } catch (error: any) {
+    if (isSecurityError(error)) {
+      return NextResponse.json(
+        { error: error.code, details: error.message },
+        { status: error.status }
+      );
+    }
     return NextResponse.json(
       {
         error: error.message,

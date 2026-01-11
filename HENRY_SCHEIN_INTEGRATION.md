@@ -8,7 +8,7 @@ This guide explains how to integrate Henry Schein's 49 governance documents into
 Production-ready script that imports all 49 Henry Schein documents from the archived BHG project into the SGM database.
 
 **Features:**
-- ✅ Imports from archive: `/Users/toddlebaron/dev__archive_20251219_1518/clients/HenrySchien/`
+- ✅ Imports from archive: `<ARCHIVE_ROOT>/`
 - ✅ Copies files to SGM storage directory
 - ✅ Creates database records with metadata
 - ✅ Calculates file checksums for integrity
@@ -389,7 +389,7 @@ console.log('Risk by category:', riskByCategory);
 
 ## 📚 Additional Resources
 
-- **BHG Project Archive**: `/Users/toddlebaron/dev__archive_20251219_1518/clients/HenrySchien/`
+- **BHG Project Archive**: `<ARCHIVE_ROOT>/`
 - **Gap Analysis**: See archive `/Analysis/Governance Analysis/GAP_ANALYSIS_REQUIRED_VS_EXISTING.md`
 - **Risk Assessment**: See archive `/Analysis/Comp Analysis/workbooks/master/BHG_01_HS_Comp_Plan_Analysis_FINAL.xlsx`
 - **Multi-Tenancy Setup**: See `MULTI_TENANCY_SETUP.md`

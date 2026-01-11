@@ -12,12 +12,13 @@ Output:
 """
 
 import json
+import os
 from pathlib import Path
 from docx import Document
 from typing import Dict, List, Any
 
 # File paths
-ARCHIVE_ROOT = Path("/Users/toddlebaron/dev__archive_20251219_1518/clients/HenrySchien")
+ARCHIVE_ROOT = Path(os.environ.get("ARCHIVE_ROOT", "data/henryschein-archive"))
 DRAFT_DIR = ARCHIVE_ROOT / "CLIENT_DELIVERY_PACKAGE/02_POLICIES/DRAFT_FOR_REVIEW"
 OUTPUT_DIR = Path(__file__).parent / "output"
 OUTPUT_FILE = OUTPUT_DIR / "draft-policies-summary.json"

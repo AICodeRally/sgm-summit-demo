@@ -5,7 +5,7 @@
  * This replaces synthetic mock data with actual policy requirements,
  * detection patterns, and remediation templates.
  *
- * Source: /Users/toddlebaron/dev/Client_Delivery_Package/
+ * Source: <CLIENT_DELIVERY_PACKAGE>/
  *   - requirement_matrix.yaml (55 requirements, 16 policies)
  *   - patch_templates/*.yaml (16 remediation templates)
  */

@@ -19,7 +19,7 @@ from typing import Dict, List, Any
 import re
 
 # File paths
-ARCHIVE_ROOT = Path("/Users/toddlebaron/dev__archive_20251219_1518/clients/HenrySchien")
+ARCHIVE_ROOT = Path(os.environ.get("ARCHIVE_ROOT", "data/henryschein-archive"))
 JSON_DIR = ARCHIVE_ROOT / "Analysis/Comp Analysis/plan_analysis/medical"
 OUTPUT_DIR = Path(__file__).parent / "output"
 OUTPUT_FILE = OUTPUT_DIR / "json-plan-analysis.json"

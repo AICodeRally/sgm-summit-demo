@@ -14,7 +14,9 @@ import * as path from 'path';
 const prisma = new PrismaClient();
 
 // GovLens output directory
-const GOVLENS_OUTPUT_DIR = '/Users/toddlebaron/dev/CLIENT_DELIVERY_PACKAGE/govlens_prototype/output';
+const GOVLENS_OUTPUT_DIR =
+  process.env.GOVLENS_OUTPUT_DIR ||
+  path.join(process.cwd(), 'data', 'govlens-output');
 
 interface GovLensAnalysis {
   document: {

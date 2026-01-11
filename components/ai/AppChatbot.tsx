@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import { ChatBubbleIcon, Cross2Icon, PaperPlaneIcon } from '@radix-ui/react-icons';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { usePageKb } from '@/components/kb/PageKbProvider';
 
 interface AppChatbotProps {
   appName?: string;
@@ -10,6 +13,8 @@ interface AppChatbotProps {
 
 export function AppChatbot({ appName = 'Demo', enabled = true }: AppChatbotProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showPageGuide, setShowPageGuide] = useState(false);
+  const { data: pageKb } = usePageKb();
 
   if (!enabled) return null;
 
@@ -92,6 +97,33 @@ export function AppChatbot({ appName = 'Demo', enabled = true }: AppChatbotProps
                   </button>
                 </div>
               </div>
+
+              {pageKb?.meta?.title && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-medium text-gray-500">Current page guide</p>
+                    <button
+                      onClick={() => setShowPageGuide(!showPageGuide)}
+                      className="text-xs text-indigo-600 hover:text-indigo-700"
+                    >
+                      {showPageGuide ? 'Hide' : 'View'}
+                    </button>
+                  </div>
+                  <div className="rounded-lg border border-indigo-200 bg-white p-3 text-xs text-gray-700">
+                    <p className="font-semibold text-gray-900">{pageKb.meta.title}</p>
+                    {pageKb.meta.description && (
+                      <p className="mt-1 text-gray-600">{pageKb.meta.description}</p>
+                    )}
+                    {showPageGuide && (
+                      <div className="mt-3 max-h-56 overflow-y-auto rounded border border-indigo-100 bg-indigo-50 p-3">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]} className="prose prose-sm max-w-none text-gray-700">
+                          {pageKb.content}
+                        </ReactMarkdown>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Input Area */}

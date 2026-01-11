@@ -82,7 +82,7 @@ A complete end-to-end governance gap analysis system with:
 ### 1. Start Python API
 
 ```bash
-cd /Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype
+cd <CLIENT_DELIVERY_PACKAGE>/govlens_prototype
 ./start-api.sh
 ```
 
@@ -95,7 +95,7 @@ curl http://localhost:8000/api/health
 ### 2. Start Next.js App
 
 ```bash
-cd /Users/toddlebaron/dev/sgm-sparcc-demo
+cd <REPO_ROOT>
 npm run dev
 ```
 
@@ -411,7 +411,7 @@ Recommended Language:
 
 **Solution**:
 ```bash
-cd /Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype
+cd <CLIENT_DELIVERY_PACKAGE>/govlens_prototype
 ./start-api.sh
 ```
 
@@ -505,11 +505,11 @@ allow_origins=[
 **Start Services**:
 ```bash
 # Terminal 1: Python API
-cd /Users/toddlebaron/dev/Client_Delivery_Package/govlens_prototype
+cd <CLIENT_DELIVERY_PACKAGE>/govlens_prototype
 ./start-api.sh
 
 # Terminal 2: Next.js
-cd /Users/toddlebaron/dev/sgm-sparcc-demo
+cd <REPO_ROOT>
 npm run dev
 ```
 
@@ -529,3 +529,8 @@ curl http://localhost:8000/api/health
 **Last Updated**: 2026-01-08 23:05 PST
 **Built By**: Claude Code
 **Status**: ✅ Complete and Production Ready
+
+## See also
+- `docs/KB_OVERVIEW.md`
+- `docs/KB_PAGE_INDEX.md`
+- Relevant KB routes: /governance/upload, /governance-framework, /governance-matrix, /documents/upload, /plans/remediation/[planCode]

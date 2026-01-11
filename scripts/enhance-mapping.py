@@ -18,6 +18,7 @@ Output:
 
 import csv
 import json
+import os
 from pathlib import Path
 from datetime import datetime
 from openpyxl import Workbook
@@ -26,7 +27,7 @@ from openpyxl.utils import get_column_letter
 from typing import Dict, List, Any
 
 # File paths
-ARCHIVE_ROOT = Path("/Users/toddlebaron/dev__archive_20251219_1518/clients/HenrySchien")
+ARCHIVE_ROOT = Path(os.environ.get("ARCHIVE_ROOT", "data/henryschein-archive"))
 DELIVERY_PKG = ARCHIVE_ROOT / "CLIENT_DELIVERY_PACKAGE"
 INPUT_CSV = Path("Henry_Schein_Readout_Deliverables_Mapping.csv")
 OUTPUT_FILE = Path("Henry_Schein_Deliverables_Mapping_CORRECTED.xlsx")
