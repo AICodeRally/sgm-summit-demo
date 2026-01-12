@@ -14,6 +14,7 @@ import {
   TableIcon,
   Link2Icon,
   ArchiveIcon,
+  BarChartIcon,
 } from '@radix-ui/react-icons';
 
 export default function DesignModePage() {
@@ -42,27 +43,27 @@ export default function DesignModePage() {
 
           {/* Key Metrics */}
           <div className="grid grid-cols-4 gap-6 mb-8">
-            <div className="bg-white rounded-xl border-2 p-6 text-center" style={{ borderColor: `${config.color.hex}30` }}>
+            <div className="bg-[color:var(--color-surface)] rounded-xl border-2 p-6 text-center" style={{ borderColor: `${config.color.hex}30` }}>
               <p className="text-4xl font-bold" style={{ color: config.color.hex }}>{metrics.policies}</p>
-              <p className="text-sm text-gray-600 mt-2">Policies</p>
+              <p className="text-sm text-[color:var(--color-muted)] mt-2">Policies</p>
             </div>
-            <div className="bg-white rounded-xl border-2 p-6 text-center" style={{ borderColor: `${config.color.hex}30` }}>
+            <div className="bg-[color:var(--color-surface)] rounded-xl border-2 p-6 text-center" style={{ borderColor: `${config.color.hex}30` }}>
               <p className="text-4xl font-bold" style={{ color: config.color.hex }}>{metrics.templates}</p>
-              <p className="text-sm text-gray-600 mt-2">Template Sections</p>
+              <p className="text-sm text-[color:var(--color-muted)] mt-2">Template Sections</p>
             </div>
-            <div className="bg-white rounded-xl border-2 p-6 text-center" style={{ borderColor: `${config.color.hex}30` }}>
+            <div className="bg-[color:var(--color-surface)] rounded-xl border-2 p-6 text-center" style={{ borderColor: `${config.color.hex}30` }}>
               <p className="text-4xl font-bold" style={{ color: config.color.hex }}>{metrics.frameworks}</p>
-              <p className="text-sm text-gray-600 mt-2">Frameworks</p>
+              <p className="text-sm text-[color:var(--color-muted)] mt-2">Frameworks</p>
             </div>
-            <div className="bg-white rounded-xl border-2 p-6 text-center" style={{ borderColor: `${config.color.hex}30` }}>
+            <div className="bg-[color:var(--color-surface)] rounded-xl border-2 p-6 text-center" style={{ borderColor: `${config.color.hex}30` }}>
               <p className="text-4xl font-bold" style={{ color: config.color.hex }}>{metrics.planCount}</p>
-              <p className="text-sm text-gray-600 mt-2">Plans Analyzed</p>
+              <p className="text-sm text-[color:var(--color-muted)] mt-2">Plans Analyzed</p>
             </div>
           </div>
 
           {/* Primary Features */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Primary Features</h2>
+            <h2 className="text-2xl font-bold text-[color:var(--color-foreground)] mb-4">Primary Features</h2>
             <div className="grid grid-cols-3 gap-6">
               <FeatureTile
                 href="/policies"
@@ -93,7 +94,7 @@ export default function DesignModePage() {
 
           {/* Secondary Features */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Analysis & Tools</h2>
+            <h2 className="text-2xl font-bold text-[color:var(--color-foreground)] mb-4">Analysis & Tools</h2>
             <div className="grid grid-cols-4 gap-6">
               <FeatureTile
                 href="/governance-matrix"
@@ -105,7 +106,7 @@ export default function DesignModePage() {
                 href="/henryschein/plans"
                 label="Gap Analysis"
                 description="Policy coverage and risk scoring"
-                icon={<span className="text-3xl">📊</span>}
+                icon={<BarChartIcon className="w-8 h-8" />}
                 count={metrics.planCount}
               />
               <FeatureTile

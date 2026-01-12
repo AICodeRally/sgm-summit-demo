@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useCallback } from 'react';
+import { UploadIcon, FileTextIcon, Cross2Icon } from '@radix-ui/react-icons';
 import { validateFile, getFileTypeFromExtension } from '@/lib/utils/file-validation';
 
 interface DocumentUploadProps {
@@ -122,8 +123,8 @@ export default function DocumentUpload({ onUpload, onClose }: DocumentUploadProp
     <div className="w-full max-w-2xl mx-auto">
       <form onSubmit={handleSubmit} className="space-y-6">
         {error && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-700 text-sm">{error}</p>
+          <div className="p-4 bg-[color:var(--color-error-bg)] border border-[color:var(--color-error-border)] rounded-lg">
+            <p className="text-[color:var(--color-error)] text-sm">{error}</p>
           </div>
         )}
 
@@ -134,14 +135,16 @@ export default function DocumentUpload({ onUpload, onClose }: DocumentUploadProp
           onDragOver={handleDragOver}
           onDrop={handleDrop}
           className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
-            isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-50 hover:border-gray-400'
+            isDragging ? 'border-[color:var(--color-primary)] bg-[color:var(--color-surface-alt)]' : 'border-[color:var(--color-border)] bg-[color:var(--color-surface-alt)] hover:border-[color:var(--color-border)]'
           }`}
           onClick={() => fileInputRef.current?.click()}
         >
           <div className="space-y-2">
-            <div className="text-4xl">📤</div>
-            <h3 className="text-lg font-medium text-gray-900">Drop files here or click to select</h3>
-            <p className="text-sm text-gray-600">
+            <div className="flex justify-center">
+              <UploadIcon className="w-8 h-8 text-[color:var(--color-primary)]" />
+            </div>
+            <h3 className="text-lg font-medium text-[color:var(--color-foreground)]">Drop files here or click to select</h3>
+            <p className="text-sm text-[color:var(--color-muted)]">
               Supported formats: .md, .docx, .pdf, .xlsx, .pptx (Max 50MB each)
             </p>
           </div>
@@ -158,23 +161,24 @@ export default function DocumentUpload({ onUpload, onClose }: DocumentUploadProp
         {/* Selected Files */}
         {files.length > 0 && (
           <div className="space-y-2">
-            <h3 className="text-sm font-medium text-gray-900">Selected Files ({files.length})</h3>
+            <h3 className="text-sm font-medium text-[color:var(--color-foreground)]">Selected Files ({files.length})</h3>
             <div className="space-y-2">
               {files.map((file, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded">
-                  <div className="flex items-center gap-3 flex-1 min-w-0">
-                    <span className="text-lg">📄</span>
+               <div key={index} className="flex items-center justify-between p-3 bg-[color:var(--color-surface-alt)] border border-[color:var(--color-border)] rounded">
+                 <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <FileTextIcon className="w-4 h-4 text-[color:var(--color-primary)]" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">{file.name}</p>
-                      <p className="text-xs text-gray-500">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                      <p className="text-sm font-medium text-[color:var(--color-foreground)] truncate">{file.name}</p>
+                      <p className="text-xs text-[color:var(--color-muted)]">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
                     </div>
                   </div>
                   <button
                     type="button"
                     onClick={() => removeFile(index)}
-                    className="ml-2 text-gray-400 hover:text-red-500"
+                    className="ml-2 inline-flex items-center gap-1 text-[color:var(--color-muted)] hover:text-[color:var(--color-error)]"
                   >
-                    ✕
+                    <Cross2Icon className="h-3 w-3" />
+                    Remove
                   </button>
                 </div>
               ))}
@@ -184,10 +188,10 @@ export default function DocumentUpload({ onUpload, onClose }: DocumentUploadProp
 
         {/* Metadata Form */}
         <div className="space-y-4">
-          <h3 className="text-sm font-medium text-gray-900">Document Details</h3>
+          <h3 className="text-sm font-medium text-[color:var(--color-foreground)]">Document Details</h3>
 
           <div>
-            <label htmlFor="documentCode" className="block text-sm text-gray-700 mb-1">
+            <label htmlFor="documentCode" className="block text-sm text-[color:var(--color-foreground)] mb-1">
               Document Code *
             </label>
             <input
@@ -196,12 +200,12 @@ export default function DocumentUpload({ onUpload, onClose }: DocumentUploadProp
               placeholder="e.g., POL-001"
               value={metadata.documentCode}
               onChange={e => setMetadata(prev => ({ ...prev, documentCode: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              className="w-full px-3 py-2 border border-[color:var(--color-border)] rounded-lg focus:ring-2 focus:ring-[color:var(--color-info-border)] focus:border-transparent text-sm"
             />
           </div>
 
           <div>
-            <label htmlFor="title" className="block text-sm text-gray-700 mb-1">
+            <label htmlFor="title" className="block text-sm text-[color:var(--color-foreground)] mb-1">
               Title *
             </label>
             <input
@@ -210,19 +214,19 @@ export default function DocumentUpload({ onUpload, onClose }: DocumentUploadProp
               placeholder="e.g., Sales Crediting Policy"
               value={metadata.title}
               onChange={e => setMetadata(prev => ({ ...prev, title: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              className="w-full px-3 py-2 border border-[color:var(--color-border)] rounded-lg focus:ring-2 focus:ring-[color:var(--color-info-border)] focus:border-transparent text-sm"
             />
           </div>
 
           <div>
-            <label htmlFor="documentType" className="block text-sm text-gray-700 mb-1">
+            <label htmlFor="documentType" className="block text-sm text-[color:var(--color-foreground)] mb-1">
               Document Type
             </label>
             <select
               id="documentType"
               value={metadata.documentType}
               onChange={e => setMetadata(prev => ({ ...prev, documentType: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              className="w-full px-3 py-2 border border-[color:var(--color-border)] rounded-lg focus:ring-2 focus:ring-[color:var(--color-info-border)] focus:border-transparent text-sm"
             >
               <option value="FRAMEWORK">Framework</option>
               <option value="POLICY">Policy</option>
@@ -239,7 +243,7 @@ export default function DocumentUpload({ onUpload, onClose }: DocumentUploadProp
           <button
             type="submit"
             disabled={loading || files.length === 0}
-            className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 text-sm font-medium"
+            className="flex-1 px-4 py-2 bg-[color:var(--color-primary)] text-white rounded-lg hover:bg-[color:var(--color-secondary)] disabled:bg-[color:var(--color-border)] text-sm font-medium"
           >
             {loading ? 'Uploading...' : `Upload ${files.length} File${files.length !== 1 ? 's' : ''}`}
           </button>
@@ -247,7 +251,7 @@ export default function DocumentUpload({ onUpload, onClose }: DocumentUploadProp
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium"
+              className="px-4 py-2 border border-[color:var(--color-border)] text-[color:var(--color-foreground)] rounded-lg hover:bg-[color:var(--color-surface-alt)] text-sm font-medium"
             >
               Cancel
             </button>

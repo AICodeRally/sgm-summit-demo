@@ -1,6 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
+import {
+  BoxIcon,
+  EyeOpenIcon,
+  TargetIcon,
+  CheckCircledIcon,
+  StopwatchIcon,
+  ClipboardIcon,
+} from '@radix-ui/react-icons';
 import { SetPageTitle } from '@/components/SetPageTitle';
 
 interface ComplianceIssue {
@@ -70,22 +78,23 @@ export default function CompliancePage() {
 
   const getSeverityColor = (severity: string) => {
     const colors: Record<string, string> = {
-      critical: 'bg-red-100 text-red-800 border-red-300',
-      warning: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-      info: 'bg-blue-100 text-blue-800 border-blue-300',
+      critical: 'bg-[color:var(--color-error-bg)] text-[color:var(--color-error)] border-[color:var(--color-error-border)]',
+      warning: 'bg-[color:var(--color-warning-bg)] text-[color:var(--color-warning)] border-[color:var(--color-warning-border)]',
+      info: 'bg-[color:var(--color-info-bg)] text-[color:var(--color-info)] border-[color:var(--color-info-border)]',
     };
-    return colors[severity] || 'bg-gray-100 text-gray-800 border-purple-300';
+    return colors[severity] || 'bg-[color:var(--color-surface-alt)] text-[color:var(--color-foreground)] border-[color:var(--color-border)]';
   };
 
   const getTypeIcon = (type: string) => {
-    const icons: Record<string, string> = {
-      retention: '📦',
-      review: '👀',
-      legal: '⚖️',
-      approval: '✓',
-      expiration: '⏰',
+    const icons: Record<string, React.ElementType> = {
+      retention: BoxIcon,
+      review: EyeOpenIcon,
+      legal: TargetIcon,
+      approval: CheckCircledIcon,
+      expiration: StopwatchIcon,
     };
-    return icons[type] || '📋';
+    const Icon = icons[type] || ClipboardIcon;
+    return <Icon className="w-5 h-5 text-[color:var(--color-foreground)]" />;
   };
 
   const criticalCount = issues.filter(i => i.severity === 'critical').length;
@@ -97,47 +106,50 @@ export default function CompliancePage() {
         title="Compliance Dashboard"
         description="Monitor regulatory compliance and policy adherence"
       />
-      <div className="h-screen bg-gradient-to-br from-purple-50 via-fuchsia-50 to-yellow-50 flex flex-col">
+      <div className="h-screen sparcc-hero-bg flex flex-col">
 
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Summary Cards */}
         <div className="grid grid-cols-4 gap-6 mb-12">
-          <div className="bg-white rounded-lg border border-purple-200 p-6">
-            <p className="text-sm text-gray-600 font-medium">Total Issues</p>
-            <p className="text-3xl font-bold text-gray-900 mt-2">{issues.length}</p>
+          <div className="bg-[color:var(--color-surface)] rounded-lg border border-[color:var(--color-border)] p-6">
+            <p className="text-sm text-[color:var(--color-muted)] font-medium">Total Issues</p>
+            <p className="text-3xl font-bold text-[color:var(--color-foreground)] mt-2">{issues.length}</p>
           </div>
-          <div className="bg-white rounded-lg border border-red-200 p-6">
-            <p className="text-sm text-red-600 font-medium">Critical</p>
-            <p className="text-3xl font-bold text-red-600 mt-2">{criticalCount}</p>
+          <div className="bg-[color:var(--color-surface)] rounded-lg border border-[color:var(--color-error-border)] p-6">
+            <p className="text-sm text-[color:var(--color-error)] font-medium">Critical</p>
+            <p className="text-3xl font-bold text-[color:var(--color-error)] mt-2">{criticalCount}</p>
           </div>
-          <div className="bg-white rounded-lg border border-yellow-200 p-6">
-            <p className="text-sm text-yellow-600 font-medium">Warnings</p>
-            <p className="text-3xl font-bold text-yellow-600 mt-2">{warningCount}</p>
+          <div className="bg-[color:var(--color-surface)] rounded-lg border border-[color:var(--color-warning-border)] p-6">
+            <p className="text-sm text-[color:var(--color-warning)] font-medium">Warnings</p>
+            <p className="text-3xl font-bold text-[color:var(--color-warning)] mt-2">{warningCount}</p>
           </div>
-          <div className="bg-white rounded-lg border border-green-200 p-6">
-            <p className="text-sm text-green-600 font-medium">Compliant</p>
-            <p className="text-3xl font-bold text-green-600 mt-2">{6 - issues.length}</p>
+          <div className="bg-[color:var(--color-surface)] rounded-lg border border-[color:var(--color-success-border)] p-6">
+            <p className="text-sm text-[color:var(--color-success)] font-medium">Compliant</p>
+            <p className="text-3xl font-bold text-[color:var(--color-success)] mt-2">{6 - issues.length}</p>
           </div>
         </div>
 
         {/* Issues List */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-gray-900">Compliance Issues</h2>
+          <h2 className="text-2xl font-bold text-[color:var(--color-foreground)]">Compliance Issues</h2>
 
           {issues.length === 0 ? (
-            <div className="bg-white rounded-lg border border-green-200 p-12 text-center">
-              <p className="text-green-600 text-lg font-medium">✓ All compliant</p>
-              <p className="text-gray-600 mt-2">No compliance issues detected</p>
+            <div className="bg-[color:var(--color-surface)] rounded-lg border border-[color:var(--color-success-border)] p-12 text-center">
+              <p className="text-[color:var(--color-success)] text-lg font-medium inline-flex items-center gap-2">
+                <CheckCircledIcon className="w-5 h-5" />
+                All compliant
+              </p>
+              <p className="text-[color:var(--color-muted)] mt-2">No compliance issues detected</p>
             </div>
           ) : (
             issues.map(issue => (
               <div key={issue.id} className={`rounded-lg border p-6 ${getSeverityColor(issue.severity)}`}>
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-4 flex-1">
-                    <span className="text-3xl">{getTypeIcon(issue.type)}</span>
+                    <span>{getTypeIcon(issue.type)}</span>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">{issue.document}</h3>
+                      <h3 className="font-semibold text-[color:var(--color-foreground)]">{issue.document}</h3>
                       <p className="text-sm mt-1 opacity-90">{issue.issue}</p>
                       <div className="flex items-center gap-4 mt-3">
                         <span className="text-xs font-medium opacity-75">
@@ -149,7 +161,7 @@ export default function CompliancePage() {
                   </div>
                   <div className="ml-4 text-right">
                     <p className="text-xs font-medium opacity-75 mb-2">Recommended Action:</p>
-                    <button className="px-4 py-2 bg-white rounded hover:opacity-90 text-sm font-medium">
+                    <button className="px-4 py-2 bg-[color:var(--color-surface)] rounded hover:opacity-90 text-sm font-medium">
                       {issue.action}
                     </button>
                   </div>
@@ -160,60 +172,60 @@ export default function CompliancePage() {
         </div>
 
         {/* Compliance Report */}
-        <div className="mt-12 bg-white rounded-lg border border-purple-200 p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Compliance Report</h2>
+        <div className="mt-12 bg-[color:var(--color-surface)] rounded-lg border border-[color:var(--color-border)] p-8">
+          <h2 className="text-2xl font-bold text-[color:var(--color-foreground)] mb-6">Compliance Report</h2>
           <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded">
+            <div className="flex items-center justify-between p-4 bg-[color:var(--color-surface-alt)] rounded">
               <div>
-                <p className="font-medium text-gray-900">Document Review Status</p>
-                <p className="text-sm text-gray-600">Quarterly reviews required for all active documents</p>
+                <p className="font-medium text-[color:var(--color-foreground)]">Document Review Status</p>
+                <p className="text-sm text-[color:var(--color-muted)]">Quarterly reviews required for all active documents</p>
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-orange-600">83%</p>
-                <p className="text-xs text-gray-500">5 of 6 current</p>
+                <p className="text-2xl font-bold text-[color:var(--color-warning)]">83%</p>
+                <p className="text-xs text-[color:var(--color-muted)]">5 of 6 current</p>
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded">
+            <div className="flex items-center justify-between p-4 bg-[color:var(--color-surface-alt)] rounded">
               <div>
-                <p className="font-medium text-gray-900">Approval Compliance</p>
-                <p className="text-sm text-gray-600">All documents must be formally approved before active</p>
+                <p className="font-medium text-[color:var(--color-foreground)]">Approval Compliance</p>
+                <p className="text-sm text-[color:var(--color-muted)]">All documents must be formally approved before active</p>
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-green-600">100%</p>
-                <p className="text-xs text-gray-500">6 of 6 compliant</p>
+                <p className="text-2xl font-bold text-[color:var(--color-success)]">100%</p>
+                <p className="text-xs text-[color:var(--color-muted)]">6 of 6 compliant</p>
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded">
+            <div className="flex items-center justify-between p-4 bg-[color:var(--color-surface-alt)] rounded">
               <div>
-                <p className="font-medium text-gray-900">Legal Review Status</p>
-                <p className="text-sm text-gray-600">Policy documents require legal review</p>
+                <p className="font-medium text-[color:var(--color-foreground)]">Legal Review Status</p>
+                <p className="text-sm text-[color:var(--color-muted)]">Policy documents require legal review</p>
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-yellow-600">67%</p>
-                <p className="text-xs text-gray-500">4 of 6 reviewed</p>
+                <p className="text-2xl font-bold text-[color:var(--color-warning)]">67%</p>
+                <p className="text-xs text-[color:var(--color-muted)]">4 of 6 reviewed</p>
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded">
+            <div className="flex items-center justify-between p-4 bg-[color:var(--color-surface-alt)] rounded">
               <div>
-                <p className="font-medium text-gray-900">Regulatory Compliance</p>
-                <p className="text-sm text-gray-600">CA Labor Code, Section 409A, SOX compliance</p>
+                <p className="font-medium text-[color:var(--color-foreground)]">Regulatory Compliance</p>
+                <p className="text-sm text-[color:var(--color-muted)]">CA Labor Code, Section 409A, SOX compliance</p>
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-green-600">100%</p>
-                <p className="text-xs text-gray-500">All policies compliant</p>
+                <p className="text-2xl font-bold text-[color:var(--color-success)]">100%</p>
+                <p className="text-xs text-[color:var(--color-muted)]">All policies compliant</p>
               </div>
             </div>
           </div>
 
           {/* Export */}
           <div className="mt-6 flex gap-3">
-            <button className="px-4 py-2 border border-purple-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium">
+            <button className="px-4 py-2 border border-[color:var(--color-border)] text-[color:var(--color-foreground)] rounded-lg hover:bg-[color:var(--color-surface-alt)] text-sm font-medium">
               Export Report
             </button>
-            <button className="px-4 py-2 border border-purple-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium">
+            <button className="px-4 py-2 border border-[color:var(--color-border)] text-[color:var(--color-foreground)] rounded-lg hover:bg-[color:var(--color-surface-alt)] text-sm font-medium">
               Email Report
             </button>
           </div>
