@@ -51,7 +51,7 @@
       "Bash(git log:*)",
       "Bash(npm ls:*)",
       "Bash(npx prisma migrate dev:*)",
-      "Bash(for file in /Users/toddlebaron/dev/sgm-sparcc-demo/lib/bindings/synthetic/*.synthetic.ts)",
+      "Bash(for file in /Users/toddlebaron/dev/sgm-summit-demo/lib/bindings/synthetic/*.synthetic.ts)",
       "Bash(do)",
       "Bash(if ! grep -q \"isDemoDataEnabled\" \"$file\")",
       "Bash(then)",
@@ -89,7 +89,17 @@
       "Bash(for file in app/auth/signin/page.tsx app/framework/primer/page.tsx)",
       "Bash(for file in app/henryschein/page.tsx app/henryschein/roadmap/page.tsx app/henryschein/gaps/page.tsx app/henryschein/policies/page.tsx app/henryschein/coverage/page.tsx)",
       "Bash(for file in app/compare/page.tsx app/compliance/page.tsx app/decisions/page.tsx app/notifications/page.tsx app/reports/page.tsx app/search/page.tsx app/templates/page.tsx)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(tree:*)",
+      "Bash(pnpm dev)",
+      "Bash(pnpm tsx:*)",
+      "Bash(git restore:*)",
+      "Bash(bash:*)",
+      "Bash(pnpm ci:route-kb-guards:*)",
+      "Bash(for url in /rallyforge /pulse /studio /edge /summit /ask /cc/aicc /cc/kbcc /cc/incc /tasks)",
+      "Bash(do echo -n \"$url: \")",
+      "Bash(sudo kextunload:*)",
+      "Bash(sudo kextload:*)"
     ]
   }
 }

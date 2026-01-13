@@ -298,7 +298,7 @@ Gap Entry:
 ## File Structure
 
 ```
-sgm-sparcc-demo/
+sgm-summit-demo/
 ├── lib/
 │   ├── contracts/
 │   │   ├── governance-gap.contract.ts       ✅ TypeScript types

@@ -430,11 +430,11 @@ Python does heavy lifting → TypeScript makes it actionable
 5. `/govlens_prototype/README_API.md` - API docs
 
 ### TypeScript Integration (2 files)
-1. `/sgm-sparcc-demo/lib/services/govlens/api-client.ts` - API client
-2. `/sgm-sparcc-demo/scripts/test-govlens-integration.ts` - Integration test
+1. `/sgm-summit-demo/lib/services/govlens/api-client.ts` - API client
+2. `/sgm-summit-demo/scripts/test-govlens-integration.ts` - Integration test
 
 ### Documentation (1 file)
-1. `/sgm-sparcc-demo/docs/GOVLENS_PYTHON_INTEGRATION.md` - This document
+1. `/sgm-summit-demo/docs/GOVLENS_PYTHON_INTEGRATION.md` - This document
 
 ---
 

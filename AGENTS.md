@@ -4,7 +4,7 @@ This repo supports multiple AI agents (Codex, Claude, Gemini, Llama). Use this f
 
 ## Repo Paths
 - Master repo: `/Users/toddlebaron/dev/aicr` (short name: `aicr`)
-- This repo: `/Users/toddlebaron/dev/sgm-sparcc-demo`
+- This repo: `/Users/toddlebaron/dev/sgm-summit-demo`
 - Add other repos here as they are confirmed.
 
 ## Documentation Layers

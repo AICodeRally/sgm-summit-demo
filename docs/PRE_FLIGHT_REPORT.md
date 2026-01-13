@@ -1,13 +1,13 @@
 # Pre-Flight Validation Report
 **Date**: 2026-01-09
-**System**: sgm-sparcc-demo
+**System**: sgm-summit-demo
 **Phase**: Phase 0 - Pre-Flight Validation
 
 ---
 
 ## Executive Summary
 
-**CRITICAL FINDING**: The sgm-sparcc-demo project is configured to use the AICR platform production database, but the schemas are **completely incompatible**. The SGM project needs its own isolated schema.
+**CRITICAL FINDING**: The sgm-summit-demo project is configured to use the AICR platform production database, but the schemas are **completely incompatible**. The SGM project needs its own isolated schema.
 
 ### Key Issues
 1. ❌ **Schema Mismatch**: Prisma schema defines SGM tables, but Neon database has AICR platform tables
@@ -124,7 +124,7 @@ datasource db {
 ## Root Cause Analysis
 
 ### Problem 1: Shared Database
-The sgm-sparcc-demo project is trying to use the same Neon database as the AICR platform, but:
+The sgm-summit-demo project is trying to use the same Neon database as the AICR platform, but:
 1. AICR platform uses 110 tables with a specific schema
 2. SGM needs 31+ tables with a DIFFERENT schema
 3. Table names conflict (tenants, users, policies, documents, etc.)

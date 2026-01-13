@@ -375,7 +375,7 @@ app/henryschein/plans/page.tsx (plan list)
 
 ## ⏭️ Tomorrow's Starting Point
 
-1. Start server: `cd ~/dev/sgm-sparcc-demo && npm run dev`
+1. Start server: `cd ~/dev/sgm-summit-demo && npm run dev`
 2. View gap analysis: http://localhost:3003/plans/document/HS-MED-FSC-2025
 3. Check that all 16 framework policies display with full text
 4. Review policy library stats: `npx tsx -e "import { getPolicyLibraryStats } from './lib/data/policy-library'; console.log(JSON.stringify(getPolicyLibraryStats(), null, 2));"`
