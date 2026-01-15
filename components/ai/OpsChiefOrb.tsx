@@ -46,13 +46,18 @@ export function OpsChiefOrb({ appName = 'SGM SPARCC', enabled = true }: OpsChief
     try {
       const response = await fetch('/api/ai/opschief?tenantId=platform');
       if (!response.ok) {
-        throw new Error(`Failed to fetch insights: ${response.status}`);
+        // Suppress 401/500 errors (expected when service unavailable)
+        if (response.status !== 401 && response.status !== 500) {
+          console.error('OpsChief fetch error:', response.status);
+        }
+        setError('Service temporarily unavailable');
+        return;
       }
       const data = await response.json();
       setInsights(data.insights || []);
     } catch (err) {
-      console.error('OpsChief fetch error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to load insights');
+      // Suppress network errors silently
+      setError('Service temporarily unavailable');
     } finally {
       setIsLoading(false);
     }
