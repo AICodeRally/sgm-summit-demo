@@ -74,63 +74,66 @@ export default function RotatingMetricTile({ group, metricData, tone = 'primary'
   return (
     <button
       onClick={handleClick}
-      className={`group relative rounded-xl overflow-hidden transition-all duration-200 cursor-pointer ${isAnimating ? 'scale-95' : 'scale-100'} hover:scale-[1.02] hover:shadow-xl`}
+      className={`group relative theme-card rounded-xl overflow-hidden transition-all duration-200 cursor-pointer ${
+        statusColors.border
+      } ${colors.hover} ${statusColors.glow} ${isAnimating ? 'scale-95' : 'scale-100'}`}
       style={{
-        backgroundColor: toneStyles.color,
         boxShadow: toneStyles.shadow,
       }}
     >
+      {/* Colored top bar */}
+      <div className="h-1.5" style={{ background: toneStyles.hover.replace('1px solid ', '') }} />
       <div className="p-6">
-        {/* Position Indicator */}
-        <div className="absolute top-3 right-3 text-[10px] font-medium text-white/70">
-          {currentIndex + 1}/{group.metrics.length}
+      {/* Position Indicator */}
+      <div className="absolute top-2 right-2 text-[10px] font-medium text-[color:var(--color-muted)]">
+        {currentIndex + 1}/{group.metrics.length}
+      </div>
+
+      {/* Status Indicator */}
+      {currentMetric.status !== 'normal' && (
+        <div
+          className={`absolute top-2 left-2 w-2 h-2 rounded-full ${
+            currentMetric.status === 'critical' ? 'bg-transparent animate-pulse' : 'bg-transparent'
+          }`}
+        />
+      )}
+
+      {/* Header */}
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-sm text-[color:var(--color-muted)] font-medium">{currentMetric.label}</p>
+        <Icon className={`w-5 h-5 ${colors.icon}`} />
+      </div>
+
+      {/* Value */}
+      <div className={`transition-all duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
+        <p className={`text-3xl font-bold ${colors.value} mt-2`}>
+          {metricValue}
+          {currentMetric.suffix && (
+            <span className="text-lg ml-1">{currentMetric.suffix}</span>
+          )}
+        </p>
+        <p className="text-xs text-[color:var(--color-muted)] mt-1">{currentMetric.description}</p>
+      </div>
+
+      {/* Click Hint */}
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="text-[10px] text-[color:var(--color-muted)] flex items-center gap-1">
+          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+          </svg>
+          Click to rotate
         </div>
+      </div>
 
-        {/* Status Indicator */}
-        {currentMetric.status !== 'normal' && (
-          <div
-            className={`absolute top-3 left-3 w-2 h-2 rounded-full ${
-              currentMetric.status === 'critical' ? 'bg-white animate-pulse' : 'bg-white/50'
-            }`}
-          />
-        )}
-
-        {/* Header */}
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-sm text-white/80 font-medium">{currentMetric.label}</p>
-          <Icon className="w-5 h-5 text-white/70" />
+      {/* Popular Badge (if clicked > 20 times) */}
+      {clickCount > 20 && (
+        <div className="absolute -top-2 -right-2 bg-[linear-gradient(90deg,var(--sparcc-gradient-start),var(--sparcc-gradient-mid2),var(--sparcc-gradient-end))] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg">
+          <span className="inline-flex items-center gap-1">
+            <StarFilledIcon className="w-3 h-3" />
+            Popular
+          </span>
         </div>
-
-        {/* Value */}
-        <div className={`transition-all duration-300 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
-          <p className="text-3xl font-bold text-white mt-2">
-            {metricValue}
-            {currentMetric.suffix && (
-              <span className="text-lg ml-1 text-white/80">{currentMetric.suffix}</span>
-            )}
-          </p>
-          <p className="text-xs text-white/70 mt-1">{currentMetric.description}</p>
-        </div>
-
-        {/* Click Hint */}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <div className="text-[10px] text-white/60 flex items-center gap-1">
-            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-            </svg>
-            Click to rotate
-          </div>
-        </div>
-
-        {/* Popular Badge (if clicked > 20 times) */}
-        {clickCount > 20 && (
-          <div className="absolute -top-2 -right-2 bg-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg" style={{ color: toneStyles.color }}>
-            <span className="inline-flex items-center gap-1">
-              <StarFilledIcon className="w-3 h-3" />
-              Popular
-            </span>
-          </div>
-        )}
+      )}
       </div>
     </button>
   );
