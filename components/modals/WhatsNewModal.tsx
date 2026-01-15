@@ -10,7 +10,22 @@
 import { useState, useEffect } from 'react';
 import { OperationalMode } from '@/types/operational-mode';
 import { MODE_CONFIGS } from '@/lib/auth/mode-permissions';
-import { CheckCircledIcon, Cross2Icon } from '@radix-ui/react-icons';
+import {
+  CheckCircledIcon,
+  Cross2Icon,
+  Pencil2Icon,
+  GearIcon,
+  ExclamationTriangleIcon,
+  EyeOpenIcon,
+} from '@radix-ui/react-icons';
+
+// Map icon names to actual icon components
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Pencil2Icon,
+  GearIcon,
+  ExclamationTriangleIcon,
+  EyeOpenIcon,
+};
 
 const WHATS_NEW_KEY = 'sgm-whats-new-modal-seen';
 const MODAL_VERSION = '1.0'; // Increment to show modal again for updates
@@ -106,10 +121,14 @@ export function WhatsNewModal({ onClose }: WhatsNewModalProps) {
                   >
                     <div className="flex items-center gap-3 mb-3">
                       <div
-                        className="w-10 h-10 rounded-lg flex items-center justify-center text-xl"
-                        style={{ backgroundColor: `${config.color.hex}20` }}
-                        dangerouslySetInnerHTML={{ __html: config.icon }}
-                      />
+                        className="w-10 h-10 rounded-lg flex items-center justify-center"
+                        style={{ backgroundColor: `${config.color.hex}20`, color: config.color.hex }}
+                      >
+                        {(() => {
+                          const IconComponent = iconMap[config.icon] || GearIcon;
+                          return <IconComponent className="w-6 h-6" />;
+                        })()}
+                      </div>
                       <div>
                         <h4 className="font-bold text-lg" style={{ color: config.color.hex }}>
                           {config.label}
