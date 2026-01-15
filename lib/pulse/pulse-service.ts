@@ -55,8 +55,12 @@ export async function getPulseFeed(filters?: {
     });
 
     if (!response.ok) {
-      console.error('Pulse API error:', response.status, response.statusText);
-      return { cards: [], totalCount: 0, unreadCount: 0 };
+      // Don't log 500 errors to console (they're expected when AICR is offline)
+      if (response.status !== 500) {
+        console.error('Pulse API error:', response.status, response.statusText);
+      }
+      // Return a special marker to indicate service unavailable vs empty data
+      return { cards: [], totalCount: -1, unreadCount: 0 };
     }
 
     const data = await response.json();

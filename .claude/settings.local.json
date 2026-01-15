@@ -101,7 +101,15 @@
       "Bash(sudo kextunload:*)",
       "Bash(sudo kextload:*)",
       "Bash(npm run type-check:*)",
-      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_VNZxTHq60mcU@ep-patient-fog-afrytl4v-pooler.c-2.us-west-2.aws.neon.tech/neondb?sslmode=require\" npx tsx:*)"
+      "Bash(DATABASE_URL=\"postgresql://neondb_owner:npg_VNZxTHq60mcU@ep-patient-fog-afrytl4v-pooler.c-2.us-west-2.aws.neon.tech/neondb?sslmode=require\" npx tsx:*)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_click",
+      "mcp__plugin_playwright_playwright__browser_type",
+      "mcp__plugin_playwright_playwright__browser_snapshot",
+      "mcp__plugin_playwright_playwright__browser_run_code",
+      "mcp__plugin_playwright_playwright__browser_network_requests",
+      "mcp__plugin_playwright_playwright__browser_close",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot"
     ]
   }
 }

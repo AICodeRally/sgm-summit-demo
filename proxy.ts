@@ -16,6 +16,7 @@ import { OperationalMode } from '@/types/operational-mode';
  */
 
 const PUBLIC_ROUTES = [
+  '/', // Landing page
   '/auth/signin',
   '/auth/signout',
   '/auth/error',
@@ -39,6 +40,18 @@ const ADMIN_ROUTES = ['/admin'];
 
 export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Handle landing page - redirect authenticated users to dashboard
+  if (pathname === '/') {
+    const token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+    if (token) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+    return NextResponse.next();
+  }
 
   // Allow public routes
   if (PUBLIC_ROUTES.some((route) => pathname.startsWith(route))) {

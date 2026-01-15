@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { PulseCard } from './PulseCard';
 import { getPulseFeed } from '@/lib/pulse/pulse-service';
 import type { PulseCard as PulseCardType } from '@/lib/pulse/pulse-service';
-import { ArrowRightIcon, ReloadIcon } from '@radix-ui/react-icons';
+import { ArrowRightIcon, ReloadIcon, CrossCircledIcon } from '@radix-ui/react-icons';
 import { getToneStyles } from '@/lib/config/themes';
 
 interface PulseWidgetProps {
@@ -16,14 +16,39 @@ interface PulseWidgetProps {
 export function PulseWidget({ maxCards = 3, tone = 'accent' }: PulseWidgetProps) {
   const [cards, setCards] = useState<PulseCardType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isOffline, setIsOffline] = useState(false);
+  const [failureCount, setFailureCount] = useState(0);
   const toneStyles = getToneStyles(tone);
 
-  const loadFeed = async () => {
+  const loadFeed = useCallback(async () => {
     setIsLoading(true);
-    const response = await getPulseFeed({ limit: maxCards });
-    setCards(response.cards.slice(0, maxCards));
-    setIsLoading(false);
-  };
+    try {
+      const response = await getPulseFeed({ limit: maxCards });
+
+      // totalCount of -1 indicates service unavailable
+      if (response.totalCount === -1) {
+        const newCount = failureCount + 1;
+        setFailureCount(newCount);
+        if (newCount >= 2) {
+          setIsOffline(true);
+        }
+        setCards([]);
+      } else {
+        // Success - reset failure tracking
+        setFailureCount(0);
+        setIsOffline(false);
+        setCards(response.cards.slice(0, maxCards));
+      }
+    } catch {
+      const newCount = failureCount + 1;
+      setFailureCount(newCount);
+      if (newCount >= 2) {
+        setIsOffline(true);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, [maxCards, failureCount]);
 
   useEffect(() => {
     loadFeed();
@@ -60,7 +85,18 @@ export function PulseWidget({ maxCards = 3, tone = 'accent' }: PulseWidgetProps)
         </Link>
       </div>
 
-      {isLoading && cards.length === 0 ? (
+      {isOffline ? (
+        <div className="text-center py-6">
+          <CrossCircledIcon className="w-8 h-8 mx-auto mb-2 text-[color:var(--color-muted)] opacity-50" />
+          <p className="text-sm text-[color:var(--color-muted)]">Service Offline</p>
+          <button
+            onClick={() => { setFailureCount(0); setIsOffline(false); loadFeed(); }}
+            className="mt-2 text-xs text-[color:var(--color-info)] hover:underline"
+          >
+            Retry connection
+          </button>
+        </div>
+      ) : isLoading && cards.length === 0 ? (
         <div className="flex items-center justify-center py-8">
           <div className="flex items-center gap-2 text-[color:var(--color-muted)]">
             <ReloadIcon className="w-4 h-4 animate-spin" />

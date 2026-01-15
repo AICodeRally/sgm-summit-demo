@@ -87,8 +87,12 @@ export async function getTasks(filters?: TaskFilters): Promise<Task[]> {
     });
 
     if (!response.ok) {
-      console.error('Task API error:', response.status, response.statusText);
-      return [];
+      // Don't log 500 errors (expected when AICR offline)
+      if (response.status !== 500) {
+        console.error('Task API error:', response.status, response.statusText);
+      }
+      // Return marker array for service unavailable detection
+      return [{ id: '__offline__', tenantId: '', title: '', status: 'backlog' as TaskStatus, priority: 'low' as TaskPriority, labels: [], createdAt: '', updatedAt: '' }];
     }
 
     const data: TasksResponse = await response.json();

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import { ModeProvider, useMode } from "@/lib/auth/mode-context";
 import { OperationalMode } from "@/types/operational-mode";
 // import { AppShell } from "@rally/app-shell"; // Rally package not yet installed
@@ -32,6 +32,8 @@ function LayoutWithModeContext({ children, commandPaletteOpen, setCommandPalette
   setCommandPaletteOpen: (open: boolean) => void;
 }) {
   const { switchMode, canSwitchMode } = useMode();
+  const { data: session, status } = useSession();
+  const isAuthenticated = status === 'authenticated' && !!session;
 
   // Global keyboard shortcuts
   useEffect(() => {
@@ -77,12 +79,12 @@ function LayoutWithModeContext({ children, commandPaletteOpen, setCommandPalette
         isOpen={commandPaletteOpen}
         onClose={() => setCommandPaletteOpen(false)}
       />
-      {/* What's New Modal */}
-      <WhatsNewModal />
-      {/* AI Widgets */}
-      <OpsChiefOrb appName="SGM SPARCC" enabled={true} />
-      <AskDock appName="SGM" enabled={true} />
-      <PageKbPanel enabled={true} />
+      {/* What's New Modal - only show after authentication */}
+      {isAuthenticated && <WhatsNewModal />}
+      {/* AI Widgets - only show after authentication */}
+      {isAuthenticated && <OpsChiefOrb appName="SGM SPARCC" enabled={true} />}
+      {isAuthenticated && <AskDock appName="SGM" enabled={true} />}
+      {isAuthenticated && <PageKbPanel enabled={true} />}
     </div>
   );
 }

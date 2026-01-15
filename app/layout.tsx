@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { RootLayoutClient } from './RootLayoutClient'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -10,6 +9,10 @@ export const metadata: Metadata = {
   description: 'Sales Governance Manager - Summit tier demo application',
 }
 
+/**
+ * Root layout - minimal HTML shell
+ * Route groups (public) and (app) handle their own layouts
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -18,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <RootLayoutClient>{children}</RootLayoutClient>
+        {children}
       </body>
     </html>
   )

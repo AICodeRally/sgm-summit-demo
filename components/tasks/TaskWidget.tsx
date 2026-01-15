@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { ArrowRightIcon, ReloadIcon, CheckCircledIcon } from '@radix-ui/react-icons';
+import { ArrowRightIcon, ReloadIcon, CheckCircledIcon, CrossCircledIcon } from '@radix-ui/react-icons';
 import { getTasks, STATUS_CONFIG, PRIORITY_CONFIG } from '@/lib/tasks/task-service';
 import type { Task } from '@/lib/tasks/task-service';
 import { getToneStyles } from '@/lib/config/themes';
@@ -10,18 +10,33 @@ import { getToneStyles } from '@/lib/config/themes';
 export function TaskWidget({ tone = 'infra' as const }) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isOffline, setIsOffline] = useState(false);
+  const [failureCount, setFailureCount] = useState(0);
   const toneStyles = getToneStyles(tone);
 
-  const loadTasks = async () => {
+  const loadTasks = useCallback(async () => {
     setIsLoading(true);
     const data = await getTasks();
-    // Show top 5 non-done tasks, prioritized by priority
-    const activeTasks = data
-      .filter(t => t.status !== 'done')
-      .slice(0, 5);
-    setTasks(activeTasks);
+
+    // Check for offline marker
+    if (data.length === 1 && data[0].id === '__offline__') {
+      const newCount = failureCount + 1;
+      setFailureCount(newCount);
+      if (newCount >= 2) {
+        setIsOffline(true);
+      }
+      setTasks([]);
+    } else {
+      setFailureCount(0);
+      setIsOffline(false);
+      // Show top 5 non-done tasks
+      const activeTasks = data
+        .filter(t => t.status !== 'done')
+        .slice(0, 5);
+      setTasks(activeTasks);
+    }
     setIsLoading(false);
-  };
+  }, [failureCount]);
 
   useEffect(() => {
     loadTasks();
@@ -72,7 +87,18 @@ export function TaskWidget({ tone = 'infra' as const }) {
         </div>
       </div>
 
-      {isLoading && tasks.length === 0 ? (
+      {isOffline ? (
+        <div className="text-center py-6">
+          <CrossCircledIcon className="w-8 h-8 mx-auto mb-2 text-[color:var(--color-muted)] opacity-50" />
+          <p className="text-sm text-[color:var(--color-muted)]">Service Offline</p>
+          <button
+            onClick={() => { setFailureCount(0); setIsOffline(false); loadTasks(); }}
+            className="mt-2 text-xs text-[color:var(--color-info)] hover:underline"
+          >
+            Retry connection
+          </button>
+        </div>
+      ) : isLoading && tasks.length === 0 ? (
         <div className="flex items-center justify-center py-8">
           <div className="flex items-center gap-2 text-[color:var(--color-muted)]">
             <ReloadIcon className="w-4 h-4 animate-spin" />
