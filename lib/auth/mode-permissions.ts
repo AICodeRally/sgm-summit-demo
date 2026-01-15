@@ -56,8 +56,9 @@ function getModeConfigs(): Record<OperationalMode, ModeConfig> {
       'Document Links',
       'Control Library',
     ],
-    defaultRoute: '/templates',
+    defaultRoute: '/design',
     routes: [
+      '/design',
       '/templates',
       '/policies',
       '/governance-framework',
@@ -93,8 +94,9 @@ function getModeConfigs(): Record<OperationalMode, ModeConfig> {
       'Notifications',
       'Document Upload',
     ],
-    defaultRoute: '/plans',
+    defaultRoute: '/operate',
     routes: [
+      '/operate',
       '/documents',
       '/plans',
       '/approvals',
@@ -129,8 +131,8 @@ function getModeConfigs(): Record<OperationalMode, ModeConfig> {
       'Escalation Workflows',
       'Dispute Resolution',
     ],
-    defaultRoute: '/cases',
-    routes: ['/cases', '/case-sla', '/case-analytics'],
+    defaultRoute: '/dispute',
+    routes: ['/dispute', '/cases', '/cases/sla', '/cases/analytics'],
   },
   [OperationalMode.OVERSEE]: {
     mode: OperationalMode.OVERSEE,
@@ -159,8 +161,8 @@ function getModeConfigs(): Record<OperationalMode, ModeConfig> {
       'Risk Assessment',
       'Client Dashboards',
     ],
-    defaultRoute: '/committees',
-    routes: ['/committees', '/audit', '/analytics'],
+    defaultRoute: '/oversee',
+    routes: ['/oversee', '/committees', '/audit', '/analytics', '/compliance', '/decisions'],
   },
   };
 }
