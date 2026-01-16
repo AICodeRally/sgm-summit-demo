@@ -6,5 +6,6 @@ export async function GET() {
     reports: REPORT_TEMPLATES,
     generatedReports: GENERATED_REPORTS,
     stats: REPORT_STATS,
+    dataType: 'demo' as const,
   });
 }

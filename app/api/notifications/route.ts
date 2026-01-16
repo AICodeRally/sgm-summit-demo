@@ -6,5 +6,6 @@ export async function GET() {
     notifications: NOTIFICATIONS,
     stats: NOTIFICATION_STATS,
     typeInfo: NOTIFICATION_TYPE_INFO,
+    dataType: 'demo' as const,
   });
 }

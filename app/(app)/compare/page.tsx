@@ -12,12 +12,14 @@ import {
   ChevronRightIcon,
 } from '@radix-ui/react-icons';
 import { SetPageTitle } from '@/components/SetPageTitle';
+import { DataTypeBadge } from '@/components/demo/DemoBadge';
 import type {
   DocumentVersion,
   VersionDiff,
   VersionStats,
   VersionComparison,
 } from '@/lib/data/synthetic/versions.data';
+import type { DataType } from '@/lib/contracts/data-type.contract';
 
 export default function VersionComparePage() {
   const [selectedDocCode, setSelectedDocCode] = useState<string>('SCP-001');
@@ -28,6 +30,7 @@ export default function VersionComparePage() {
   const [documentVersions, setDocumentVersions] = useState<DocumentVersion[]>([]);
   const [versionComparisons, setVersionComparisons] = useState<VersionComparison[]>([]);
   const [versionStats, setVersionStats] = useState<VersionStats>({ totalVersions: 0, recentUpdates: 0 });
+  const [dataType, setDataType] = useState<DataType>('client');
 
   // Fetch data from API
   useEffect(() => {
@@ -38,6 +41,7 @@ export default function VersionComparePage() {
         setDocumentVersions(data.versions || []);
         setVersionComparisons(data.comparisons || []);
         setVersionStats(data.stats || { totalVersions: 0, recentUpdates: 0 });
+        setDataType(data.dataType || 'client');
       }
     };
     fetchData();
@@ -125,9 +129,12 @@ export default function VersionComparePage() {
           <div className="max-w-7xl mx-auto px-6 py-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold bg-[linear-gradient(90deg,var(--sparcc-gradient-start),var(--sparcc-gradient-mid2),var(--sparcc-gradient-end))] bg-clip-text text-transparent">
-                  Version Compare
-                </h1>
+                <div className="flex items-center gap-3 mb-1">
+                  <h1 className="text-3xl font-bold bg-[linear-gradient(90deg,var(--sparcc-gradient-start),var(--sparcc-gradient-mid2),var(--sparcc-gradient-end))] bg-clip-text text-transparent">
+                    Version Compare
+                  </h1>
+                  <DataTypeBadge dataType={dataType} size="sm" />
+                </div>
                 <p className="text-sm text-[color:var(--color-muted)] mt-1">
                   Side-by-side document version comparison
                 </p>

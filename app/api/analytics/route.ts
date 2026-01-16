@@ -20,5 +20,6 @@ export async function GET() {
     policyCoverageHealth: POLICY_COVERAGE_HEALTH,
     topPerformers: TOP_PERFORMERS,
     recentHighlights: RECENT_HIGHLIGHTS,
+    dataType: 'demo' as const,
   });
 }

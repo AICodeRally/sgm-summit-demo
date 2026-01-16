@@ -23,6 +23,8 @@ import {
   GlobeIcon,
   Cross2Icon
 } from '@radix-ui/react-icons';
+import { DataTypeBadge } from '@/components/demo/DemoBadge';
+import type { DataType } from '@/lib/contracts/data-type.contract';
 
 interface Policy {
   code: string;
@@ -47,6 +49,7 @@ export default function PolicyLibraryPage() {
   const [policies, setPolicies] = useState<Policy[]>([]);
   const [stats, setStats] = useState<PolicyStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [dataType, setDataType] = useState<DataType>('client');
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
@@ -60,6 +63,7 @@ export default function PolicyLibraryPage() {
       .then(data => {
         setPolicies(data.policies || []);
         setStats(data.stats || null);
+        setDataType(data.dataType || 'client');
         setLoading(false);
       })
       .catch(err => {
@@ -166,6 +170,7 @@ export default function PolicyLibraryPage() {
                     <h1 className="text-4xl font-bold text-[color:var(--color-foreground)]">
                       Policy Library
                     </h1>
+                    <DataTypeBadge dataType={dataType} size="sm" />
                   </div>
                   <p className="text-[color:var(--color-muted)] mt-1">
                     Comprehensive compensation governance policy templates

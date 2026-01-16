@@ -16,12 +16,14 @@ import {
   ReaderIcon,
 } from '@radix-ui/react-icons';
 import { SetPageTitle } from '@/components/SetPageTitle';
+import { DataTypeBadge } from '@/components/demo/DemoBadge';
 import type {
   Notification,
   NotificationType,
   NotificationTypeInfo,
   NotificationStats,
 } from '@/lib/data/synthetic/notifications.data';
+import type { DataType } from '@/lib/contracts/data-type.contract';
 
 export default function NotificationsPage() {
   const [selectedNotification, setSelectedNotification] = useState<Notification | null>(null);
@@ -34,6 +36,7 @@ export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [notificationStats, setNotificationStats] = useState<NotificationStats>({ total: 0, unread: 0, actionRequired: 0, byType: {} });
   const [notificationTypeInfo, setNotificationTypeInfo] = useState<Record<NotificationType, NotificationTypeInfo>>({} as Record<NotificationType, NotificationTypeInfo>);
+  const [dataType, setDataType] = useState<DataType>('client');
 
   // Fetch data from API
   useEffect(() => {
@@ -44,6 +47,7 @@ export default function NotificationsPage() {
         setNotifications(data.notifications || []);
         setNotificationStats(data.stats || { total: 0, unread: 0, actionRequired: 0, byType: {} });
         setNotificationTypeInfo(data.preferences?.typeInfo || data.typeInfo || {});
+        setDataType(data.dataType || 'client');
       }
     };
     fetchData();
@@ -165,6 +169,7 @@ export default function NotificationsPage() {
         <div className="bg-[color:var(--surface-glass)] backdrop-blur-sm border-b border-[color:var(--color-border)] shadow-sm">
           <div className="max-w-7xl mx-auto px-6 py-6">
             <div className="flex items-center justify-between">
+            <DataTypeBadge dataType={dataType} size="sm" />
             <div className="flex items-center gap-4 text-sm">
               <div className="bg-[color:var(--color-surface-alt)] px-3 py-1 rounded-full">
                 <span className="font-semibold text-[color:var(--color-primary)]">{notificationStats.unread}</span>

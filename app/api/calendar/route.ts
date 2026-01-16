@@ -6,5 +6,6 @@ export async function GET() {
     events: CALENDAR_EVENTS,
     eventTypes: EVENT_TYPE_INFO,
     stats: CALENDAR_STATS,
+    dataType: 'demo' as const,
   });
 }

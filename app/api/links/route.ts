@@ -7,5 +7,6 @@ export async function GET() {
     nodes: DOCUMENT_NODES,
     linkTypes: LINK_TYPE_INFO,
     stats: GRAPH_STATS,
+    dataType: 'demo' as const,
   });
 }

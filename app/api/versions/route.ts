@@ -6,5 +6,6 @@ export async function GET() {
     versions: DOCUMENT_VERSIONS,
     comparisons: [], // Comparisons are computed on demand - not pre-computed
     stats: VERSION_STATS,
+    dataType: 'demo' as const,
   });
 }

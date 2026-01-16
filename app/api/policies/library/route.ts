@@ -13,6 +13,7 @@ export async function GET() {
       policies,
       stats,
       success: true,
+      dataType: 'template' as const, // Policy library is template data
     });
   } catch (error) {
     console.error('Error loading policy library:', error);

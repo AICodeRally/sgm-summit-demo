@@ -15,6 +15,8 @@ import {
   LayersIcon,
 } from '@radix-ui/react-icons';
 import { SetPageTitle } from '@/components/SetPageTitle';
+import { DataTypeBadge } from '@/components/demo/DemoBadge';
+import type { DataType } from '@/lib/contracts/data-type.contract';
 import type { MetricData } from '@/lib/data/synthetic/analytics.data';
 
 export default function AnalyticsPage() {
@@ -27,6 +29,7 @@ export default function AnalyticsPage() {
   const [policyCoverageHealth, setPolicyCoverageHealth] = useState<{ coveragePercentage: number; fullCoverage: number; gaps: number; total: number }>({ coveragePercentage: 0, fullCoverage: 0, gaps: 0, total: 0 });
   const [topPerformers, setTopPerformers] = useState<Array<{ name: string; role: string; decisions: number; avgDays: number }>>([]);
   const [recentHighlights, setRecentHighlights] = useState<Array<{ id: string; title: string; description: string; type: string; date: string }>>([]);
+  const [dataType, setDataType] = useState<DataType>('client');
 
   // Fetch data from API
   useEffect(() => {
@@ -42,6 +45,7 @@ export default function AnalyticsPage() {
         setPolicyCoverageHealth(data.policyCoverageHealth || { coveragePercentage: 0, fullCoverage: 0, gaps: 0, total: 0 });
         setTopPerformers(data.topPerformers || []);
         setRecentHighlights(data.recentHighlights || []);
+        setDataType(data.dataType || 'client');
       }
     };
     fetchData();
@@ -96,7 +100,8 @@ export default function AnalyticsPage() {
         {/* Status Bar */}
         <div className="bg-[color:var(--surface-glass)] backdrop-blur-sm border-b border-[color:var(--color-border)] shadow-sm">
           <div className="max-w-7xl mx-auto px-6 py-6">
-            <div className="flex items-center justify-end">
+            <div className="flex items-center justify-between">
+              <DataTypeBadge dataType={dataType} size="sm" />
               <span className="text-xs font-semibold tracking-wider uppercase text-[color:var(--color-primary)] bg-[color:var(--color-surface-alt)] px-3 py-1 rounded-full">
                 Last Updated: Just Now
               </span>

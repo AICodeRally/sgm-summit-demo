@@ -6,5 +6,6 @@ export async function GET() {
     events: AUDIT_EVENTS,
     stats: AUDIT_STATS,
     eventTypeInfo: EVENT_TYPE_INFO,
+    dataType: 'demo' as const,
   });
 }

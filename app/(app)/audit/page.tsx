@@ -20,7 +20,9 @@ import {
 } from '@radix-ui/react-icons';
 import { SetPageTitle } from '@/components/SetPageTitle';
 import { ThreePaneWorkspace } from '@/components/workspace/ThreePaneWorkspace';
+import { DataTypeBadge } from '@/components/demo/DemoBadge';
 import type { AuditEvent, AuditStats } from '@/lib/data/synthetic/audit.data';
+import type { DataType } from '@/lib/contracts/data-type.contract';
 
 export default function AuditPage() {
   const [selectedEvent, setSelectedEvent] = useState<AuditEvent | null>(null);
@@ -32,6 +34,7 @@ export default function AuditPage() {
   // Data from API
   const [auditEvents, setAuditEvents] = useState<AuditEvent[]>([]);
   const [auditStats, setAuditStats] = useState<AuditStats>({ totalEvents: 0, last24Hours: 0, last7Days: 0, byCategory: {}, byImpact: {} });
+  const [dataType, setDataType] = useState<DataType>('client');
 
   // Fetch data from API
   useEffect(() => {
@@ -41,6 +44,7 @@ export default function AuditPage() {
         const data = await response.json();
         setAuditEvents(data.events || []);
         setAuditStats(data.stats || { totalEvents: 0, last24Hours: 0, last7Days: 0, byCategory: {}, byImpact: {} });
+        setDataType(data.dataType || 'client');
       }
     };
     fetchData();
@@ -341,7 +345,8 @@ export default function AuditPage() {
     <div className="h-full flex flex-col">
       {/* Toolbar */}
       <div className="flex-none bg-[color:var(--surface-glass)] backdrop-blur-sm border-b border-[color:var(--color-border)] p-6">
-        <div className="flex items-center justify-end mb-4">
+        <div className="flex items-center justify-between mb-4">
+          <DataTypeBadge dataType={dataType} size="sm" />
           <button className="px-4 py-2 bg-[color:var(--color-success)] text-white rounded-md text-sm font-medium hover:bg-[color:var(--color-success)] transition-colors flex items-center gap-2">
             <CalendarIcon className="w-4 h-4" />
             Export Log

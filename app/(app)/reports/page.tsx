@@ -14,6 +14,7 @@ import {
   ReaderIcon,
 } from '@radix-ui/react-icons';
 import { SetPageTitle } from '@/components/SetPageTitle';
+import { DataTypeBadge } from '@/components/demo/DemoBadge';
 import type {
   ReportTemplate,
   GeneratedReport,
@@ -21,6 +22,7 @@ import type {
   ReportCategory,
   ReportStats,
 } from '@/lib/data/synthetic/reports.data';
+import type { DataType } from '@/lib/contracts/data-type.contract';
 
 export default function ReportsPage() {
   const [selectedTemplate, setSelectedTemplate] = useState<ReportTemplate | null>(null);
@@ -31,6 +33,7 @@ export default function ReportsPage() {
   const [reportTemplates, setReportTemplates] = useState<ReportTemplate[]>([]);
   const [generatedReports, setGeneratedReports] = useState<GeneratedReport[]>([]);
   const [reportStats, setReportStats] = useState<ReportStats>({ totalTemplates: 0, recentlyGenerated: 0, byCategory: { COMPLIANCE: 0, PERFORMANCE: 0, OPERATIONS: 0, AUDIT: 0 } });
+  const [dataType, setDataType] = useState<DataType>('client');
 
   // Fetch data from API
   useEffect(() => {
@@ -41,6 +44,7 @@ export default function ReportsPage() {
         setReportTemplates(data.reports || []);
         setGeneratedReports(data.generatedReports || []);
         setReportStats(data.stats || { totalTemplates: 0, recentlyGenerated: 0, byCategory: {} });
+        setDataType(data.dataType || 'client');
       }
     };
     fetchData();
@@ -120,6 +124,7 @@ export default function ReportsPage() {
         <div className="bg-[color:var(--surface-glass)] backdrop-blur-sm border-b border-[color:var(--color-border)] shadow-sm">
           <div className="max-w-7xl mx-auto px-6 py-6">
             <div className="flex items-center justify-between">
+            <DataTypeBadge dataType={dataType} size="sm" />
             <div className="flex items-center gap-4 text-sm">
               <div className="bg-[color:var(--color-surface-alt)] px-3 py-1 rounded-full">
                 <span className="font-semibold text-[color:var(--color-primary)]">{reportStats.totalTemplates}</span>

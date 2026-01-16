@@ -5,7 +5,9 @@ import { SetPageTitle } from '@/components/SetPageTitle';
 import { ModeHeader } from '@/components/modes/ModeHeader';
 import { FeatureTile } from '@/components/modes/FeatureTile';
 import { Breadcrumb } from '@/components/Breadcrumb';
+import { DataTypeBadge } from '@/components/demo/DemoBadge';
 import { OperationalMode } from '@/types/operational-mode';
+import type { DataType } from '@/lib/contracts/data-type.contract';
 import { MODE_CONFIGS } from '@/lib/auth/mode-permissions';
 import { getToneStyles } from '@/lib/config/themes';
 import {
@@ -27,6 +29,7 @@ export default function OperateModePage() {
     activePlans: 0,
     notifications: 0,
   });
+  const [dataType] = useState<DataType>('demo');
   const toneStyles = getToneStyles('secondary');
 
   useEffect(() => {
@@ -66,8 +69,9 @@ export default function OperateModePage() {
           <ModeHeader mode={OperationalMode.OPERATE} />
 
           {/* Key Metrics */}
-          <div className="mb-2">
+          <div className="mb-2 flex items-center justify-between">
             <h2 className="text-xl font-bold text-[color:var(--color-foreground)]">Operate Control Center</h2>
+            <DataTypeBadge dataType={dataType} size="sm" />
           </div>
           <div className="grid grid-cols-4 gap-6 mb-8">
             {[

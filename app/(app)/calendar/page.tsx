@@ -12,12 +12,14 @@ import {
   FileTextIcon,
 } from '@radix-ui/react-icons';
 import { SetPageTitle } from '@/components/SetPageTitle';
+import { DataTypeBadge } from '@/components/demo/DemoBadge';
 import type {
   CalendarEvent,
   EventType,
   EventTypeInfo,
   CalendarStats,
 } from '@/lib/data/synthetic/calendar.data';
+import type { DataType } from '@/lib/contracts/data-type.contract';
 
 export default function CalendarPage() {
   const [currentDate, setCurrentDate] = useState(new Date(2025, 11, 1)); // December 2025
@@ -28,6 +30,7 @@ export default function CalendarPage() {
   const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>([]);
   const [eventTypeInfo, setEventTypeInfo] = useState<Record<EventType, EventTypeInfo>>({} as Record<EventType, EventTypeInfo>);
   const [calendarStats, setCalendarStats] = useState<CalendarStats>({ upcomingEvents: 0, criticalEvents: 0 });
+  const [dataType, setDataType] = useState<DataType>('client');
 
   // Fetch data from API
   useEffect(() => {
@@ -38,6 +41,7 @@ export default function CalendarPage() {
         setCalendarEvents(data.events || []);
         setEventTypeInfo(data.eventTypes || {});
         setCalendarStats(data.stats || { upcomingEvents: 0, criticalEvents: 0 });
+        setDataType(data.dataType || 'client');
       }
     };
     fetchData();
@@ -142,6 +146,7 @@ export default function CalendarPage() {
         <div className="bg-[color:var(--surface-glass)] backdrop-blur-sm border-b border-[color:var(--color-border)] shadow-sm">
           <div className="max-w-7xl mx-auto px-6 py-6">
             <div className="flex items-center justify-between">
+            <DataTypeBadge dataType={dataType} size="sm" />
             <div className="flex items-center gap-4 text-sm">
               <div className="bg-[color:var(--color-surface-alt)] px-3 py-1 rounded-full">
                 <span className="font-semibold text-[color:var(--color-primary)]">{calendarStats.upcomingEvents}</span>

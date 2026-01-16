@@ -61,6 +61,7 @@ export async function GET(request: NextRequest) {
           countsByType,
           filters,
         },
+        dataType: 'demo' as const, // Synthetic binding returns demo data
       },
       { status: 200 }
     );
