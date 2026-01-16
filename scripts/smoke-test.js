@@ -6,10 +6,10 @@
  * Uses the dev server to test page loads.
  *
  * Usage:
- *   node scripts/smoke-test.js [--url=http://localhost:3003] [--json]
+ *   node scripts/smoke-test.js [--url=http://localhost:4200] [--json]
  *
  * Options:
- *   --url=<base_url>  Base URL of the app (default: http://localhost:3003)
+ *   --url=<base_url>  Base URL of the app (default: http://localhost:4200)
  *   --json            Output results as JSON
  *   --skip-dynamic    Skip dynamic routes like [id], [tenantSlug]
  */
@@ -19,7 +19,7 @@ const path = require('path');
 
 // Parse arguments
 const args = process.argv.slice(2);
-const BASE_URL = args.find(a => a.startsWith('--url='))?.split('=')[1] || 'http://localhost:3003';
+const BASE_URL = args.find(a => a.startsWith('--url='))?.split('=')[1] || 'http://localhost:4200';
 const JSON_OUTPUT = args.includes('--json');
 const SKIP_DYNAMIC = args.includes('--skip-dynamic');
 

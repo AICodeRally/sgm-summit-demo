@@ -112,7 +112,7 @@ Migrations: prisma/migrations/
 ## Development
 
 ```bash
-# Start dev server (port 3003)
+# Start dev server (port 4200)
 npm run dev
 
 # Build for production
@@ -162,5 +162,5 @@ npx prisma db push    # Push schema changes
 
 ---
 
-**Port:** 3003
-**Demo URL:** localhost:3003
+**Port:** 4200
+**Demo URL:** localhost:4200
