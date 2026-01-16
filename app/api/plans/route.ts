@@ -34,6 +34,7 @@ export async function GET(request: NextRequest) {
         byStatus: countsByStatus,
         byType: countsByType,
       },
+      dataType: 'demo' as const,
     });
   } catch (error) {
     console.error('Error fetching plans:', error);

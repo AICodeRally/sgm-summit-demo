@@ -67,6 +67,7 @@ export async function GET(request: NextRequest) {
           countsByType,
           filters,
         },
+        dataType: 'demo' as const,
       },
       { status: 200 }
     );

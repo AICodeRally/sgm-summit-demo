@@ -73,6 +73,7 @@ export async function GET(request: NextRequest) {
         total: filtered.length,
         filters: { status, type, priority, committee, search },
       },
+      dataType: 'demo' as const,
     });
   } catch (error: any) {
     return NextResponse.json(
