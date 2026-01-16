@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, use, useMemo } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -12,9 +12,8 @@ import {
   Cross2Icon,
   CopyIcon,
 } from '@radix-ui/react-icons';
-import type { PlanTemplate, UpdatePlanTemplate } from '@/lib/contracts/plan-template.contract';
+import type { PlanTemplate } from '@/lib/contracts/plan-template.contract';
 import type { TemplateSection } from '@/lib/contracts/template-section.contract';
-import { syntheticPlanTemplates, syntheticTemplateSections } from '@/lib/data/synthetic/plan-templates.data';
 
 interface SectionData extends TemplateSection {}
 
@@ -23,24 +22,46 @@ export default function TemplateEditorPage({ params }: { params: Promise<{ id: s
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [tagInput, setTagInput] = useState('');
+  const [template, setTemplate] = useState<PlanTemplate | null>(null);
+  const [sections, setSections] = useState<SectionData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-  // Load template from synthetic data
-  const initialTemplate = useMemo(() => {
-    return syntheticPlanTemplates.find(t => t.id === id) || null;
-  }, [id]);
-
-  const initialSections = useMemo(() => {
-    return syntheticTemplateSections.filter(s => s.templateId === id);
-  }, [id]);
-
-  const [template, setTemplate] = useState<PlanTemplate | null>(initialTemplate);
-  const [sections, setSections] = useState<SectionData[]>(initialSections);
-
-  // Update state when ID changes
+  // Load template and sections from API
   useEffect(() => {
-    setTemplate(initialTemplate);
-    setSections(initialSections);
-  }, [initialTemplate, initialSections]);
+    const fetchData = async () => {
+      setIsLoading(true);
+      setLoadError(null);
+      try {
+        // Fetch template from list endpoint and find by ID
+        const templatesRes = await fetch('/api/plan-templates');
+        if (!templatesRes.ok) throw new Error('Failed to fetch templates');
+        const templatesData = await templatesRes.json();
+        const foundTemplate = (templatesData.templates || []).find((t: PlanTemplate) => t.id === id);
+
+        if (!foundTemplate) {
+          setLoadError('Template not found');
+          setIsLoading(false);
+          return;
+        }
+
+        setTemplate(foundTemplate);
+
+        // Fetch sections
+        const sectionsRes = await fetch(`/api/plan-templates/${id}/sections`);
+        if (sectionsRes.ok) {
+          const sectionsData = await sectionsRes.json();
+          setSections(sectionsData.sections || []);
+        }
+      } catch (err) {
+        console.error('Error loading template:', err);
+        setLoadError('Failed to load template');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, [id]);
 
   const addSection = () => {
     if (!template) return;
@@ -115,10 +136,26 @@ export default function TemplateEditorPage({ params }: { params: Promise<{ id: s
     alert('Clone functionality coming soon!');
   };
 
-  if (!template) {
+  if (isLoading) {
     return (
       <div className="h-screen flex items-center justify-center">
-        <div className="text-[color:var(--color-error)]">Template not found</div>
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 border-4 border-[color:var(--color-primary)] border-t-transparent rounded-full animate-spin"></div>
+          <span className="text-[color:var(--color-muted)]">Loading template...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (loadError || !template) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-[color:var(--color-error)] mb-4">{loadError || 'Template not found'}</div>
+          <Link href="/templates" className="text-[color:var(--color-primary)] hover:underline">
+            Back to Templates
+          </Link>
+        </div>
       </div>
     );
   }

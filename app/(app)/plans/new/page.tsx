@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -14,7 +14,6 @@ import {
   ClockIcon,
 } from '@radix-ui/react-icons';
 import { SetPageTitle } from '@/components/SetPageTitle';
-import { syntheticPlanTemplates, syntheticTemplateSections } from '@/lib/data/synthetic/plan-templates.data';
 
 // Wizard steps
 type WizardStep = 'template' | 'basics' | 'sections' | 'review';
@@ -62,21 +61,37 @@ export default function NewPlanPage() {
   const [sectionContents, setSectionContents] = useState<SectionContent[]>([]);
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [isLoadingTemplates, setIsLoadingTemplates] = useState(true);
 
-  // Load templates from synthetic data (no API call needed)
-  const templates = useMemo(() => {
-    return syntheticPlanTemplates
-      .filter(t => t.status === 'ACTIVE')
-      .map(t => ({
-        id: t.id,
-        code: t.code,
-        name: t.name,
-        description: t.description || '',
-        planType: t.planType,
-        sectionCount: syntheticTemplateSections.filter(s => s.templateId === t.id).length,
-        isSystemTemplate: t.isSystemTemplate,
-        tags: t.tags || [],
-      }));
+  // Load templates from API
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const response = await fetch('/api/plan-templates');
+        if (!response.ok) throw new Error('Failed to fetch templates');
+        const data = await response.json();
+        const loadedTemplates = (data.templates || [])
+          .filter((t: { status: string }) => t.status === 'ACTIVE')
+          .map((t: { id: string; code: string; name: string; description?: string; planType: string; isSystemTemplate: boolean; tags?: string[] }) => ({
+            id: t.id,
+            code: t.code,
+            name: t.name,
+            description: t.description || '',
+            planType: t.planType,
+            sectionCount: 0, // Will be loaded when template is selected
+            isSystemTemplate: t.isSystemTemplate,
+            tags: t.tags || [],
+          }));
+        setTemplates(loadedTemplates);
+      } catch (err) {
+        console.error('Error loading templates:', err);
+        setError('Failed to load templates');
+      } finally {
+        setIsLoadingTemplates(false);
+      }
+    };
+    fetchTemplates();
   }, []);
 
   const handleSelectTemplate = (template: Template) => {
@@ -268,6 +283,12 @@ export default function NewPlanPage() {
             {currentStep === 'template' && (
               <div>
                 <h2 className="text-2xl font-bold text-[color:var(--color-foreground)] mb-6">Select a Template</h2>
+                {isLoadingTemplates ? (
+                  <div className="flex items-center justify-center py-12">
+                    <div className="w-8 h-8 border-4 border-[color:var(--color-primary)] border-t-transparent rounded-full animate-spin"></div>
+                    <span className="ml-3 text-[color:var(--color-muted)]">Loading templates...</span>
+                  </div>
+                ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {templates.map((template) => (
                     <div
@@ -318,8 +339,9 @@ export default function NewPlanPage() {
                     </div>
                   ))}
                 </div>
+                )}
 
-                {templates.length === 0 && (
+                {!isLoadingTemplates && templates.length === 0 && (
                   <div className="text-center py-12">
                     <FileTextIcon className="w-16 h-16 text-[color:var(--color-muted)] mx-auto mb-4" />
                     <p className="text-[color:var(--color-muted)] mb-4">No templates available</p>
