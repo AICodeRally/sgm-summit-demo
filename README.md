@@ -1,5 +1,7 @@
 # SGM Summit Demo
 
+[![CI](https://github.com/AICodeRally/sgm-summit-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/AICodeRally/sgm-summit-demo/actions/workflows/ci.yml)
+
 **Sales Governance Manager** - A Summit-tier demonstration of governance capabilities for sales compensation management.
 
 ## Architecture: Contracts + Ports + Bindings
@@ -23,14 +25,14 @@ This application demonstrates a novel **3-layer clean architecture pattern** des
 # Install dependencies
 npm install
 
-# Start dev server (port 3003)
+# Start dev server (port 4200)
 npm run dev
 
 # Visit the app
-open http://localhost:3003
+open http://localhost:4200
 
 # Test the API
-curl http://localhost:3003/api/sgm/diagnostics
+curl http://localhost:4200/api/sgm/diagnostics
 ```
 
 ## Features
@@ -217,7 +219,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 CMD ["npm", "start"]
-EXPOSE 3003
+EXPOSE 4200
 ```
 
 ## Data
@@ -251,9 +253,9 @@ All data uses tenant ID: `demo-tenant-001`
 
 ```bash
 # Manual API testing
-curl http://localhost:3003/api/sgm/diagnostics
-curl http://localhost:3003/api/sgm/policies?status=published
-curl http://localhost:3003/api/sgm/policies/pol-001
+curl http://localhost:4200/api/sgm/diagnostics
+curl http://localhost:4200/api/sgm/policies?status=published
+curl http://localhost:4200/api/sgm/policies/pol-001
 
 # Future: Automated tests
 npm test
