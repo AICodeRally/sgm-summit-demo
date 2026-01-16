@@ -155,6 +155,17 @@ npx prisma db push    # Push schema changes
 - **Interfaces**: IPascalCase
 - **Icons**: Radix UI only (no emoji)
 
+## Agent Instructions
+
+See `.claude/agents/` for agent definitions and session starters.
+
+**Available Agents:**
+- `sgm-dev` - Primary development agent
+
+**At session end:**
+1. Update `.claude/daily-reviews/YYYY-MM-DD/PROGRESS.md` with final status
+2. Log any discovered issues or improvements
+
 ## Related Repositories
 
 - **aicr** - Main AICR platform (policies ingested to Spine)
