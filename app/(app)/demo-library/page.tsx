@@ -37,6 +37,7 @@ interface DemoItem {
 export default function DemoLibraryPage() {
   const [demoItems, setDemoItems] = useState<DemoItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
   const [filterType, setFilterType] = useState<string>('all');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -116,18 +117,68 @@ export default function DemoLibraryPage() {
   // Delete selected items
   const deleteSelected = async () => {
     if (selectedItems.size === 0) return;
+    setDeleting(true);
 
-    try {
-      // In a real implementation, this would call delete APIs for each selected item
-      console.log(`Deleting ${selectedItems.size} demo items:`, Array.from(selectedItems));
+    // Map item types to their delete endpoints
+    const typeEndpoints: Record<string, string | null> = {
+      document: '/api/sgm/documents',
+      plan: '/api/plans',
+      template: '/api/plan-templates',
+      policy: '/api/sgm/policies',
+      // These types don't have delete endpoints (synthetic data)
+      case: null,
+      approval: null,
+      committee: null,
+      territory: null,
+    };
 
-      // Optimistically remove from local state
-      setDemoItems(prev => prev.filter(item => !selectedItems.has(item.id)));
-      setSelectedItems(new Set());
-      setShowDeleteConfirm(false);
-    } catch (error) {
-      console.error('Failed to delete demo items:', error);
+    const itemsToDelete = demoItems.filter(item => selectedItems.has(item.id));
+    const deletedIds: string[] = [];
+    const skippedIds: string[] = [];
+    const failedItems: { id: string; error: string }[] = [];
+
+    for (const item of itemsToDelete) {
+      const endpoint = typeEndpoints[item.type];
+
+      if (!endpoint) {
+        // Type doesn't support deletion - mark as skipped but remove from UI
+        skippedIds.push(item.id);
+        deletedIds.push(item.id);
+        continue;
+      }
+
+      try {
+        const response = await fetch(`${endpoint}/${item.id}`, {
+          method: 'DELETE',
+        });
+
+        if (response.ok) {
+          deletedIds.push(item.id);
+        } else {
+          const data = await response.json().catch(() => ({ error: 'Unknown error' }));
+          failedItems.push({ id: item.id, error: data.error || `HTTP ${response.status}` });
+        }
+      } catch (error: any) {
+        failedItems.push({ id: item.id, error: error.message || 'Network error' });
+      }
     }
+
+    // Update local state to remove successfully deleted items
+    if (deletedIds.length > 0) {
+      setDemoItems(prev => prev.filter(item => !deletedIds.includes(item.id)));
+    }
+
+    // Log results
+    if (failedItems.length > 0) {
+      console.error('Failed to delete some items:', failedItems);
+      alert(`Deleted ${deletedIds.length} items. ${failedItems.length} failed to delete.`);
+    } else if (skippedIds.length > 0) {
+      console.log(`Deleted ${deletedIds.length - skippedIds.length} items from database, ${skippedIds.length} synthetic items removed from view.`);
+    }
+
+    setSelectedItems(new Set());
+    setShowDeleteConfirm(false);
+    setDeleting(false);
   };
 
   // Get type icon
@@ -403,15 +454,24 @@ export default function DemoLibraryPage() {
             <div className="flex items-center gap-3 justify-end">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 text-sm font-medium text-[color:var(--color-foreground)] bg-[color:var(--color-surface)] border border-[color:var(--color-border)] rounded-md hover:bg-[color:var(--color-surface-alt)]"
+                disabled={deleting}
+                className="px-4 py-2 text-sm font-medium text-[color:var(--color-foreground)] bg-[color:var(--color-surface)] border border-[color:var(--color-border)] rounded-md hover:bg-[color:var(--color-surface-alt)] disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 onClick={deleteSelected}
-                className="px-4 py-2 text-sm font-medium text-white bg-[color:var(--color-error)] rounded-md hover:bg-[color:var(--color-error)]"
+                disabled={deleting}
+                className="px-4 py-2 text-sm font-medium text-white bg-[color:var(--color-error)] rounded-md hover:bg-[color:var(--color-error)] disabled:opacity-50 flex items-center gap-2"
               >
-                Delete {selectedItems.size} Item{selectedItems.size !== 1 ? 's' : ''}
+                {deleting ? (
+                  <>
+                    <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+                    Deleting...
+                  </>
+                ) : (
+                  `Delete ${selectedItems.size} Item${selectedItems.size !== 1 ? 's' : ''}`
+                )}
               </button>
             </div>
           </div>
