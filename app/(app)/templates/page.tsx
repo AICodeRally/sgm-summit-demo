@@ -14,6 +14,7 @@ import {
   ClockIcon,
   ArchiveIcon,
   UpdateIcon,
+  UploadIcon,
 } from '@radix-ui/react-icons';
 import { SetPageTitle } from '@/components/SetPageTitle';
 import { DataTypeBadge } from '@/components/demo/DemoBadge';
@@ -150,6 +151,13 @@ export default function TemplatesPage() {
               <MixerHorizontalIcon className="h-5 w-5" />
               Filters
             </button>
+            <Link
+              href="/templates/import"
+              className="px-4 py-2 border border-[color:var(--color-border)] text-[color:var(--color-foreground)] rounded-lg hover:bg-[color:var(--color-surface-alt)] transition-colors flex items-center gap-2"
+            >
+              <UploadIcon className="h-5 w-5" />
+              Import
+            </Link>
             <Link
               href="/templates/builder"
               className="px-6 py-2 bg-[linear-gradient(90deg,var(--sparcc-gradient-start),var(--sparcc-gradient-mid2),var(--sparcc-gradient-end))] text-white rounded-lg hover:opacity-90 transition-all flex items-center gap-2 shadow-lg"
