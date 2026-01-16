@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { SetPageTitle } from '@/components/SetPageTitle';
-import { PersonIcon, GearIcon, MixerHorizontalIcon, BellIcon, BarChartIcon, AvatarIcon, ReaderIcon, FileTextIcon, LightningBoltIcon } from '@radix-ui/react-icons';
+import { PersonIcon, GearIcon, MixerHorizontalIcon, BellIcon, BarChartIcon, AvatarIcon, ReaderIcon, FileTextIcon, LightningBoltIcon, RocketIcon } from '@radix-ui/react-icons';
 
 export default function SettingsPage() {
   const settingsSections = [
@@ -50,6 +50,12 @@ export default function SettingsPage() {
       description: 'Manage users and assign roles',
       href: '/admin/users',
       icon: PersonIcon,
+    },
+    {
+      title: 'Client Onboarding',
+      description: 'Set up new clients with guided wizard',
+      href: '/admin/onboard',
+      icon: RocketIcon,
     },
     {
       title: 'Tenant Management',
