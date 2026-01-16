@@ -112,7 +112,7 @@ Migrations: prisma/migrations/
 ## Development
 
 ```bash
-# Start dev server (port 4200)
+# Start dev server (port 3030 - Tier 3: Demos)
 npm run dev
 
 # Build for production
@@ -173,5 +173,5 @@ See `.claude/agents/` for agent definitions and session starters.
 
 ---
 
-**Port:** 4200
-**Demo URL:** localhost:4200
+**Port:** 3030 (Tier 3: Demos)
+**Demo URL:** http://sgm.local or localhost:3030
