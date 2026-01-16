@@ -26,7 +26,6 @@ import {
   AUTHORITY_INFO,
   MatrixEntry,
 } from '@/lib/data/synthetic/governance-matrix.data';
-import { ThemeBadge } from '@/components/ThemeBadge';
 import { getToneStyles } from '@/lib/config/themes';
 
 export default function GovernanceMatrixPage() {
@@ -589,7 +588,6 @@ export default function GovernanceMatrixPage() {
                     <p className="text-sm text-[color:var(--color-muted)]">Search and filter governance coverage</p>
                   </div>
                 </div>
-                <ThemeBadge />
               </div>
               {leftNav.props.children[1]}
             </div>

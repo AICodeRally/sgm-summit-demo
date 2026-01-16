@@ -101,12 +101,14 @@ export function ModeCard({ mode, className = '', metricData = {} }: ModeCardProp
 
       {/* Stackable Metrics Grid - 2x2 */}
       <div className="mb-6">
-        <p className="text-[color:var(--color-foreground)] font-semibold mb-3 text-sm uppercase tracking-wide flex items-center gap-2">
-          Key Metrics
-          <span className="text-[10px] font-normal text-[color:var(--color-muted)]">
+        <div className="mb-3">
+          <p className="text-[color:var(--color-foreground)] font-semibold text-sm uppercase tracking-wide">
+            Key Metrics
+          </p>
+          <p className="text-[10px] text-[color:var(--color-muted)]">
             (click to rotate)
-          </span>
-        </p>
+          </p>
+        </div>
         <div className="grid grid-cols-2 gap-2">
           {stacks.map((stackMetrics, stackIndex) => (
             <StackableMetric

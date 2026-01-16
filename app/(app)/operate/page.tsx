@@ -7,7 +7,6 @@ import { FeatureTile } from '@/components/modes/FeatureTile';
 import { Breadcrumb } from '@/components/Breadcrumb';
 import { OperationalMode } from '@/types/operational-mode';
 import { MODE_CONFIGS } from '@/lib/auth/mode-permissions';
-import { ThemeBadge } from '@/components/ThemeBadge';
 import { getToneStyles } from '@/lib/config/themes';
 import {
   FileTextIcon,
@@ -67,9 +66,8 @@ export default function OperateModePage() {
           <ModeHeader mode={OperationalMode.OPERATE} />
 
           {/* Key Metrics */}
-          <div className="flex items-center justify-between mb-2">
+          <div className="mb-2">
             <h2 className="text-xl font-bold text-[color:var(--color-foreground)]">Operate Control Center</h2>
-            <ThemeBadge />
           </div>
           <div className="grid grid-cols-4 gap-6 mb-8">
             {[

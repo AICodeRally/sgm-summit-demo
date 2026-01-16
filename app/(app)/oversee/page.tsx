@@ -7,7 +7,6 @@ import { FeatureTile } from '@/components/modes/FeatureTile';
 import { Breadcrumb } from '@/components/Breadcrumb';
 import { OperationalMode } from '@/types/operational-mode';
 import { MODE_CONFIGS } from '@/lib/auth/mode-permissions';
-import { ThemeBadge } from '@/components/ThemeBadge';
 import { getToneStyles } from '@/lib/config/themes';
 import { useClientName } from '@/hooks/useClientName';
 import {
@@ -47,9 +46,8 @@ export default function OverseeModePage() {
           <ModeHeader mode={OperationalMode.OVERSEE} />
 
           {/* Key Metrics */}
-          <div className="flex items-center justify-between mb-2">
+          <div className="mb-2">
             <h2 className="text-xl font-bold text-[color:var(--color-foreground)]">Governance & Control Center</h2>
-            <ThemeBadge />
           </div>
           <div className="grid grid-cols-5 gap-6 mb-8">
             {[
