@@ -8,6 +8,10 @@ import {
   ReloadIcon,
   FileTextIcon,
   ExclamationTriangleIcon,
+  Pencil2Icon,
+  Cross2Icon,
+  CheckIcon,
+  PlusIcon,
 } from '@radix-ui/react-icons';
 import { SetPageTitle } from '@/components/SetPageTitle';
 
@@ -28,11 +32,27 @@ interface CoverageReport {
   timestamp: string;
 }
 
+interface KbDoc {
+  route: string;
+  kbPath: string;
+  content: string;
+  meta: Record<string, string>;
+  body: string;
+}
+
 export default function KBCoveragePage() {
   const [report, setReport] = useState<CoverageReport | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'missing' | 'covered'>('all');
+
+  // Editor state
+  const [selectedPage, setSelectedPage] = useState<PageInfo | null>(null);
+  const [kbDoc, setKbDoc] = useState<KbDoc | null>(null);
+  const [editContent, setEditContent] = useState('');
+  const [loadingDoc, setLoadingDoc] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const fetchCoverage = async () => {
     setLoading(true);
@@ -47,6 +67,67 @@ export default function KBCoveragePage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const fetchKbDoc = async (page: PageInfo) => {
+    setLoadingDoc(true);
+    setSaveMessage(null);
+    try {
+      const response = await fetch(`/api/admin/kb-coverage/${encodeURIComponent(page.route)}`);
+      if (response.ok) {
+        const data = await response.json();
+        setKbDoc(data);
+        setEditContent(data.content);
+      } else if (response.status === 404) {
+        // Create default template for missing KB
+        const defaultContent = createDefaultTemplate(page.route);
+        setKbDoc({
+          route: page.route,
+          kbPath: page.kbPath,
+          content: defaultContent,
+          meta: {},
+          body: '',
+        });
+        setEditContent(defaultContent);
+      }
+    } catch (err: any) {
+      setSaveMessage({ type: 'error', text: `Failed to load: ${err.message}` });
+    } finally {
+      setLoadingDoc(false);
+    }
+  };
+
+  const saveKbDoc = async () => {
+    if (!selectedPage) return;
+    setSaving(true);
+    setSaveMessage(null);
+    try {
+      const response = await fetch(`/api/admin/kb-coverage/${encodeURIComponent(selectedPage.route)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: editContent }),
+      });
+      if (!response.ok) throw new Error('Failed to save');
+      setSaveMessage({ type: 'success', text: 'Saved successfully!' });
+      // Refresh coverage to update status
+      fetchCoverage();
+    } catch (err: any) {
+      setSaveMessage({ type: 'error', text: `Failed to save: ${err.message}` });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const selectPage = (page: PageInfo) => {
+    setSelectedPage(page);
+    fetchKbDoc(page);
+  };
+
+  const closeEditor = () => {
+    setSelectedPage(null);
+    setKbDoc(null);
+    setEditContent('');
+    setSaveMessage(null);
   };
 
   useEffect(() => {
@@ -80,7 +161,7 @@ export default function KBCoveragePage() {
                 Knowledge Base Coverage
               </h2>
               <p className="text-sm text-[color:var(--color-muted)]">
-                Ensure every page has documentation
+                Ensure every page has documentation • Click to edit
               </p>
             </div>
             <button
@@ -146,82 +227,198 @@ export default function KBCoveragePage() {
           </div>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto px-8 py-6">
-          {loading && !report ? (
-            <div className="flex flex-col items-center justify-center h-64">
-              <ReloadIcon className="h-8 w-8 animate-spin text-[color:var(--color-muted)]" />
-              <p className="mt-4 text-[color:var(--color-muted)]">Loading coverage report...</p>
-            </div>
-          ) : error ? (
-            <div className="flex flex-col items-center justify-center h-64">
-              <ExclamationTriangleIcon className="h-12 w-12 text-[color:var(--color-error)]" />
-              <p className="mt-4 text-[color:var(--color-error)]">{error}</p>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {filteredPages.map((page) => (
-                <div
-                  key={page.route}
-                  className={`flex items-center justify-between p-4 rounded-lg border ${
-                    page.hasKb
-                      ? 'bg-[color:var(--color-surface)] border-[color:var(--color-border)]'
-                      : 'bg-[color:var(--color-error-bg)] border-[color:var(--color-error-border)]'
-                  }`}
-                >
-                  <div className="flex items-center gap-4">
-                    {page.hasKb ? (
-                      <CheckCircledIcon className="h-5 w-5 text-[color:var(--color-success)]" />
-                    ) : (
-                      <CrossCircledIcon className="h-5 w-5 text-[color:var(--color-error)]" />
-                    )}
-                    <div>
-                      {page.route.includes('[') ? (
+        {/* Main Content - List + Editor */}
+        <div className="flex-1 flex overflow-hidden">
+          {/* Page List */}
+          <div className={`${selectedPage ? 'w-1/2' : 'w-full'} overflow-y-auto px-8 py-6 transition-all`}>
+            {loading && !report ? (
+              <div className="flex flex-col items-center justify-center h-64">
+                <ReloadIcon className="h-8 w-8 animate-spin text-[color:var(--color-muted)]" />
+                <p className="mt-4 text-[color:var(--color-muted)]">Loading coverage report...</p>
+              </div>
+            ) : error ? (
+              <div className="flex flex-col items-center justify-center h-64">
+                <ExclamationTriangleIcon className="h-12 w-12 text-[color:var(--color-error)]" />
+                <p className="mt-4 text-[color:var(--color-error)]">{error}</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {filteredPages.map((page) => (
+                  <button
+                    key={page.route}
+                    onClick={() => selectPage(page)}
+                    className={`w-full flex items-center justify-between p-4 rounded-lg border text-left transition-all ${
+                      selectedPage?.route === page.route
+                        ? 'bg-[color:var(--color-primary-bg)] border-[color:var(--color-primary)] ring-2 ring-[color:var(--color-primary)]'
+                        : page.hasKb
+                          ? 'bg-[color:var(--color-surface)] border-[color:var(--color-border)] hover:border-[color:var(--color-primary)]'
+                          : 'bg-[color:var(--color-error-bg)] border-[color:var(--color-error-border)] hover:border-[color:var(--color-error)]'
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      {page.hasKb ? (
+                        <CheckCircledIcon className="h-5 w-5 text-[color:var(--color-success)]" />
+                      ) : (
+                        <CrossCircledIcon className="h-5 w-5 text-[color:var(--color-error)]" />
+                      )}
+                      <div>
                         <span className="font-medium text-[color:var(--color-foreground)]">
                           {page.route}
                         </span>
-                      ) : (
-                        <Link
-                          href={page.route}
-                          className="font-medium text-[color:var(--color-foreground)] hover:text-[color:var(--color-primary)] hover:underline"
-                        >
-                          {page.route}
-                        </Link>
+                        <p className="text-xs text-[color:var(--color-muted)]">
+                          {page.kbPath}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      {page.hasKb && page.kbLastUpdated && (
+                        <span className="text-xs text-[color:var(--color-muted)]">
+                          {page.kbLastUpdated}
+                        </span>
                       )}
-                      <p className="text-xs text-[color:var(--color-muted)]">
-                        {page.pagePath}
-                      </p>
+                      {page.hasKb ? (
+                        <Pencil2Icon className="h-4 w-4 text-[color:var(--color-muted)]" />
+                      ) : (
+                        <PlusIcon className="h-4 w-4 text-[color:var(--color-error)]" />
+                      )}
                     </div>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    {page.hasKb && page.kbLastUpdated && (
-                      <span className="text-xs text-[color:var(--color-muted)]">
-                        Updated: {page.kbLastUpdated}
-                      </span>
-                    )}
-                    <div className="flex items-center gap-1 text-xs">
-                      <FileTextIcon className="h-3 w-3" />
-                      <span className={page.hasKb ? 'text-[color:var(--color-success)]' : 'text-[color:var(--color-error)]'}>
-                        {page.hasKb ? 'KB Doc' : 'No KB'}
-                      </span>
-                    </div>
-                  </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Editor Panel */}
+          {selectedPage && (
+            <div className="w-1/2 border-l border-[color:var(--color-border)] bg-[color:var(--color-surface)] flex flex-col">
+              {/* Editor Header */}
+              <div className="flex items-center justify-between px-6 py-4 border-b border-[color:var(--color-border)]">
+                <div>
+                  <h3 className="font-semibold text-[color:var(--color-foreground)]">
+                    {selectedPage.hasKb ? 'Edit' : 'Create'} KB Doc
+                  </h3>
+                  <p className="text-xs text-[color:var(--color-muted)]">{selectedPage.route}</p>
                 </div>
-              ))}
+                <div className="flex items-center gap-2">
+                  {saveMessage && (
+                    <span className={`text-sm ${saveMessage.type === 'success' ? 'text-[color:var(--color-success)]' : 'text-[color:var(--color-error)]'}`}>
+                      {saveMessage.text}
+                    </span>
+                  )}
+                  <button
+                    onClick={saveKbDoc}
+                    disabled={saving || loadingDoc}
+                    className="px-4 py-2 bg-[color:var(--color-success)] text-white rounded-lg hover:opacity-90 transition-colors flex items-center gap-2 disabled:opacity-50"
+                  >
+                    <CheckIcon className="h-4 w-4" />
+                    {saving ? 'Saving...' : 'Save'}
+                  </button>
+                  <button
+                    onClick={closeEditor}
+                    className="p-2 rounded-lg hover:bg-[color:var(--color-surface-alt)] transition-colors"
+                  >
+                    <Cross2Icon className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Editor Content */}
+              <div className="flex-1 p-6 overflow-hidden">
+                {loadingDoc ? (
+                  <div className="flex items-center justify-center h-full">
+                    <ReloadIcon className="h-6 w-6 animate-spin text-[color:var(--color-muted)]" />
+                  </div>
+                ) : (
+                  <textarea
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                    className="w-full h-full p-4 font-mono text-sm bg-[color:var(--color-surface-alt)] border border-[color:var(--color-border)] rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)]"
+                    placeholder="Enter KB documentation in Markdown format..."
+                  />
+                )}
+              </div>
+
+              {/* Editor Footer */}
+              <div className="px-6 py-3 border-t border-[color:var(--color-border)] bg-[color:var(--color-surface-alt)]">
+                <p className="text-xs text-[color:var(--color-muted)]">
+                  File: {selectedPage.kbPath} • Use Markdown with YAML frontmatter
+                </p>
+              </div>
             </div>
           )}
         </div>
 
         {/* Footer Info */}
-        {report && (
+        {report && !selectedPage && (
           <div className="px-8 py-3 border-t border-[color:var(--color-border)] bg-[color:var(--color-surface-alt)]">
             <p className="text-xs text-[color:var(--color-muted)]">
               Last checked: {new Date(report.timestamp).toLocaleString()} •
-              Run <code className="bg-[color:var(--color-surface)] px-1 rounded">node scripts/check-kb-coverage.js --fix</code> to auto-generate missing docs
+              Click any row to edit • Or run <code className="bg-[color:var(--color-surface)] px-1 rounded">node scripts/check-kb-coverage.js --fix</code>
             </p>
           </div>
         )}
       </div>
     </>
   );
+}
+
+function createDefaultTemplate(route: string): string {
+  const title = titleFromRoute(route);
+  const date = new Date().toISOString().slice(0, 10);
+  const description = route === '/'
+    ? 'Entry point for the SGM platform.'
+    : `Overview and usage notes for ${route}.`;
+
+  return `---
+route: ${route}
+title: ${title}
+description: ${description}
+owner: TBD
+lastUpdated: ${date}
+---
+
+# ${title}
+
+## Purpose
+Describe the goal of this page and the outcomes it supports.
+
+## When to use
+Explain when a user or agent should come here.
+
+## How to use
+1. List the primary steps to complete the workflow.
+2. Note any required context, filters, or inputs.
+3. Call out actions that update records or trigger automations.
+
+## Key data
+Highlight the key data, statuses, or metrics shown here.
+
+## Data Types
+If this page displays entities with data type classification:
+- **Demo** (orange) - Sample data for demonstration purposes
+- **Template** (teal) - Reusable templates for standardization
+- **Client** (green) - Production client data
+
+## Related
+List related routes, APIs, or docs.
+`;
+}
+
+function titleFromRoute(route: string): string {
+  if (route === '/') return 'Home';
+  const parts = route.split('/').filter(Boolean);
+  const last = parts[parts.length - 1];
+  if (last.startsWith('[') && last.endsWith(']')) {
+    const param = last.slice(1, -1);
+    return titleCase(param) + ' Detail';
+  }
+  return titleCase(last);
+}
+
+function titleCase(value: string): string {
+  return value
+    .split(/[-_]/g)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
 }
