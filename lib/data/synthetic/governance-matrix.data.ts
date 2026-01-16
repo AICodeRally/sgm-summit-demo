@@ -20,6 +20,24 @@ export interface MatrixEntry {
   relatedDocuments: string[];
 }
 
+export interface MatrixStats {
+  totalPolicies: number;
+  fullCoverage: number;
+  partialCoverage: number;
+  gaps: number;
+  criticalRisk: number;
+  highRisk: number;
+  byAuthority: Record<string, number>;
+  byPolicyArea: Record<string, number>;
+}
+
+export interface AuthorityInfo {
+  name: string;
+  description: string;
+  members: number | null;
+  quorum: string;
+}
+
 /**
  * Policy area categories
  */

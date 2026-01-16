@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MagnifyingGlassIcon,
   TableIcon,
@@ -19,12 +19,10 @@ import {
 } from '@radix-ui/react-icons';
 import { SetPageTitle } from '@/components/SetPageTitle';
 import { ThreePaneWorkspace } from '@/components/workspace/ThreePaneWorkspace';
-import {
-  GOVERNANCE_MATRIX,
-  MATRIX_STATS,
-  POLICY_AREAS,
-  AUTHORITY_INFO,
+import type {
   MatrixEntry,
+  MatrixStats,
+  AuthorityInfo,
 } from '@/lib/data/synthetic/governance-matrix.data';
 import { getToneStyles } from '@/lib/config/themes';
 
@@ -37,8 +35,28 @@ export default function GovernanceMatrixPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const toneStyles = getToneStyles('infra');
 
+  // Data from API
+  const [matrix, setMatrix] = useState<MatrixEntry[]>([]);
+  const [stats, setStats] = useState<MatrixStats | null>(null);
+  const [policyAreas, setPolicyAreas] = useState<string[]>([]);
+  const [authorityInfo, setAuthorityInfo] = useState<Record<string, AuthorityInfo>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/governance-matrix')
+      .then(res => res.json())
+      .then(data => {
+        setMatrix(data.matrix || []);
+        setStats(data.stats || null);
+        setPolicyAreas(data.policyAreas || []);
+        setAuthorityInfo(data.authorityInfo || {});
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
   // Filter matrix entries
-  const filteredEntries = GOVERNANCE_MATRIX.filter(e => {
+  const filteredEntries = matrix.filter(e => {
     if (filterPolicyArea !== 'all' && e.policyArea !== filterPolicyArea) return false;
     if (filterAuthority !== 'all' && e.approvalAuthority !== filterAuthority) return false;
     if (filterCoverage !== 'all' && e.coverage !== filterCoverage) return false;
@@ -155,25 +173,25 @@ export default function GovernanceMatrixPage() {
           <div className="bg-[color:var(--color-info-bg)] rounded-md p-3">
             <div className="flex items-center justify-between">
               <span className="text-xs text-[color:var(--color-info)] font-medium">Total Policies</span>
-              <span className="text-lg font-bold text-[color:var(--color-info)]">{MATRIX_STATS.totalPolicies}</span>
+              <span className="text-lg font-bold text-[color:var(--color-info)]">{stats?.totalPolicies ?? 0}</span>
             </div>
           </div>
           <div className="bg-[color:var(--color-success-bg)] rounded-md p-3">
             <div className="flex items-center justify-between">
               <span className="text-xs text-[color:var(--color-success)] font-medium">Full Coverage</span>
-              <span className="text-lg font-bold text-[color:var(--color-success)]">{MATRIX_STATS.fullCoverage}</span>
+              <span className="text-lg font-bold text-[color:var(--color-success)]">{stats?.fullCoverage ?? 0}</span>
             </div>
           </div>
           <div className="bg-[color:var(--color-warning-bg)] rounded-md p-3">
             <div className="flex items-center justify-between">
               <span className="text-xs text-[color:var(--color-warning)] font-medium">Partial</span>
-              <span className="text-lg font-bold text-[color:var(--color-warning)]">{MATRIX_STATS.partialCoverage}</span>
+              <span className="text-lg font-bold text-[color:var(--color-warning)]">{stats?.partialCoverage ?? 0}</span>
             </div>
           </div>
           <div className="bg-[color:var(--color-error-bg)] rounded-md p-3">
             <div className="flex items-center justify-between">
               <span className="text-xs text-[color:var(--color-error)] font-medium">Gaps</span>
-              <span className="text-lg font-bold text-[color:var(--color-error)]">{MATRIX_STATS.gaps}</span>
+              <span className="text-lg font-bold text-[color:var(--color-error)]">{stats?.gaps ?? 0}</span>
             </div>
           </div>
         </div>
@@ -205,7 +223,7 @@ export default function GovernanceMatrixPage() {
             }`}
           >
             <CheckCircledIcon className="w-4 h-4 text-[color:var(--color-success)]" />
-            Full ({MATRIX_STATS.fullCoverage})
+            Full ({stats?.fullCoverage ?? 0})
           </button>
           <button
             onClick={() => setFilterCoverage('PARTIAL')}
@@ -216,7 +234,7 @@ export default function GovernanceMatrixPage() {
             }`}
           >
             <ExclamationTriangleIcon className="w-4 h-4 text-[color:var(--color-warning)]" />
-            Partial ({MATRIX_STATS.partialCoverage})
+            Partial ({stats?.partialCoverage ?? 0})
           </button>
           <button
             onClick={() => setFilterCoverage('GAP')}
@@ -227,7 +245,7 @@ export default function GovernanceMatrixPage() {
             }`}
           >
             <CrossCircledIcon className="w-4 h-4 text-[color:var(--color-error)]" />
-            Gaps ({MATRIX_STATS.gaps})
+            Gaps ({stats?.gaps ?? 0})
           </button>
         </div>
       </div>
@@ -249,7 +267,7 @@ export default function GovernanceMatrixPage() {
             <AvatarIcon className="w-4 h-4" />
             All Authorities
           </button>
-          {Object.entries(MATRIX_STATS.byAuthority).map(([key, count]) => (
+          {Object.entries(stats?.byAuthority || {}).map(([key, count]) => (
             <button
               key={key}
               onClick={() => setFilterAuthority(key)}
@@ -283,8 +301,8 @@ export default function GovernanceMatrixPage() {
             <LayersIcon className="w-4 h-4" />
             All Areas
           </button>
-          {POLICY_AREAS.map(area => {
-            const count = MATRIX_STATS.byPolicyArea[area] || 0;
+          {policyAreas.map(area => {
+            const count = stats?.byPolicyArea?.[area] || 0;
             return (
               <button
                 key={area}
