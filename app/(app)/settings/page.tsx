@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { SetPageTitle } from '@/components/SetPageTitle';
-import { PersonIcon, GearIcon, MixerHorizontalIcon, BellIcon, BarChartIcon, AvatarIcon, ReaderIcon, FileTextIcon, LightningBoltIcon, RocketIcon } from '@radix-ui/react-icons';
+import { PersonIcon, GearIcon, MixerHorizontalIcon, BellIcon, BarChartIcon, AvatarIcon, LightningBoltIcon, RocketIcon } from '@radix-ui/react-icons';
 
 export default function SettingsPage() {
   const settingsSections = [
@@ -56,18 +56,6 @@ export default function SettingsPage() {
       description: 'Set up new clients with guided wizard',
       href: '/admin/onboard',
       icon: RocketIcon,
-    },
-    {
-      title: 'Tenant Management',
-      description: 'Manage tenants and client configurations',
-      href: '/admin/tenants',
-      icon: AvatarIcon,
-    },
-    {
-      title: 'KB Coverage',
-      description: 'Monitor knowledge base documentation coverage',
-      href: '/admin/kb-coverage',
-      icon: FileTextIcon,
     },
   ];
 

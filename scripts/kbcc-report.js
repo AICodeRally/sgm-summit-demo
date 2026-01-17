@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
 
 const root = process.cwd();
 const appDir = path.join(root, 'app');
