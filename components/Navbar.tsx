@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { usePageTitle } from './PageTitle';
 import { getActiveModule } from '@/lib/config/module-registry';
-import { PersonIcon, GearIcon, ExitIcon, ChevronDownIcon, FileTextIcon, AvatarIcon } from '@radix-ui/react-icons';
+import { PersonIcon, GearIcon, ExitIcon, ChevronDownIcon } from '@radix-ui/react-icons';
 
 export function Navbar() {
   const { title, description } = usePageTitle();
@@ -136,11 +136,11 @@ export function Navbar() {
 
             {/* Dropdown Menu */}
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-56 bg-[color:var(--color-surface)] rounded-lg shadow-xl border border-[color:var(--color-border)] py-2 z-50">
+              <div className="absolute right-0 mt-2 w-64 bg-[color:var(--color-surface)] rounded-lg shadow-xl border border-[color:var(--color-border)] py-2 z-50">
                 {/* User Info Header */}
                 <div className="px-4 py-3 border-b border-[color:var(--color-border)]">
                   <p className="text-sm font-semibold text-[color:var(--color-foreground)]">{user.name}</p>
-                  <p className="text-xs text-[color:var(--color-muted)]">{user.email}</p>
+                  <p className="text-[10px] text-[color:var(--color-muted)] truncate">{user.email}</p>
                 </div>
 
                 {/* Menu Items */}
@@ -160,27 +160,6 @@ export function Navbar() {
                   >
                     <GearIcon className="w-4 h-4" />
                     Settings
-                  </Link>
-                </div>
-
-                {/* Admin Items */}
-                <div className="border-t border-[color:var(--color-border)] py-1">
-                  <p className="px-4 py-1 text-xs font-semibold text-[color:var(--color-muted)] uppercase">Admin</p>
-                  <Link
-                    href="/admin/tenants"
-                    onClick={() => setIsDropdownOpen(false)}
-                    className="flex items-center gap-3 px-4 py-2 text-sm text-[color:var(--color-foreground)] hover:bg-[color:var(--color-surface-alt)] transition-colors"
-                  >
-                    <AvatarIcon className="w-4 h-4" />
-                    Tenants
-                  </Link>
-                  <Link
-                    href="/admin/kb-coverage"
-                    onClick={() => setIsDropdownOpen(false)}
-                    className="flex items-center gap-3 px-4 py-2 text-sm text-[color:var(--color-foreground)] hover:bg-[color:var(--color-surface-alt)] transition-colors"
-                  >
-                    <FileTextIcon className="w-4 h-4" />
-                    KB Coverage
                   </Link>
                 </div>
 
