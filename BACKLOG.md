@@ -43,13 +43,13 @@ All KB stubs are located in `knowledge/ui/pages/` with status `stub` in their fr
 - [ ] `/governance/upload` - Upload governance docs
 - [ ] `/framework` - Framework
 - [ ] `/framework/primer` - Framework primer
-- [ ] `/committees` - Committees
+- [x] `/committees` - Committees ✅
 - [ ] `/decisions` - Decisions
 
 #### Workflow (7 pages)
 - [ ] `/approvals` - Approvals list
 - [ ] `/approvals/[id]` - Approval detail
-- [ ] `/cases` - Cases list
+- [x] `/cases` - Cases list ✅
 - [ ] `/cases/analytics` - Case analytics
 - [ ] `/cases/sla` - Case SLA tracking
 - [ ] `/tasks` - Task management
